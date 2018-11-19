@@ -91,12 +91,69 @@ abstract class  Table
         return $res->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getAll($condicion = "", $completo = true)
+
+    /**
+     * Nos recupera todos los registros, opcionalmente podemos pasar una condición del tipo fields=valor.
+     * Si no queremos que salgan todos los campos $completed debe estar a falso.
+     * @param string $condition
+     * @param bool $completed
+     * @return mixed
+     */
+    function getAll($condition = "", $completed = true)
     {
         $where = "";
-        $campos = "*";
-        if (!empty($condicion)) {
+        $fields = "*";
+        if (!empty($condition)) {
             $where = " WHERE 1=1 ";
+            foreach ($condition as $key => $value) {
+                $where .= " and " . $key .= " = " . $value . " ";
+            }
+        }
+        if (!$completed && !empty($this->showFields)) {
+            $fields = implode(",", $this->showFields);
+        }
+        $res = self::$conn->query("SELECT $fields FROM $this->table $where");
+        return $res->fetchALll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Esta funcion toma como parametros un array asociativo y nos inserta en la tabla
+     * un registro donde la clave del array hace referemcoa al campo de la tabla y
+     * el valor del array al valor de la tabla.
+     * ejemplo para la tabla user: insert(['name'=>'Orito', 'surname1'=>'Grarito'])
+     * @param $values
+     */
+    protected function insert($values)
+    {
+        try {
+            $fields = join(",", array_keys($values));
+            $parameters = ":" . join(",:", array_keys($values));
+            $sql = "INSERT into " . $this->table . "($fields) values ($parameters)";
+            $st = self::$conn->prepare($sql);
+            $st->execute($values);
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+    /**
+     * Modifica el elemento de la base de datos con el id que pasamos.
+     * @param int $id id del elemento a modificar.
+     * @param array $values Array asociativo con los valores a modificar.
+     */
+    protected function update($id, $values)
+    {
+        try {
+            //Creamos el cuerpo del select con la funcion array_map
+            $fields = join(",", array_map(function ($v) {
+                return $v . "=:" . $v;
+            }, array_keys($values)));
+            $sql = "UPDATE " . $this->table . " SET " . $fields . " WHERE "
+                . $this->idField . " = " . $id;
+            $st = self::$conn->prepare($sql);
+
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
         }
     }
 }
