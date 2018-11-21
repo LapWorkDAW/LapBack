@@ -6,7 +6,7 @@
  * Time: 19:58
  */
 
-class Project extends Tabla
+class Project
 {
     private $idProject; // Int -> id del Proyecto.
     private $idUser;  // Int -> id del Usuario que a creado Proyecto.
@@ -18,6 +18,12 @@ class Project extends Tabla
     private $picture; // ? -> fotos del proyecto.
     private $post;  //
     private $status; // boolean. -> estado del Proyecto si acabado o no.
+
+    // public function __construct(type $table, type $idField, $fields = "", $showFields = "")
+    //{
+    //  parent::__construct("project", "id_project");
+
+    //}
 
     /**
      * @return mixed
@@ -34,6 +40,7 @@ class Project extends Tabla
     {
         return $this->idUser;
     }
+
     /**
      * @return mixed
      */
@@ -161,7 +168,6 @@ class Project extends Tabla
     {
         $this->status = $status;
     }
-
 
 
 }

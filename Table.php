@@ -19,6 +19,7 @@ abstract class  Table
     private $showFields; // Array con los nombres de los campos a mostrar en determinadas consultas
 
     static private $conn; // Para la conexion.
+    static private $desc; // Pra desconectar
 
     /**
      * El Constructor necesita el nombre de la tabla y el nombre del campo clave
@@ -47,6 +48,18 @@ abstract class  Table
         try {
             self::$conn = new PDO("mysql:host=" . self::$server . ";dbname=" . self::$database, self::$user, self::$password, [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"]);
             self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+    /**
+     * funcion de desconexion.
+     */
+    static function desconectar()
+    {
+        try {
+            self::$conn->close();
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
@@ -118,7 +131,7 @@ abstract class  Table
 
     /**
      * Esta funcion toma como parametros un array asociativo y nos inserta en la tabla
-     * un registro donde la clave del array hace referemcoa al campo de la tabla y
+     * un registro donde la clave del array hace referencia al campo de la tabla y
      * el valor del array al valor de la tabla.
      * ejemplo para la tabla user: insert(['name'=>'Orito', 'surname1'=>'Grarito'])
      * @param $values

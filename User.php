@@ -6,8 +6,9 @@
  * Time: 19:45
  */
 
-class User extends Tabla
+class User extends Table
 {
+
     private $id_user; // int -> el id del usuario.
     private $name; // // String -> Nombre del Usuario.
     private $surname1; // String -> Apellido del usuario.
@@ -21,6 +22,17 @@ class User extends Tabla
     private $description; // String -> Descripcion del usuario
     private $knowing; // String -> Conocimientos del usuario
     private $curriculum; // ?? > PDF del curriculum del usuario.
+    private $num_fields = 15;
+
+    public function __construct($userName, $password, $name, $mail, $birthDate)
+    {
+        parent::__construct("usuario", "id_user");
+        $this->name = $name;
+        $this->userName = $userName;
+        $this->password = $password;
+        $this->mail = $mail;
+        $this->birthDate = $birthDate;
+    }
 
     /**
      * @return mixed
