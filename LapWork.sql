@@ -18,7 +18,7 @@ USE `lapwork`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `inscription`
+-- BDs structure for table `inscription`
 --
 
 DROP TABLE IF EXISTS `inscription`;
@@ -47,7 +47,7 @@ LOCK TABLES `inscription` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `message`
+-- BDs structure for table `message`
 --
 
 DROP TABLE IF EXISTS `message`;
@@ -75,7 +75,7 @@ LOCK TABLES `message` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `messageproject`
+-- BDs structure for table `messageproject`
 --
 
 DROP TABLE IF EXISTS `messageproject`;
@@ -103,7 +103,7 @@ LOCK TABLES `messageproject` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `portfolio`
+-- BDs structure for table `portfolio`
 --
 
 DROP TABLE IF EXISTS `portfolio`;
@@ -129,7 +129,7 @@ LOCK TABLES `portfolio` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `post`
+-- BDs structure for table `post`
 --
 
 DROP TABLE IF EXISTS `post`;
@@ -156,7 +156,7 @@ LOCK TABLES `post` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `project`
+-- BDs structure for table `project`
 --
 
 DROP TABLE IF EXISTS `project`;
@@ -191,7 +191,7 @@ LOCK TABLES `project` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `team`
+-- BDs structure for table `team`
 --
 
 DROP TABLE IF EXISTS `team`;
@@ -219,7 +219,7 @@ LOCK TABLES `team` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `typeproject`
+-- BDs structure for table `typeproject`
 --
 
 DROP TABLE IF EXISTS `typeproject`;
@@ -243,7 +243,7 @@ INSERT INTO `typeproject` VALUES (1,'Art'),(2,'Engineering'),(3,'IT'),(4,'Litera
 UNLOCK TABLES;
 
 --
--- Table structure for table `usuario`
+-- BDs structure for table `usuario`
 --
 
 DROP TABLE IF EXISTS `usuario`;
@@ -279,7 +279,7 @@ LOCK TABLES `usuario` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `voteprojectfavourite`
+-- BDs structure for table `voteprojectfavourite`
 --
 
 DROP TABLE IF EXISTS `voteprojectfavourite`;
@@ -307,7 +307,7 @@ LOCK TABLES `voteprojectfavourite` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `voteprojectstar`
+-- BDs structure for table `voteprojectstar`
 --
 
 DROP TABLE IF EXISTS `voteprojectstar`;
@@ -336,7 +336,7 @@ LOCK TABLES `voteprojectstar` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `voteuser`
+-- BDs structure for table `voteuser`
 --
 
 DROP TABLE IF EXISTS `voteuser`;

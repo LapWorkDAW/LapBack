@@ -6,7 +6,7 @@
  * Time: 11:46
  */
 
-abstract class  Table
+abstract class  BDs
 {
     static $server = "localhost";
     static $user = "root";
@@ -18,8 +18,8 @@ abstract class  Table
     private $fields; // Array con los nombres de los campos.
     private $showFields; // Array con los nombres de los campos a mostrar en determinadas consultas
 
-    static private $conn; // Para la conexion.
-    static private $desc; // Pra desconectar
+    static protected $conn; // Para la conexion.
+    static protected $desc; // Pra desconectar
 
     /**
      * El Constructor necesita el nombre de la tabla y el nombre del campo clave
@@ -169,4 +169,6 @@ abstract class  Table
             echo $ex->getMessage();
         }
     }
+
+    abstract function save();
 }

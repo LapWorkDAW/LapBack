@@ -5,34 +5,40 @@
  * Date: 15/11/2018
  * Time: 19:45
  */
+require_once 'BDs.php';
 
-class User extends Table
+class User extends BDs
 {
 
     private $id_user; // int -> el id del usuario.
-    private $name; // // String -> Nombre del Usuario.
-    private $surname1; // String -> Apellido del usuario.
-    private $surname2; // String -> Segundo apellido del usuario si tiene.
-    private $location; // ??? -> Localizacion del Usuario ya puede ser ciudad pais o region
-    private $userName; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
-    private $mail; // String -> Correo electronico del usuario.
-    private $password; // String -> Sera cifrada + la contraseña del usuario
-    private $picture; // ?? -> Foto del Usuario.
-    private $birthDate; // Date -> Fecha de Nacimiento del usuario.
+    private $firstname; // // String -> Nombre del Usuario.
+    private $surname; // String -> Apellido del usuario.
+    private $latitude; // ??? -> Cordenadas
+    private $longitude; // ??? -> Cordenadas
+    private $username; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
+    private $email; // String -> Correo electronico del usuario.
+    private $pass; // String -> Sera cifrada + la contraseña del usuario
+    private $photo; // ?? -> Foto del Usuario.
+    private $birthdate; // Date -> Fecha de Nacimiento del usuario.
     private $description; // String -> Descripcion del usuario
-    private $knowing; // String -> Conocimientos del usuario
-    private $curriculum; // ?? > PDF del curriculum del usuario.
+    private $knowledge; // String -> Conocimientos del usuario
+    private $cv; // ?? > PDF del curriculum del usuario.
+    private $isActiv; // bool -> Para saber si el usuario esta activo o No!.
+    private $saveName; // bool -> Para saber si quieren guardar su nombre o no.
     private $num_fields = 15;
 
     public function __construct($userName, $password, $name, $mail, $birthDate)
     {
-        parent::__construct("usuario", "id_user");
-        $this->name = $name;
-        $this->userName = $userName;
-        $this->password = $password;
-        $this->mail = $mail;
-        $this->birthDate = $birthDate;
+        $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
+        parent::__construct("usuario", "id_user", $fields);
+        $this->firstname = $name;
+        $this->username = $userName;
+        $this->pass = $password;
+        $this->email = $mail;
+        $this->birthdate = $birthDate;
+        $this->isActiv = 0;
     }
+
 
     /**
      * @return mixed
@@ -47,7 +53,7 @@ class User extends Table
      */
     public function getName()
     {
-        return $this->name;
+        return $this->firstname;
     }
 
     /**
@@ -55,63 +61,32 @@ class User extends Table
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->firstname = $name;
     }
 
     /**
      * @return mixed
      */
-    public function getSurname1()
+    public function getSurname()
     {
-        return $this->surname1;
+        return $this->surname;
     }
 
     /**
      * @param mixed $surname1
      */
-    public function setSurname1($surname1)
+    public function setSurname($surname)
     {
-        $this->surname1 = $surname1;
+        $this->surname = $surname;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSurname2()
-    {
-        return $this->surname2;
-    }
-
-    /**
-     * @param mixed $surname2
-     */
-    public function setSurname2($surname2)
-    {
-        $this->surname2 = $surname2;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * @param mixed $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
 
     /**
      * @return mixed
      */
     public function getUserName()
     {
-        return $this->userName;
+        return $this->username;
     }
 
     /**
@@ -119,7 +94,7 @@ class User extends Table
      */
     public function getMail()
     {
-        return $this->mail;
+        return $this->email;
     }
 
     /**
@@ -127,47 +102,47 @@ class User extends Table
      */
     public function setMail($mail)
     {
-        $this->mail = $mail;
+        $this->email = $mail;
     }
 
     /**
      * @return mixed
      */
-    public function getPassword()
+    public function getPass()
     {
-        return $this->password;
+        return $this->pass;
     }
 
     /**
      * @return mixed
      */
-    public function getPicture()
+    public function getPhoto()
     {
-        return $this->picture;
+        return $this->photo;
     }
 
     /**
      * @param mixed $picture
      */
-    public function setPicture($picture)
+    public function setPhoto($picture)
     {
-        $this->picture = $picture;
+        $this->photo = $picture;
     }
 
     /**
      * @return mixed
      */
-    public function getBirthDate()
+    public function getBirthdate()
     {
-        return $this->birthDate;
+        return $this->birthdate;
     }
 
     /**
      * @param mixed $birthDate
      */
-    public function setBirthDate($birthDate)
+    public function setBirthdate($birthDate)
     {
-        $this->birthDate = $birthDate;
+        $this->birthdate = $birthDate;
     }
 
     /**
@@ -189,17 +164,17 @@ class User extends Table
     /**
      * @return mixed
      */
-    public function getKnowing()
+    public function getKnowledge()
     {
-        return $this->knowing;
+        return $this->knowledge;
     }
 
     /**
      * @param mixed $knowing
      */
-    public function setKnowing($knowing)
+    public function setKnowledge($knowing)
     {
-        $this->knowing = $knowing;
+        $this->knowledge = $knowing;
     }
 
     /**
@@ -207,7 +182,7 @@ class User extends Table
      */
     public function getCurriculum()
     {
-        return $this->curriculum;
+        return $this->cv;
     }
 
     /**
@@ -215,8 +190,34 @@ class User extends Table
      */
     public function setCurriculum($curriculum)
     {
-        $this->curriculum = $curriculum;
+        $this->cvs = $curriculum;
     }
 
+    /**
+     * funcion para coger los valores de la BD. La usamos en el Save...
+     * @return array
+     */
+    private function valores()
+    {
 
+        $valores = array_map(function ($v) {
+            return $this->$v;
+        }, $this->fields);
+        return array_combine($this->fields, $valores);
+    }
+
+    /**
+     * funcion para generar Usuarios en la Tabla.
+     */
+    public function save()
+    {
+        $user = $this->valores();
+        unset($user['id_user']);
+        if (empty($this->id_user)) {
+            $this->insert($user);
+            $this->id_user = self::$conn->lastInsertId();
+        } else {
+            $this->update($this->id_user, $user);
+        }
+    }
 }
