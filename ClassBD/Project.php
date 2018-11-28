@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: uryy95
+ * User: UriiGrao
  * Date: 15/11/2018
  * Time: 19:58
  */
@@ -145,17 +145,7 @@ class Project extends BDs
         $this->projectStatus = $status;
     }
 
-    /**
-     * funcion para coger los valores de la BD. La usamos en el Save...
-     * @return array
-     */
-    private function valores()
-    {
-        $valores = array_map(function ($v) {
-            return $this->$v;
-        }, $this->fields);
-        return array_combine($this->fields, $valores);
-    }
+
 
     /**
      * funcion para generar Usuarios en la Tabla.
@@ -172,4 +162,20 @@ class Project extends BDs
         }
     }
 
+    /**
+     * function de load a partir del id y mira si existe o no.
+     * @param $id
+     * @throws Exception
+     */
+    function load($id)
+    {
+        $user = $this->getById($id);
+        if (!empty($user)) {
+            foreach ($this->fields as $field) {
+                $this->$field = $user["$field"];
+            }
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 }

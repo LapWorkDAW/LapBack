@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: alu2017375
+ * User: UriiGrao
  * Date: 16/11/2018
  * Time: 11:46
  */
@@ -31,7 +31,7 @@ abstract class  BDs
      * @param type $fields
      * @param type $showFields
      */
-    public function __construct($table, $idField, $fields = "", $showFields = "")
+    public function __construct($table, $idField, $fields = [], $showFields = "")
     {
         $this->table = $table;
         $this->idField = $idField;
@@ -170,5 +170,21 @@ abstract class  BDs
         }
     }
 
+    /**
+     * funcion para coger los valores de la BD. La usamos en el Save...
+     * @return array
+     */
+    protected function valores()
+    {
+
+        $valores = array_map(function ($v) {
+            return $this->$v;
+        }, $this->fields);
+    //    print_r($valores);die();
+        return array_combine($this->fields, $valores);
+    }
+
     abstract function save();
+
+    abstract function load($id);
 }

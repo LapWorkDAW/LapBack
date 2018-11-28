@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: uryy95
+ * User: UriiGrao
  * Date: 15/11/2018
  * Time: 19:45
  */
@@ -15,7 +15,7 @@ class User extends BDs
     private $surname; // String -> Apellido del usuario.
     private $latitude; // ??? -> Cordenadas
     private $longitude; // ??? -> Cordenadas
-    private $username; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
+    private $userName; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
     private $email; // String -> Correo electronico del usuario.
     private $pass; // String -> Sera cifrada + la contraseña del usuario
     private $photo; // ?? -> Foto del Usuario.
@@ -32,7 +32,7 @@ class User extends BDs
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("usuario", "id_user", $fields);
         $this->firstname = $name;
-        $this->username = $userName;
+        $this->userName = $userName;
         $this->pass = $password;
         $this->email = $mail;
         $this->birthdate = $birthDate;
@@ -194,19 +194,6 @@ class User extends BDs
     }
 
     /**
-     * funcion para coger los valores de la BD. La usamos en el Save...
-     * @return array
-     */
-    private function valores()
-    {
-
-        $valores = array_map(function ($v) {
-            return $this->$v;
-        }, $this->fields);
-        return array_combine($this->fields, $valores);
-    }
-
-    /**
      * funcion para generar Usuarios en la Tabla.
      */
     public function save()
@@ -218,6 +205,23 @@ class User extends BDs
             $this->id_user = self::$conn->lastInsertId();
         } else {
             $this->update($this->id_user, $user);
+        }
+    }
+
+    /**
+     * function de load a partir del id y mira si existe o no.
+     * @param $id
+     * @throws Exception
+     */
+    function load($id)
+    {
+        $user = $this->getById($id);
+        if (!empty($user)) {
+            foreach ($this->fields as $field) {
+                $this->$field = $user["$field"];
+            }
+        } else {
+            throw new Exception("No existe ese registro");
         }
     }
 }
