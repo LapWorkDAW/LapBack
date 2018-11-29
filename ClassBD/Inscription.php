@@ -28,6 +28,37 @@ class Inscription extends BDs
         $this->estado = 0;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIdInscription()
+    {
+        return $this->id_inscription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->id_user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdProject()
+    {
+        return $this->id_project;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEstado(): int
+    {
+        return $this->estado;
+    }
 
     /**
      * funcion para generar Usuarios en la Tabla.

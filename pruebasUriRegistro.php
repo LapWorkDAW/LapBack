@@ -25,6 +25,6 @@ $proyecto->save(); // Asi guardamos proyectos. */
 
 //print_r($usu1);
 
-$insc = new Inscription(6, 2);
+// $insc = new Inscription(6, 2);
 
-$insc->save();
+// $insc->save();

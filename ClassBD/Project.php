@@ -21,18 +21,17 @@ class Project extends BDs
     private $projectStatus;  // int. -> estado del Proyecto si acabado o no. // Si es 0 proyecto no acabado.
     private $num_fields = 10;
 
-    public function __construct($projectName, $nameCreator, $id_user)
+    public function __construct($projectName, $firstNameU, $surNameU, $id_user, $id_type)
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("project", "id_project", $fields);
         $this->projectName = $projectName;
-        $this->nameCreator = $nameCreator;
+        $this->nameCreator = $firstNameU . " " . $surNameU;
         $this->dateStart = date("Y-m-d");
         $this->projectStatus = 0;
         $this->id_user = $id_user;
-        $this->id_type = 2;
-        $this->dateFinish = '2019-01-01'; // He puesto esta para poder registrar pero esto se tendra que poner por la funcion.
+        $this->id_type = $id_type;
     }
 
     /**
@@ -144,7 +143,6 @@ class Project extends BDs
     {
         $this->projectStatus = $status;
     }
-
 
 
     /**
