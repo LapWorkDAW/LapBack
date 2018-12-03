@@ -7,8 +7,9 @@
  */
 require_once 'BDs.php';
 
-class Message extends Post
+class Message extends BDs
 {
+    private $id_post;
     private $id_message;
     private $receiver;
     private $num_fields = 3;
@@ -18,6 +19,8 @@ class Message extends Post
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("message", "id_message", $fields);
+        $this->receiver = $receiver;
+        $this->id_post = $id_post;
     }
 
     /**
