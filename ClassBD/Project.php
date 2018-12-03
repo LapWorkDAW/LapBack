@@ -13,7 +13,7 @@ class Project extends BDs
     private $id_user;  // Int -> id del Usuario que a creado Proyecto.
     private $nameCreator; //String -> Nombre del Usuario que creo proyecto.
     private $projectName; // String -> Nombre del Proyecto.
-    private $id_type; // entero ? Tipo del Proyecto.
+    private $id_type; // entero -> Tipo del Proyecto.
     private $description; //String -> descripcion del Proyecto.
     private $dateStart; //date  -> Fecha inicio Proyecto
     private $dateFinish; //date -> Fecha final del Proyecto si esta acabado.
