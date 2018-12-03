@@ -7,10 +7,9 @@
  */
 require_once 'BDs.php';
 
-class Message extends BDs
+class Message extends Post
 {
     private $id_message;
-    private $id_post;
     private $receiver;
     private $num_fields = 3;
 

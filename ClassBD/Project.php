@@ -167,10 +167,10 @@ class Project extends BDs
      */
     function load($id)
     {
-        $user = $this->getById($id);
-        if (!empty($user)) {
+        $project = $this->getById($id);
+        if (!empty($project)) {
             foreach ($this->fields as $field) {
-                $this->$field = $user["$field"];
+                $this->$field = $project["$field"];
             }
         } else {
             throw new Exception("No existe ese registro");
