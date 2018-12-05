@@ -176,7 +176,6 @@ abstract class  BDs
      */
     protected function valores()
     {
-
         $valores = array_map(function ($v) {
             return $this->$v;
         }, $this->fields);

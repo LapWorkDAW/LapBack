@@ -14,12 +14,30 @@ class MessageProject extends BDs
     private $id_project;
     private $num_fields = 3;
 
-    public function __construct($id_post, $id_project)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("messageproject", "id_messageProject", $fields);
-        $this->id_post = $id_post;
-        $this->id_project = $id_project;
+    }
+
+    function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
     /**

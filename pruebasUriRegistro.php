@@ -11,7 +11,6 @@ require_once 'ClassBD/Project.php';
 require_once 'ClassBD/BDs.php';
 require_once 'ClassBD/Inscription.php';
 
-//$usu1 = new User("Uryy95", "1234", "Oriol", "oriolgm95@gmail.com", "1995-08-11");
 /* $usu1->save(); // Asi guardamos usuarios.
 echo "Id" . $usu1->getIdUser();
 $proyecto = new Project("firstMe", $usu1->getName(), $usu1->getIdUser());
