@@ -13,30 +13,43 @@ class User extends BDs
     private $id_user; // int -> el id del usuario.
     private $firstname; // // String -> Nombre del Usuario.
     private $surname; // String -> Apellido del usuario.
-    private $latitude; // ??? -> Cordenadas
-    private $longitude; // ??? -> Cordenadas
+    private $latitude; // Double -> Cordenadas
+    private $longitude; // Double -> Cordenadas
     private $userName; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
     private $email; // String -> Correo electronico del usuario.
     private $pass; // String -> Sera cifrada + la contraseña del usuario
-    private $photo; // ?? -> Foto del Usuario.
+    private $photo; // String -> Foto del Usuario.((guardamos la ruta))
     private $birthdate; // Date -> Fecha de Nacimiento del usuario.
     private $description; // String -> Descripcion del usuario
     private $knowledge; // String -> Conocimientos del usuario
-    private $cv; // ?? > PDF del curriculum del usuario.
-    private $isActiv; // bool -> Para saber si el usuario esta activo o No!.
+    private $cv; // String -> PDF del curriculum del usuario. (guardamos la ruta)
+    private $isActiv; // bool -> Para saber si el usuario esta activo o No!. 0-activ, 1-noactiv
     private $saveName; // bool -> Para saber si quieren guardar su nombre o no.
     private $num_fields = 15;
 
-    public function __construct($userName, $password, $name, $mail, $birthDate)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("usuario", "id_user", $fields);
-        $this->firstname = $name;
-        $this->userName = $userName;
-        $this->pass = $password;
-        $this->email = $mail;
-        $this->birthdate = $birthDate;
-        $this->isActiv = 0;
+
+    }
+
+    public function __get($name) {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value) {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
 
@@ -86,7 +99,7 @@ class User extends BDs
      */
     public function getUserName()
     {
-        return $this->username;
+        return $this->userName;
     }
 
     /**
@@ -190,8 +203,74 @@ class User extends BDs
      */
     public function setCurriculum($curriculum)
     {
-        $this->cvs = $curriculum;
+        $this->cv = $curriculum;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param mixed $latitude
+     */
+    public function setLatitude($latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param mixed $longitude
+     */
+    public function setLongitude($longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSaveName()
+    {
+        return $this->saveName;
+    }
+
+    /**
+     * @param mixed $saveName
+     */
+    public function setSaveName($saveName): void
+    {
+        $this->saveName = $saveName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisActiv()
+    {
+        return $this->isActiv;
+    }
+
+    /**
+     * @param mixed $isActiv
+     */
+    public function setIsActiv($isActiv): void
+    {
+        $this->isActiv = $isActiv;
+    }
+
+
 
     /**
      * funcion para generar Usuarios en la Tabla.
@@ -224,4 +303,6 @@ class User extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+
 }

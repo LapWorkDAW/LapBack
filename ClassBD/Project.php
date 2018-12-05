@@ -21,17 +21,29 @@ class Project extends BDs
     private $projectStatus;  // int. -> estado del Proyecto si acabado o no. // Si es 0 proyecto no acabado.
     private $num_fields = 10;
 
-    public function __construct($projectName, $firstNameU, $surNameU, $id_user, $id_type)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-
         parent::__construct("project", "id_project", $fields);
-        $this->projectName = $projectName;
-        $this->nameCreator = $firstNameU . " " . $surNameU;
-        $this->dateStart = date("Y-m-d");
-        $this->projectStatus = 0;
-        $this->id_user = $id_user;
-        $this->id_type = $id_type;
+
+    }
+
+    public function __get($name) {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value) {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
     /**
@@ -59,6 +71,11 @@ class Project extends BDs
     public function getName()
     {
         return $this->projectName;
+    }
+
+    public function getNameCreator()
+    {
+        return $this->NameCreator;
     }
 
     /**
