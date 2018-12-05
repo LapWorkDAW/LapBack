@@ -65,6 +65,127 @@ class Project extends BDs
     }
 
     /**
+     * @return mixed
+     */
+    public function getProjectName()
+    {
+        return $this->projectName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdType()
+    {
+        return $this->id_type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateStart()
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFinish()
+    {
+        return $this->dateFinish;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImg()
+    {
+        return $this->img;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectStatus()
+    {
+        return $this->projectStatus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumFields(): int
+    {
+        return $this->num_fields;
+    }
+
+    /**
+     * @param mixed $nameCreator
+     */
+    public function setNameCreator($nameCreator): void
+    {
+        $this->nameCreator = $nameCreator;
+    }
+
+    /**
+     * @param mixed $projectName
+     */
+    public function setProjectName($projectName): void
+    {
+        $this->projectName = $projectName;
+    }
+
+    /**
+     * @param mixed $id_type
+     */
+    public function setIdType($id_type): void
+    {
+        $this->id_type = $id_type;
+    }
+
+    /**
+     * @param mixed $dateStart
+     */
+    public function setDateStart($dateStart): void
+    {
+        $this->dateStart = $dateStart;
+    }
+
+    /**
+     * @param mixed $dateFinish
+     */
+    public function setDateFinish($dateFinish): void
+    {
+        $this->dateFinish = $dateFinish;
+    }
+
+    /**
+     * @param mixed $img
+     */
+    public function setImg($img): void
+    {
+        $this->img = $img;
+    }
+
+    /**
+     * @param mixed $projectStatus
+     */
+    public function setProjectStatus($projectStatus): void
+    {
+        $this->projectStatus = $projectStatus;
+    }
+
+    /**
+     * @param int $num_fields
+     */
+    public function setNumFields(int $num_fields): void
+    {
+        $this->num_fields = $num_fields;
+    }
+
+
+    /**
      * Coger Nombre proyecto
      * @return mixed
      */
@@ -75,7 +196,7 @@ class Project extends BDs
 
     public function getNameCreator()
     {
-        return $this->NameCreator;
+        return $this->nameCreator;
     }
 
     /**

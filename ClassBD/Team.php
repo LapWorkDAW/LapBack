@@ -15,13 +15,11 @@ class Team extends BDs
 
     private $num_fields = 3;
 
-    public function __construct($id_user, $id_project)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("team", "id_team", $fields);
-        $this->id_user = $id_user;
-        $this->id_project = $id_project;
     }
 
     /**

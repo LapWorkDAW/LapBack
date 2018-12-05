@@ -15,12 +15,10 @@ class Post extends BDs
     private $dataDay;
     private $numfields = 4;
 
-    public function __construct($remitter, $message)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("post", "id_post", $fields);
-        $this->remitter = $remitter;
-        $this->message = $message;
         $this->dataDay = date("Y-m-d");
     }
 

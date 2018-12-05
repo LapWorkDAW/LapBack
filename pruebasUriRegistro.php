@@ -11,19 +11,15 @@ require_once 'ClassBD/Project.php';
 require_once 'ClassBD/BDs.php';
 require_once 'ClassBD/Inscription.php';
 
-/* $usu1->save(); // Asi guardamos usuarios.
-echo "Id" . $usu1->getIdUser();
-$proyecto = new Project("firstMe", $usu1->getName(), $usu1->getIdUser());
 
-echo $usu1->getName();
-echo "<br>" . $proyecto->getName();
-echo "<br>";
-$proyecto->save(); // Asi guardamos proyectos. */
+echo 'Hola Pacman : ';
 
-//$usu1->load(6);
+$name = $_GET['name'];
 
-//print_r($usu1);
 
-// $insc = new Inscription(6, 2);
+$usuario = new User();
 
-// $insc->save();
+$usuario->setName($name);
+
+
+echo $name;
