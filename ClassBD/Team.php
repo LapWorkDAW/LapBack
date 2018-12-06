@@ -10,8 +10,8 @@ require_once 'BDs.php';;
 class Team extends BDs
 {
     private $id_team;
-    private $id_project;
-    private $id_user;
+    private $project; // proyecto al cual le ponemos los miembros.
+    private $user; // Usuario que queremos que se una al equipo del proyecto.
 
     private $num_fields = 3;
 
@@ -20,6 +20,26 @@ class Team extends BDs
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("team", "id_team", $fields);
+    }
+
+    public function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
     /**
@@ -33,17 +53,33 @@ class Team extends BDs
     /**
      * @return mixed
      */
-    public function getIdProject()
+    public function getProject()
     {
-        return $this->id_project;
+        return $this->project;
     }
 
     /**
      * @return mixed
      */
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $project
+     */
+    public function setProject($project): void
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 
     /**

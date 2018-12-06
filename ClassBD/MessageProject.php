@@ -10,8 +10,8 @@ require_once 'BDs.php';
 class MessageProject extends BDs
 {
     private $id_messageProject;
-    private $id_post;
-    private $id_project;
+    private $post; // POST
+    private $project; // Proyecto al qual posteas.
     private $num_fields = 3;
 
     public function __construct()
@@ -51,17 +51,33 @@ class MessageProject extends BDs
     /**
      * @return mixed
      */
-    public function getIdPost()
+    public function getPost()
     {
-        return $this->id_post;
+        return $this->post;
     }
 
     /**
      * @return mixed
      */
-    public function getIdProject()
+    public function getProject()
     {
-        return $this->id_project;
+        return $this->project;
+    }
+
+    /**
+     * @param mixed $post
+     */
+    public function setPost($post): void
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * @param mixed $project
+     */
+    public function setProject($project): void
+    {
+        $this->project = $project;
     }
 
     /**

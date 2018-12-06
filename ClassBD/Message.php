@@ -9,18 +9,52 @@ require_once 'BDs.php';
 
 class Message extends BDs
 {
-    private $id_post;
+    private $post; // guardamos el post.
     private $id_message;
     private $receiver;
     private $num_fields = 3;
 
-    public function __construct($id_post, $receiver)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("message", "id_message", $fields);
+    }
+
+    public function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    /**
+     * @param mixed $post
+     */
+    public function setPost($post): void
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * @param mixed $receiver
+     */
+    public function setReceiver($receiver): void
+    {
         $this->receiver = $receiver;
-        $this->id_post = $id_post;
     }
 
     /**
@@ -34,9 +68,9 @@ class Message extends BDs
     /**
      * @return mixed
      */
-    public function getIdPost()
+    public function getPost()
     {
-        return $this->id_post;
+        return $this->post;
     }
 
     /**

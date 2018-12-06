@@ -14,12 +14,28 @@ class Portfolio extends BDs
     private $archive;
     private $numFields = 3;
 
-    public function __construct($id_portF, $archive)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("portfolio", "id_portfolio", $fields);
-        $this->id_portF = $id_portF;
-        $this->archive = $archive;
+    }
+
+    public function __get($name) {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value) {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
     /**
@@ -44,6 +60,22 @@ class Portfolio extends BDs
     public function getArchive()
     {
         return $this->archive;
+    }
+
+    /**
+     * @param mixed $id_portF
+     */
+    public function setIdPortF($id_portF): void
+    {
+        $this->id_portF = $id_portF;
+    }
+
+    /**
+     * @param mixed $archive
+     */
+    public function setArchive($archive): void
+    {
+        $this->archive = $archive;
     }
 
     /**

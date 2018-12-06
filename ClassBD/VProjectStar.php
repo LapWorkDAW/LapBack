@@ -9,21 +9,45 @@
 class VProjectStar extends BDs
 {
     private $id_voteStar;
-    private $id_user;
-    private $id_project;
+    private $user;
+    private $project;
     private $quantity; // 5 maximas
 
     private $num_shields = 4;
 
-    public function __construct($id_user, $id_project, $quantity)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
         parent::__construct("voteprojectstar", "id_voteStar", $fields);
+    }
 
-        $this->id_project = $id_project;
-        $this->id_user = $id_user;
-        $this->quantity = $quantity;
+    public function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumShields(): int
+    {
+        return $this->num_shields;
     }
 
     /**
@@ -37,17 +61,17 @@ class VProjectStar extends BDs
     /**
      * @return mixed
      */
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        return $this->user;
     }
 
     /**
      * @return mixed
      */
-    public function getIdProject()
+    public function getProject()
     {
-        return $this->id_project;
+        return $this->project;
     }
 
     /**
@@ -56,6 +80,30 @@ class VProjectStar extends BDs
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param mixed $project
+     */
+    public function setProject($project): void
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
     }
 
 

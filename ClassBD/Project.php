@@ -10,10 +10,10 @@ require_once 'BDs.php';
 class Project extends BDs
 {
     private $id_project; // Int -> id del Proyecto.
-    private $id_user;  // Int -> id del Usuario que a creado Proyecto.
+    private $user;  // Usuario que crea el proyecto.
     private $nameCreator; //String -> Nombre del Usuario que creo proyecto.
     private $projectName; // String -> Nombre del Proyecto.
-    private $id_type; // entero -> Tipo del Proyecto.
+    private $type; // Tipo de proyecto que creamos.
     private $description; //String -> descripcion del Proyecto.
     private $dateStart; //date  -> Fecha inicio Proyecto
     private $dateFinish; //date -> Fecha final del Proyecto si esta acabado.
@@ -28,7 +28,8 @@ class Project extends BDs
 
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $metodo = "get$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
@@ -37,7 +38,8 @@ class Project extends BDs
         }
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         $metodo = "set$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
@@ -59,9 +61,9 @@ class Project extends BDs
      * Coger id Usuario que creo Proyecto
      * @return mixed
      */
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        return $this->user;
     }
 
     /**
@@ -75,9 +77,9 @@ class Project extends BDs
     /**
      * @return mixed
      */
-    public function getIdType()
+    public function getType()
     {
-        return $this->id_type;
+        return $this->type;
     }
 
     /**
@@ -121,6 +123,22 @@ class Project extends BDs
     }
 
     /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @param mixed $nameCreator
      */
     public function setNameCreator($nameCreator): void
@@ -134,14 +152,6 @@ class Project extends BDs
     public function setProjectName($projectName): void
     {
         $this->projectName = $projectName;
-    }
-
-    /**
-     * @param mixed $id_type
-     */
-    public function setIdType($id_type): void
-    {
-        $this->id_type = $id_type;
     }
 
     /**
@@ -198,16 +208,6 @@ class Project extends BDs
     {
         return $this->nameCreator;
     }
-
-    /**
-     * Id del Proyecto
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->id_type;
-    }
-
 
     /**
      * @return mixed

@@ -10,8 +10,8 @@ require_once 'BDs.php';
 class Inscription extends BDs
 {
     protected $id_inscription; // id de la inscripcion.
-    protected $id_user; // El id del usuario inscribido.
-    protected $id_project; // id del proyecto que se han inscrito
+    protected $user; // Guardaremos el usuario inscrito en el proyecto.
+    protected $project; // Guardaremos el proyecto al cual se registra el usuario.
     protected $estado; // estado del usuario al proyecto.
     // 0 = en espera.
     // 1 = aceptado.
@@ -19,13 +19,31 @@ class Inscription extends BDs
     private $num_fields = 4; // numero de filas.
 
 
-    public function __construct($id_user, $id_project)
+    public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("inscription", "id_inscription", $fields);
-        $this->id_user = $id_user;
-        $this->id_project = $id_project;
         $this->estado = 0;
+    }
+
+    public function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
     }
 
     /**
@@ -39,17 +57,41 @@ class Inscription extends BDs
     /**
      * @return mixed
      */
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        return $this->user;
     }
 
     /**
      * @return mixed
      */
-    public function getIdProject()
+    public function getProject()
     {
-        return $this->id_project;
+        return $this->project;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param mixed $project
+     */
+    public function setProject($project): void
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @param int $estado
+     */
+    public function setEstado(int $estado): void
+    {
+        $this->estado = $estado;
     }
 
     /**
@@ -65,15 +107,15 @@ class Inscription extends BDs
      */
     public function save()
     {
-        $project = $this->valores();
+        $ins = $this->valores();
 
-        unset($project['id_inscription']);
+        unset($ins['id_inscription']);
 
         if (empty($this->id_inscription)) {
-            $this->insert($project);
-            $this->id_project = self::$conn->lastInsertId();
+            $this->insert($ins);
+            $this->id_inscription = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_inscription, $project);
+            $this->update($this->id_inscription, $ins);
         }
     }
 
@@ -84,10 +126,10 @@ class Inscription extends BDs
      */
     function load($id)
     {
-        $user = $this->getById($id);
-        if (!empty($user)) {
+        $ins = $this->getById($id);
+        if (!empty($ins)) {
             foreach ($this->fields as $field) {
-                $this->$field = $user["$field"];
+                $this->$field = $ins["$field"];
             }
         } else {
             throw new Exception("No existe ese registro");
