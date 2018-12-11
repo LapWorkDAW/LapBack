@@ -72,6 +72,7 @@ abstract class  BDs
      */
     function __get($name)
     {
+        echo $name;
         if (property_exists($this, $name)) {
             return $this->$name;
         }
@@ -179,7 +180,7 @@ abstract class  BDs
         $valores = array_map(function ($v) {
             return $this->$v;
         }, $this->fields);
-    //    print_r($valores);die();
+        //    print_r($valores);die();
         return array_combine($this->fields, $valores);
     }
 

@@ -10,7 +10,7 @@ require_once 'BDs.php';
 class User extends BDs
 {
 
-    private $id_user; // int -> el id del usuario.
+    private $idUser; // int -> el id del usuario.
     private $firstname; // // String -> Nombre del Usuario.
     private $surname; // String -> Apellido del usuario.
     private $latitude; // Double -> Cordenadas
@@ -34,7 +34,8 @@ class User extends BDs
 
     }
 
-    public function __get($name) {
+    function __get($name)
+    {
         $metodo = "get$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
@@ -43,7 +44,8 @@ class User extends BDs
         }
     }
 
-    public function __set($name, $value) {
+    function __set($name, $value)
+    {
         $metodo = "set$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
@@ -52,19 +54,18 @@ class User extends BDs
         }
     }
 
-
     /**
      * @return mixed
      */
     public function getIdUser()
     {
-        return $this->id_user;
+        return $this->idUser;
     }
 
     /**
      * @return mixed
      */
-    public function getName()
+    public function getFirstName()
     {
         return $this->firstname;
     }
@@ -72,7 +73,7 @@ class User extends BDs
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    public function setFirstName($name)
     {
         $this->firstname = $name;
     }
@@ -271,7 +272,6 @@ class User extends BDs
     }
 
 
-
     /**
      * funcion para generar Usuarios en la Tabla.
      */
@@ -292,7 +292,7 @@ class User extends BDs
      * @param $id
      * @throws Exception
      */
-    function load($id)
+    public function load($id)
     {
         $user = $this->getById($id);
         if (!empty($user)) {

@@ -9,8 +9,8 @@ require_once 'BDs.php';
 
 class Project extends BDs
 {
-    private $id_project; // Int -> id del Proyecto.
-    private $user;  // Usuario que crea el proyecto.
+    private $idProject; // Int -> id del Proyecto.
+    private $userO;  // Usuario que crea el proyecto.
     private $nameCreator; //String -> Nombre del Usuario que creo proyecto.
     private $projectName; // String -> Nombre del Proyecto.
     private $type; // Tipo de proyecto que creamos.
@@ -19,30 +19,23 @@ class Project extends BDs
     private $dateFinish; //date -> Fecha final del Proyecto si esta acabado.
     private $img; // ? -> fotos del proyecto.
     private $projectStatus;  // int. -> estado del Proyecto si acabado o no. // Si es 0 proyecto no acabado.
+    // 0 -> Sin acabar 1 -> Acabado
     private $num_fields = 10;
 
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("project", "id_project", $fields);
-
+        $this->dateStart = date("Y/m/d");
+        $this->projectStatus = 0;
     }
 
-    public function __get($name)
+    function __get($name)
     {
         $metodo = "get$name";
+        //echo "$metodo ";
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
-        } else {
-            throw new Exception("Propiedad no encontrada");
-        }
-    }
-
-    public function __set($name, $value)
-    {
-        $metodo = "set$name";
-        if (method_exists($this, $metodo)) {
-            return $this->$metodo($value);
         } else {
             throw new Exception("Propiedad no encontrada");
         }
@@ -54,16 +47,16 @@ class Project extends BDs
      */
     public function getIdProject()
     {
-        return $this->id_project;
+        return $this->idProject;
     }
 
     /**
      * Coger id Usuario que creo Proyecto
      * @return mixed
      */
-    public function getUser()
+    public function getUserO()
     {
-        return $this->user;
+        return $this->userO;
     }
 
     /**
@@ -117,7 +110,7 @@ class Project extends BDs
     /**
      * @return int
      */
-    public function getNumFields(): int
+    public function getNumFields()
     {
         return $this->num_fields;
     }
@@ -125,15 +118,15 @@ class Project extends BDs
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setUserO($user)
     {
-        $this->user = $user;
+        $this->userO = $user;
     }
 
     /**
      * @param mixed $type
      */
-    public function setType($type): void
+    public function setType($type)
     {
         $this->type = $type;
     }
@@ -141,7 +134,7 @@ class Project extends BDs
     /**
      * @param mixed $nameCreator
      */
-    public function setNameCreator($nameCreator): void
+    public function setNameCreator($nameCreator)
     {
         $this->nameCreator = $nameCreator;
     }
@@ -149,7 +142,7 @@ class Project extends BDs
     /**
      * @param mixed $projectName
      */
-    public function setProjectName($projectName): void
+    public function setProjectName($projectName)
     {
         $this->projectName = $projectName;
     }
@@ -157,7 +150,7 @@ class Project extends BDs
     /**
      * @param mixed $dateStart
      */
-    public function setDateStart($dateStart): void
+    public function setDateStart($dateStart)
     {
         $this->dateStart = $dateStart;
     }
@@ -165,7 +158,7 @@ class Project extends BDs
     /**
      * @param mixed $dateFinish
      */
-    public function setDateFinish($dateFinish): void
+    public function setDateFinish($dateFinish)
     {
         $this->dateFinish = $dateFinish;
     }
@@ -181,19 +174,10 @@ class Project extends BDs
     /**
      * @param mixed $projectStatus
      */
-    public function setProjectStatus($projectStatus): void
+    public function setProjectStatus($projectStatus)
     {
         $this->projectStatus = $projectStatus;
     }
-
-    /**
-     * @param int $num_fields
-     */
-    public function setNumFields(int $num_fields): void
-    {
-        $this->num_fields = $num_fields;
-    }
-
 
     /**
      * Coger Nombre proyecto
@@ -289,7 +273,14 @@ class Project extends BDs
     public function save()
     {
         $project = $this->valores();
+        //var_dump($project);
         unset($project['id_project']);
+
+        $this->userO->save();
+        $project['userO'] = $this->userO->id_user;
+        unset($project['userO']);
+
+
         if (empty($this->id_project)) {
             $this->insert($project);
             $this->id_project = self::$conn->lastInsertId();

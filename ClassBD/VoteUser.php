@@ -20,6 +20,26 @@ class VoteUser extends BDs
         parent::__construct("voteuser", "id_user_vote", $fields);
     }
 
+    function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
     /**
      * funcion para generar Usuarios en la Tabla.
      */

@@ -10,7 +10,7 @@ require_once 'BDs.php';
 class Inscription extends BDs
 {
     protected $id_inscription; // id de la inscripcion.
-    protected $user; // Guardaremos el usuario inscrito en el proyecto.
+    protected $userO; // Guardaremos el usuario inscrito en el proyecto.
     protected $project; // Guardaremos el proyecto al cual se registra el usuario.
     protected $estado; // estado del usuario al proyecto.
     // 0 = en espera.
@@ -26,26 +26,6 @@ class Inscription extends BDs
         $this->estado = 0;
     }
 
-    public function __get($name)
-    {
-        $metodo = "get$name";
-        if (method_exists($this, $metodo)) {
-            return $this->$metodo();
-        } else {
-            throw new Exception("Propiedad no encontrada");
-        }
-    }
-
-    public function __set($name, $value)
-    {
-        $metodo = "set$name";
-        if (method_exists($this, $metodo)) {
-            return $this->$metodo($value);
-        } else {
-            throw new Exception("Propiedad no encontrada");
-        }
-    }
-
     /**
      * @return mixed
      */
@@ -59,7 +39,7 @@ class Inscription extends BDs
      */
     public function getUser()
     {
-        return $this->user;
+        return $this->userO;
     }
 
     /**
@@ -75,7 +55,7 @@ class Inscription extends BDs
      */
     public function setUser($user): void
     {
-        $this->user = $user;
+        $this->userO = $user;
     }
 
     /**
