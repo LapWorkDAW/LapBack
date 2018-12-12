@@ -9,7 +9,7 @@ require_once 'BDs.php';
 
 class Post extends BDs
 {
-    private $id_post;
+    private $idPost;
     private $remitter;
     private $message;
     private $dataDay;
@@ -18,7 +18,7 @@ class Post extends BDs
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("post", "id_post", $fields);
+        parent::__construct("post", "idPost", $fields);
         $this->dataDay = date("Y-m-d");
     }
 
@@ -41,6 +41,15 @@ class Post extends BDs
             throw new Exception("Propiedad no encontrada");
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIdPost()
+    {
+        return $this->idPost;
+    }
+
 
     /**
      * @return mixed
@@ -87,13 +96,14 @@ class Post extends BDs
      */
     public function save()
     {
-        $post = $this->valores();
-        unset($post['id_post']);
-        if (empty($this->id_post)) {
+        $this->userO->save();
+        $post['idUser'] = $this->userO->idUser;
+
+        if (empty($this->idPost)) {
             $this->insert($post);
-            $this->id_post = self::$conn->lastInsertId();
+            $this->idPost = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_post, $post);
+            $this->update($this->idPost, $post);
         }
     }
 

@@ -11,12 +11,12 @@ abstract class  BDs
     static $server = "localhost";
     static $user = "root";
     static $password = "";
-    static $database = "LapWork";
+    static $database = "lapwork";
 
-    private $table; // Nombre de la Tabla.
-    private $idField; // Nombre del campo clave.
-    private $fields; // Array con los nombres de los campos.
-    private $showFields; // Array con los nombres de los campos a mostrar en determinadas consultas
+    protected $table; // Nombre de la Tabla.
+    protected $idField; // Nombre del campo clave.
+    protected $fields; // Array con los nombres de los campos.
+    protected $showFields; // Array con los nombres de los campos a mostrar en determinadas consultas
 
     static protected $conn; // Para la conexion.
     static protected $desc; // Pra desconectar

@@ -10,7 +10,7 @@ require_once 'BDs.php';
 class Message extends BDs
 {
     private $post; // guardamos el post.
-    private $id_message;
+    private $idMessage;
     private $receiver;
     private $num_fields = 3;
 
@@ -62,7 +62,7 @@ class Message extends BDs
      */
     public function getIdMessage()
     {
-        return $this->id_message;
+        return $this->idMessage;
     }
 
     /**
@@ -87,12 +87,12 @@ class Message extends BDs
     public function save()
     {
         $msn = $this->valores();
-        unset($msn['id_message']);
-        if (empty($this->id_message)) {
+        unset($msn['idMessage']);
+        if (empty($this->idMessage)) {
             $this->insert($msn);
-            $this->id_message = self::$conn->lastInsertId();
+            $this->idMessage = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_user, $msn);
+            $this->update($this->idMessage, $msn);
         }
     }
 

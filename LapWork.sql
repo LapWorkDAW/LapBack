@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `inscription`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `inscription` (
-  `id_inscription` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_project` int(11) NOT NULL,
+  `idInscription` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
+  `idProject` int(11) NOT NULL,
   `estado` int(11) NOT NULL,
-  PRIMARY KEY (`id_inscription`,`id_project`,`id_user`),
-  KEY `FK_Inscription_Project` (`id_project`),
-  KEY `FK_Inscription_Usuario` (`id_user`),
-  CONSTRAINT `FK_Inscription_Project` FOREIGN KEY (`id_project`) REFERENCES `project` (`id_project`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Inscription_Usuario` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idInscription`,`idProject`,`idUser`),
+  KEY `FK_Inscription_Project` (`idProject`),
+  KEY `FK_Inscription_Usuario` (`idUser`),
+  CONSTRAINT `FK_Inscription_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Inscription_Usuario` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,14 +54,14 @@ DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `message` (
-  `id_message` int(11) NOT NULL AUTO_INCREMENT,
-  `id_post` int(11) NOT NULL,
+  `idMessage` int(11) NOT NULL AUTO_INCREMENT,
+  `idPost` int(11) NOT NULL,
   `receiver` int(11) NOT NULL,
-  PRIMARY KEY (`id_message`,`id_post`,`receiver`),
+  PRIMARY KEY (`idMessage`,`idPost`,`receiver`),
   KEY `FK_Message_Usuario` (`receiver`),
-  KEY `FK_Message_Post` (`id_post`),
-  CONSTRAINT `FK_Message_Post` FOREIGN KEY (`id_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Message_Usuario` FOREIGN KEY (`receiver`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_Message_Post` (`idPost`),
+  CONSTRAINT `FK_Message_Post` FOREIGN KEY (`idPost`) REFERENCES `post` (`idPost`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Message_Usuario` FOREIGN KEY (`receiver`) REFERENCES `usuario` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -82,14 +82,14 @@ DROP TABLE IF EXISTS `messageproject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `messageproject` (
-  `id_messageProject` int(11) NOT NULL AUTO_INCREMENT,
-  `id_post` int(11) NOT NULL,
-  `id_project` int(11) NOT NULL,
-  PRIMARY KEY (`id_messageProject`,`id_post`,`id_project`),
-  KEY `FK_Messageproject_Project` (`id_project`),
-  KEY `FK_MessageProject_Post` (`id_post`),
-  CONSTRAINT `FK_MessageProject_Post` FOREIGN KEY (`id_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Messageproject_Project` FOREIGN KEY (`id_project`) REFERENCES `project` (`id_project`) ON DELETE CASCADE ON UPDATE CASCADE
+  `idMessageProject` int(11) NOT NULL AUTO_INCREMENT,
+  `idPost` int(11) NOT NULL,
+  `idProject` int(11) NOT NULL,
+  PRIMARY KEY (`idMessageProject`,`idPost`,`idProject`),
+  KEY `FK_Messageproject_Project` (`idProject`),
+  KEY `FK_MessageProject_Post` (`idPost`),
+  CONSTRAINT `FK_MessageProject_Post` FOREIGN KEY (`idPost`) REFERENCES `post` (`idPost`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Messageproject_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,12 +110,12 @@ DROP TABLE IF EXISTS `portfolio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `portfolio` (
-  `id_portfolio` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
+  `idPortfolio` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
   `archive` varchar(250) NOT NULL,
-  PRIMARY KEY (`id_portfolio`,`id_user`),
-  KEY `FK_Portfolio_Usuario` (`id_user`),
-  CONSTRAINT `FK_Portfolio_Usuario` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`idPortfolio`,`idUser`),
+  KEY `FK_Portfolio_Usuario` (`idUser`),
+  CONSTRAINT `FK_Portfolio_Usuario` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -136,13 +136,13 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `post` (
-  `id_post` int(11) NOT NULL AUTO_INCREMENT,
+  `idPost` int(11) NOT NULL AUTO_INCREMENT,
   `remitter` int(11) NOT NULL,
   `message` varchar(250) NOT NULL,
   `dataDay` datetime NOT NULL,
-  PRIMARY KEY (`id_post`),
+  PRIMARY KEY (`idPost`),
   KEY `FK_Post_usuario` (`remitter`),
-  CONSTRAINT `FK_Post_usuario` FOREIGN KEY (`remitter`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE
+  CONSTRAINT `FK_Post_usuario` FOREIGN KEY (`remitter`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,21 +163,21 @@ DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `project` (
-  `id_project` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
+  `idProject` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
   `nameCreator` varchar(20) DEFAULT NULL,
   `projectName` varchar(20) NOT NULL,
-  `id_type` int(11) NOT NULL,
+  `idType` int(11) NOT NULL,
   `description` text,
   `dateStart` date NOT NULL,
   `dateFinish` date NOT NULL,
   `img` varchar(100) DEFAULT NULL,
   `projectStatus` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id_project`,`id_user`),
-  KEY `FK_Project_User` (`id_user`),
-  KEY `FK_Project_TypeProject` (`id_type`),
-  CONSTRAINT `FK_Project_TypeProject` FOREIGN KEY (`id_type`) REFERENCES `typeproject` (`id_type`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_Project_User` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE
+  PRIMARY KEY (`idProject`,`idUser`),
+  KEY `FK_Project_User` (`idUser`),
+  KEY `FK_Project_TypeProject` (`idType`),
+  CONSTRAINT `FK_Project_TypeProject` FOREIGN KEY (`idType`) REFERENCES `typeproject` (`idType`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Project_User` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -198,14 +198,14 @@ DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `team` (
-  `id_team` int(11) NOT NULL AUTO_INCREMENT,
-  `id_project` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  PRIMARY KEY (`id_team`,`id_project`,`id_user`),
-  KEY `FK_Team_Project` (`id_project`),
-  KEY `FK_Team_Usuario` (`id_user`),
-  CONSTRAINT `FK_Team_Project` FOREIGN KEY (`id_project`) REFERENCES `project` (`id_project`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Team_Usuario` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  `idTeam` int(11) NOT NULL AUTO_INCREMENT,
+  `idProject` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  PRIMARY KEY (`idTeam`,`idProject`,`idUser`),
+  KEY `FK_Team_Project` (`idProject`),
+  KEY `FK_Team_Usuario` (`idUser`),
+  CONSTRAINT `FK_Team_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Team_Usuario` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -226,9 +226,9 @@ DROP TABLE IF EXISTS `typeproject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `typeproject` (
-  `id_type` int(11) NOT NULL AUTO_INCREMENT,
+  `idType` int(11) NOT NULL AUTO_INCREMENT,
   `nameType` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_type`)
+  PRIMARY KEY (`idType`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -250,7 +250,7 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `usuario` (
-  `id_user` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(20) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,
   `firstname` varchar(20) DEFAULT NULL,
@@ -265,7 +265,7 @@ CREATE TABLE `usuario` (
   `description` text,
   `knowledge` varchar(250) DEFAULT NULL,
   `isActiv` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id_user`)
+  PRIMARY KEY (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -286,14 +286,14 @@ DROP TABLE IF EXISTS `voteprojectfavourite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `voteprojectfavourite` (
-  `id_voteFavourite` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_project` int(11) NOT NULL,
-  PRIMARY KEY (`id_voteFavourite`,`id_project`,`id_user`),
-  KEY `FK_VoteProjectFavourite_Project` (`id_project`),
-  KEY `FK_VoteProjectFavourite_Usuario` (`id_user`),
-  CONSTRAINT `FK_VoteProjectFavourite_Project` FOREIGN KEY (`id_project`) REFERENCES `project` (`id_project`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_VoteProjectFavourite_Usuario` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE
+  `idVoteFavourite` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
+  `idProject` int(11) NOT NULL,
+  PRIMARY KEY (`idVoteFavourite`,`idProject`,`idUser`),
+  KEY `FK_VoteProjectFavourite_Project` (`idProject`),
+  KEY `FK_VoteProjectFavourite_Usuario` (`idUser`),
+  CONSTRAINT `FK_VoteProjectFavourite_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_VoteProjectFavourite_Usuario` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -314,15 +314,15 @@ DROP TABLE IF EXISTS `voteprojectstar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `voteprojectstar` (
-  `id_voteStar` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
-  `id_project` int(11) NOT NULL,
+  `idVoteStar` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser` int(11) NOT NULL,
+  `idProject` int(11) NOT NULL,
   `quantity` int(1) NOT NULL,
-  PRIMARY KEY (`id_voteStar`,`id_project`,`id_user`),
-  KEY `FK_VoteProjectStar_Project` (`id_project`),
-  KEY `FK_VoteProjectStar_Usuario` (`id_user`),
-  CONSTRAINT `FK_VoteProjectStar_Project` FOREIGN KEY (`id_project`) REFERENCES `project` (`id_project`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_VoteProjectStar_Usuario` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE
+  PRIMARY KEY (`idVoteStar`,`idProject`,`idUser`),
+  KEY `FK_VoteProjectStar_Project` (`idProject`),
+  KEY `FK_VoteProjectStar_Usuario` (`idUser`),
+  CONSTRAINT `FK_VoteProjectStar_Project` FOREIGN KEY (`idProject`) REFERENCES `project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_VoteProjectStar_Usuario` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -343,15 +343,15 @@ DROP TABLE IF EXISTS `voteuser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `voteuser` (
-  `id_voteUser` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user_vote` int(11) NOT NULL,
-  `id_candidate` int(11) NOT NULL,
+  `idVoteUser` int(11) NOT NULL AUTO_INCREMENT,
+  `idUser_vote` int(11) NOT NULL,
+  `idCandidate` int(11) NOT NULL,
   `quantity` int(1) NOT NULL,
-  PRIMARY KEY (`id_voteUser`,`id_user_vote`,`id_candidate`),
-  KEY `FK_VoteUser_Remitter` (`id_user_vote`),
-  KEY `FK_VoteUser_Receiver` (`id_candidate`),
-  CONSTRAINT `FK_VoteUser_Receiver` FOREIGN KEY (`id_candidate`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_VoteUser_Remitter` FOREIGN KEY (`id_user_vote`) REFERENCES `usuario` (`id_user`) ON UPDATE CASCADE
+  PRIMARY KEY (`idVoteUser`,`idUser_vote`,`idCandidate`),
+  KEY `FK_VoteUser_Remitter` (`idUser_vote`),
+  KEY `FK_VoteUser_Receiver` (`idCandidate`),
+  CONSTRAINT `FK_VoteUser_Receiver` FOREIGN KEY (`idCandidate`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VoteUser_Remitter` FOREIGN KEY (`idUser_vote`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

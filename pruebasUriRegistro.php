@@ -9,25 +9,30 @@
 require_once 'ClassBD/User.php';
 require_once 'ClassBD/Project.php';
 require_once 'ClassBD/Inscription.php';
+require_once 'ClassBD/Post.php';
 
 
 echo 'Hola Pacman : <br> ';
 
 $usuario = new User();
 
-$usuario->load(6);
-
-echo "Aqui tenemos nombre Usuario: " . $usuario->getName();
+$usuario->load(1);
+echo "Aqui tenemos nombre Usuario: " . $usuario->getFirstName();
 
 $project = new Project();
 
-$project->setUserO($usuario);
-$project->setProjectName("firstProject");
-$project->setNameCreator("" . $usuario->getName()
-    . " " . $usuario->getSurname());
-$project->setType(5);
-$project->setDateFinish("2018-12-21");
+$project->load(1);
 
 echo "<br> Fecha Final Proyecto: " . $project->getDateFinish();
 
-$project->save();
+$inscrip = new Inscription();
+
+$inscrip->load(1);
+
+echo "<br>Id Ins " . $inscrip->getEstado();
+
+$post = new Post();
+
+$post->setRemitter($usuario);
+$post->setMessage("Hola Buenos Dias");
+$post->save();

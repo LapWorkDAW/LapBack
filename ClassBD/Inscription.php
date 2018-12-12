@@ -9,7 +9,7 @@ require_once 'BDs.php';
 
 class Inscription extends BDs
 {
-    protected $id_inscription; // id de la inscripcion.
+    protected $idInscription; // id de la inscripcion.
     protected $userO; // Guardaremos el usuario inscrito en el proyecto.
     protected $project; // Guardaremos el proyecto al cual se registra el usuario.
     protected $estado; // estado del usuario al proyecto.
@@ -22,8 +22,28 @@ class Inscription extends BDs
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("inscription", "id_inscription", $fields);
+        parent::__construct("inscription", "idInscription", $fields);
         $this->estado = 0;
+    }
+
+    function __get($name)
+    {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada " . $name);
+        }
+    }
+
+    function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada " . $name);
+        }
     }
 
     /**
@@ -31,13 +51,13 @@ class Inscription extends BDs
      */
     public function getIdInscription()
     {
-        return $this->id_inscription;
+        return $this->idInscription;
     }
 
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getUserO()
     {
         return $this->userO;
     }
@@ -53,7 +73,7 @@ class Inscription extends BDs
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setUserO($user): void
     {
         $this->userO = $user;
     }
@@ -87,15 +107,17 @@ class Inscription extends BDs
      */
     public function save()
     {
-        $ins = $this->valores();
+        $this->userO->save();
+        $ins['idUser'] = $this->userO->idUser;
 
-        unset($ins['id_inscription']);
+        $this->project->save();
+        $ins['idProject'] = $this->project->idProject;
 
-        if (empty($this->id_inscription)) {
+        if (empty($this->idInscription)) {
             $this->insert($ins);
-            $this->id_inscription = self::$conn->lastInsertId();
+            $this->idInscription = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_inscription, $ins);
+            $this->update($this->idInscription, $ins);
         }
     }
 
@@ -109,7 +131,17 @@ class Inscription extends BDs
         $ins = $this->getById($id);
         if (!empty($ins)) {
             foreach ($this->fields as $field) {
-                $this->$field = $ins["$field"];
+                if ($field == "userO") {
+                    $usuario = new User();
+                    $usuario->load($ins['idUser']);
+                    $this->$field = $usuario;
+                } elseif ($field == "project") {
+                    $project = new Project();
+                    $project->load($ins['idProject']);
+                    $this->$field = $project;
+                } else {
+                    $this->$field = $ins["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");

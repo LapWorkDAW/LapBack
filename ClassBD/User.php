@@ -30,7 +30,7 @@ class User extends BDs
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("usuario", "id_user", $fields);
+        parent::__construct("usuario", "idUser", $fields);
 
     }
 
@@ -40,7 +40,7 @@ class User extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada " . $name);
         }
     }
 
@@ -50,7 +50,7 @@ class User extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada " . $name);
         }
     }
 
@@ -92,6 +92,54 @@ class User extends BDs
     public function setSurname($surname)
     {
         $this->surname = $surname;
+    }
+
+    /**
+     * @param mixed $userName
+     */
+    public function setUserName($userName): void
+    {
+        $this->userName = $userName;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param mixed $pass
+     */
+    public function setPass($pass): void
+    {
+        $this->pass = $pass;
+    }
+
+    /**
+     * @param mixed $cv
+     */
+    public function setCv($cv): void
+    {
+        $this->cv = $cv;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCv()
+    {
+        return $this->cv;
     }
 
 
@@ -278,12 +326,12 @@ class User extends BDs
     public function save()
     {
         $user = $this->valores();
-        unset($user['id_user']);
-        if (empty($this->id_user)) {
+        unset($user['idUser']);
+        if (empty($this->idUser)) {
             $this->insert($user);
-            $this->id_user = self::$conn->lastInsertId();
+            $this->idUser = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_user, $user);
+            $this->update($this->idUser, $user);
         }
     }
 

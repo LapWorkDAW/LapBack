@@ -13,7 +13,7 @@ class Project extends BDs
     private $userO;  // Usuario que crea el proyecto.
     private $nameCreator; //String -> Nombre del Usuario que creo proyecto.
     private $projectName; // String -> Nombre del Proyecto.
-    private $type; // Tipo de proyecto que creamos.
+    private $idType; // Tipo de proyecto que creamos.
     private $description; //String -> descripcion del Proyecto.
     private $dateStart; //date  -> Fecha inicio Proyecto
     private $dateFinish; //date -> Fecha final del Proyecto si esta acabado.
@@ -25,7 +25,7 @@ class Project extends BDs
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("project", "id_project", $fields);
+        parent::__construct("project", "idProject", $fields);
         $this->dateStart = date("Y/m/d");
         $this->projectStatus = 0;
     }
@@ -33,11 +33,20 @@ class Project extends BDs
     function __get($name)
     {
         $metodo = "get$name";
-        //echo "$metodo ";
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada " . $name);
+        }
+    }
+
+    function __set($name, $value)
+    {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad no encontrada " . $name);
         }
     }
 
@@ -70,9 +79,17 @@ class Project extends BDs
     /**
      * @return mixed
      */
-    public function getType()
+    public function getIdType()
     {
-        return $this->type;
+        return $this->idType;
+    }
+
+    /**
+     * @param mixed $idType
+     */
+    public function setIdType($idType): void
+    {
+        $this->idType = $idType;
     }
 
     /**
@@ -274,18 +291,18 @@ class Project extends BDs
     {
         $project = $this->valores();
         //var_dump($project);
-        unset($project['id_project']);
+        unset($project['idProject']);
 
         $this->userO->save();
-        $project['userO'] = $this->userO->id_user;
+        $project['idUser'] = $this->userO->idUser;
         unset($project['userO']);
 
 
-        if (empty($this->id_project)) {
+        if (empty($this->idProject)) {
             $this->insert($project);
-            $this->id_project = self::$conn->lastInsertId();
+            $this->idProject = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_project, $project);
+            $this->update($this->idProject, $project);
         }
     }
 
@@ -299,7 +316,13 @@ class Project extends BDs
         $project = $this->getById($id);
         if (!empty($project)) {
             foreach ($this->fields as $field) {
-                $this->$field = $project["$field"];
+                if ($field == "userO") {
+                    $usuario = new User();
+                    $usuario->load($project['idUser']);
+                    $this->$field = $usuario;
+                } else {
+                    $this->$field = $project["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");
