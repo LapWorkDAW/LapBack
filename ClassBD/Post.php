@@ -13,13 +13,13 @@ class Post extends BDs
     private $remitter;
     private $message;
     private $dataDay;
-    private $numfields = 4;
+    private $num_fields = 4;
 
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("post", "idPost", $fields);
-        $this->dataDay = date("Y-m-d");
+        $this->dataDay = date("Y-m-d H:i:s");
     }
 
     public function __get($name)
@@ -80,6 +80,7 @@ class Post extends BDs
      */
     public function setMessage($message): void
     {
+        echo $message;
         $this->message = $message;
     }
 
@@ -96,8 +97,9 @@ class Post extends BDs
      */
     public function save()
     {
-        $this->userO->save();
-        $post['idUser'] = $this->userO->idUser;
+        $post = $this->valores();
+        $this->remitter->save();
+        $post['remitter'] = $this->remitter->idUser;
 
         if (empty($this->idPost)) {
             $this->insert($post);
@@ -117,7 +119,13 @@ class Post extends BDs
         $post = $this->getById($id);
         if (!empty($post)) {
             foreach ($this->fields as $field) {
-                $this->$field = $post["$field"];
+                if ($field == "remitter") {
+                    $usuario = new User();
+                    $usuario->load($post['remitter']);
+                    $this->$field = $usuario;
+                } else {
+                    $this->$field = $post["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");

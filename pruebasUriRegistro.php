@@ -10,6 +10,7 @@ require_once 'ClassBD/User.php';
 require_once 'ClassBD/Project.php';
 require_once 'ClassBD/Inscription.php';
 require_once 'ClassBD/Post.php';
+require_once 'ClassBD/Message.php';
 
 
 echo 'Hola Pacman : <br> ';
@@ -33,6 +34,11 @@ echo "<br>Id Ins " . $inscrip->getEstado();
 
 $post = new Post();
 
-$post->setRemitter($usuario);
-$post->setMessage("Hola Buenos Dias");
-$post->save();
+$post->load(7);
+
+echo "<br>Mensaje : " . $post->getMessage();
+
+$msn = new Message();
+$msn->setReceiver($usuario);
+$msn->setPost($post);
+$msn->save();
