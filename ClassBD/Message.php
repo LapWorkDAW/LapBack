@@ -93,6 +93,7 @@ class Message extends BDs
 
         $this->post->save();
         $msn['idPost'] = $this->post->idPost;
+        unset($msn['post']);
 
         if (empty($this->idMessage)) {
             $this->insert($msn);

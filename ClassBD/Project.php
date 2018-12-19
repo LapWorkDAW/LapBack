@@ -141,14 +141,6 @@ class Project extends BDs
     }
 
     /**
-     * @param mixed $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
      * @param mixed $nameCreator
      */
     public function setNameCreator($nameCreator)
