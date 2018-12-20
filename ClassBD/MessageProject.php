@@ -9,7 +9,7 @@ require_once 'BDs.php';
 
 class MessageProject extends BDs
 {
-    private $id_messageProject;
+    private $idMessageProject;
     private $post; // POST
     private $project; // Proyecto al qual posteas.
     private $num_fields = 3;
@@ -17,7 +17,7 @@ class MessageProject extends BDs
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("messageproject", "id_messageProject", $fields);
+        parent::__construct("messageproject", "idMessageProject", $fields);
     }
 
     function __get($name)
@@ -45,7 +45,7 @@ class MessageProject extends BDs
      */
     public function getIdMessageProject()
     {
-        return $this->id_messageProject;
+        return $this->idMessageProject;
     }
 
     /**
@@ -62,6 +62,11 @@ class MessageProject extends BDs
     public function getProject()
     {
         return $this->project;
+    }
+
+    public function getProjectName()
+    {
+        return $this->project->getProjectName();
     }
 
     /**
@@ -86,12 +91,21 @@ class MessageProject extends BDs
     public function save()
     {
         $msnP = $this->valores();
-        unset($msnP['id_msnP']);
-        if (empty($this->id_msnP)) {
+        unset($msnP['idMessageProject']);
+
+        $this->project->save();
+        $msnP['idProject'] = $this->project->idProject;
+        unset($msnP['project']);
+
+        $this->post->save();
+        $msnP['idPost'] = $this->post->idPost;
+        unset($msnP['post']);
+
+        if (empty($this->idMessageProject)) {
             $this->insert($msnP);
-            $this->id_msnP = self::$conn->lastInsertId();
+            $this->idMessageProject = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_msnP, $msnP);
+            $this->update($this->idMessageProject, $msnP);
         }
     }
 
@@ -105,7 +119,18 @@ class MessageProject extends BDs
         $msnP = $this->getById($id);
         if (!empty($msnP)) {
             foreach ($this->fields as $field) {
-                $this->$field = $msnP["$field"];
+                if ($field == "project") {
+                    $project = new Project();
+                    $project->load($msnP['idProject']);
+                    $this->$field = $project;
+                } elseif ($field == "post") {
+                    $post = new Post();
+                    $post->load($msnP['idPost']);
+                    $this->$field = $post;
+                } else {
+                    $this->$field = $msnP["$field"];
+                }
+
             }
         } else {
             throw new Exception("No existe ese registro");

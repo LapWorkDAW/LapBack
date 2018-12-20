@@ -8,16 +8,16 @@
 
 class VoteUser extends BDs
 {
-    private $id_voteUser;
-    private $id_user_vote; // votante
-    private $id_cantidade; // candidato
+    private $idVoteUser;
+    private $userVote; // votante
+    private $candidate; // candidato
     private $quantity; // estrellas.
     private $num_fields = 5;
 
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("voteuser", "id_user_vote", $fields);
+        parent::__construct("voteuser", "idVoteUser", $fields);
     }
 
     function __get($name)
@@ -41,19 +41,71 @@ class VoteUser extends BDs
     }
 
     /**
-     * funcion para generar Usuarios en la Tabla.
+     * @return mixed
+     */
+    public function getUserVote()
+    {
+        return $this->userVote;
+    }
+
+    /**
+     * @param mixed $userVote
+     */
+    public function setUserVote($userVote): void
+    {
+        $this->userVote = $userVote;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCandidate()
+    {
+        return $this->candidate;
+    }
+
+    /**
+     * @param mixed $candidate
+     */
+    public function setCandidate($candidate): void
+    {
+        $this->candidate = $candidate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
+     * funcion para generar votos en la Tabla.
      */
     public function save()
     {
         $voteU = $this->valores();
 
-        unset($voteU['id_voteUcription']);
+        $this->userVote->save();
+        $voteU['idUserVote'] = $this->userVote->idUser;
 
-        if (empty($this->id_voteUcription)) {
-            $this->voteUert($voteU);
-            $this->id_voteUcription = self::$conn->lastvoteUertId();
+        $this->candidate->save();
+        $voteU['idCandidate'] = $this->candidate->idUser;
+
+        if (empty($this->idVoteUser)) {
+            $this->insert($voteU);
+            $this->idVoteUser = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_voteUcription, $voteU);
+            $this->update($this->idVoteUser, $voteU);
         }
     }
 

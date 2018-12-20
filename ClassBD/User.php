@@ -23,7 +23,7 @@ class User extends BDs
     private $description; // String -> Descripcion del usuario
     private $knowledge; // String -> Conocimientos del usuario
     private $cv; // String -> PDF del curriculum del usuario. (guardamos la ruta)
-    private $isActiv; // bool -> Para saber si el usuario esta activo o No!. 0-activ, 1-noactiv
+    private $isActiv; // int -> Para saber si el usuario esta activo o No!. 0-activ, 1-noactiv
     private $saveName; // bool -> Para saber si quieren guardar su nombre o no.
     private $num_fields = 15;
 
@@ -31,6 +31,7 @@ class User extends BDs
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("usuario", "idUser", $fields);
+        $this->isActiv = 0;
 
     }
 

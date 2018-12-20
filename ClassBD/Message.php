@@ -82,6 +82,14 @@ class Message extends BDs
     }
 
     /**
+     * Metodo para devolver como String el nombre y apellido del receiver.
+     */
+    public function getReceiverName()
+    {
+        return $this->receiver->getFirstName() . " " . $this->receiver->getSurname();
+    }
+
+    /**
      * funcion para generar Mensajes en la Tabla.
      */
     public function save()
@@ -113,10 +121,22 @@ class Message extends BDs
         $msn = $this->getById($id);
         if (!empty($msn)) {
             foreach ($this->fields as $field) {
-                $this->$field = $msn["$field"];
+                if ($field == "receiver") {
+                    $usuario = new User();
+                    $usuario->load($msn['receiver']);
+                    $this->$field = $usuario;
+                } else if ($field == "post") {
+                    $post = new Post();
+                    $post->load($msn['idPost']);
+                    $this->$field = $post;
+                } else {
+                    $this->$field = $msn["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");
         }
     }
+
+
 }

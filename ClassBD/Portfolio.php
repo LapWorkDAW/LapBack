@@ -9,18 +9,19 @@ require_once 'BDs.php';
 
 class Portfolio extends BDs
 {
-    private $id_portfolio;
-    private $id_portF;
+    private $idPortfolio;
+    private $usuario;
     private $archive;
     private $numFields = 3;
 
     public function __construct()
     {
-        $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-        parent::__construct("portfolio", "id_portfolio", $fields);
+        $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->numFields);
+        parent::__construct("portfolio", "idPortfolio", $fields);
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $metodo = "get$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
@@ -29,7 +30,8 @@ class Portfolio extends BDs
         }
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         $metodo = "set$name";
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
@@ -43,15 +45,23 @@ class Portfolio extends BDs
      */
     public function getIdPortfolio()
     {
-        return $this->id_portfolio;
+        return $this->idPortfolio;
     }
 
     /**
      * @return mixed
      */
-    public function getIdPortF()
+    public function getUsuario()
     {
-        return $this->id_portF;
+        return $this->usuario;
+    }
+
+    /**
+     * @param mixed $usuario
+     */
+    public function setUsuario($usuario): void
+    {
+        $this->usuario = $usuario;
     }
 
     /**
@@ -63,14 +73,6 @@ class Portfolio extends BDs
     }
 
     /**
-     * @param mixed $id_portF
-     */
-    public function setIdPortF($id_portF): void
-    {
-        $this->id_portF = $id_portF;
-    }
-
-    /**
      * @param mixed $archive
      */
     public function setArchive($archive): void
@@ -78,18 +80,24 @@ class Portfolio extends BDs
         $this->archive = $archive;
     }
 
+
     /**
      * funcion para generar Usuarios en la Tabla.
      */
     public function save()
     {
         $portF = $this->valores();
-        unset($portF['id_portF']);
-        if (empty($this->id_portF)) {
+        unset($portF['idPortfolio']);
+
+        $this->usuario->save();
+        $portF['idUser'] = $this->usuario->idUser;
+        unset($portF['usuario']);
+
+        if (empty($this->idPortfolio)) {
             $this->insert($portF);
-            $this->id_portF = self::$conn->lastInsertId();
+            $this->idPortfolio = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_portF, $portF);
+            $this->update($this->idPortfolio, $portF);
         }
     }
 
@@ -103,7 +111,13 @@ class Portfolio extends BDs
         $portF = $this->getById($id);
         if (!empty($portF)) {
             foreach ($this->fields as $field) {
-                $this->$field = $portF["$field"];
+                if ($field == "usuario") {
+                    $usuario = new User();
+                    $usuario->load($portF['idUser']);
+                    $this->$field = $usuario;
+                } else {
+                    $this->$field = $portF["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");

@@ -344,14 +344,14 @@ DROP TABLE IF EXISTS `voteuser`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `voteuser` (
   `idVoteUser` int(11) NOT NULL AUTO_INCREMENT,
-  `idUser_vote` int(11) NOT NULL,
+  `idUserVote` int(11) NOT NULL,
   `idCandidate` int(11) NOT NULL,
   `quantity` int(1) NOT NULL,
-  PRIMARY KEY (`idVoteUser`,`idUser_vote`,`idCandidate`),
-  KEY `FK_VoteUser_Remitter` (`idUser_vote`),
+  PRIMARY KEY (`idVoteUser`,`idUserVote`,`idCandidate`),
+  KEY `FK_VoteUser_Remitter` (`idUserVote`),
   KEY `FK_VoteUser_Receiver` (`idCandidate`),
   CONSTRAINT `FK_VoteUser_Receiver` FOREIGN KEY (`idCandidate`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_VoteUser_Remitter` FOREIGN KEY (`idUser_vote`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
+  CONSTRAINT `FK_VoteUser_Remitter` FOREIGN KEY (`idUserVote`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

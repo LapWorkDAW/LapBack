@@ -9,9 +9,9 @@ require_once 'BDs.php';;
 
 class Team extends BDs
 {
-    private $id_team;
+    private $idTeam;
     private $project; // proyecto al cual le ponemos los miembros.
-    private $user; // Usuario que queremos que se una al equipo del proyecto.
+    private $usuario; // Usuario que queremos que se una al equipo del proyecto.
 
     private $num_fields = 3;
 
@@ -19,7 +19,7 @@ class Team extends BDs
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
-        parent::__construct("team", "id_team", $fields);
+        parent::__construct("team", "idTeam", $fields);
     }
 
     public function __get($name)
@@ -47,7 +47,7 @@ class Team extends BDs
      */
     public function getIdTeam()
     {
-        return $this->id_team;
+        return $this->idTeam;
     }
 
     /**
@@ -58,12 +58,22 @@ class Team extends BDs
         return $this->project;
     }
 
+    public function getProjectName()
+    {
+        return $this->project->getProjectName();
+    }
+
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getUsuario()
     {
-        return $this->user;
+        return $this->usuario;
+    }
+
+    public function getUserName()
+    {
+        return $this->usuario->getFirstName() . " " . $this->usuario->getSurname();
     }
 
     /**
@@ -77,9 +87,9 @@ class Team extends BDs
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setUsuario($user): void
     {
-        $this->user = $user;
+        $this->usuario = $user;
     }
 
     /**
@@ -88,12 +98,22 @@ class Team extends BDs
     public function save()
     {
         $team = $this->valores();
-        unset($team['id_team']);
-        if (empty($this->id_team)) {
+        unset($team['idTeam']);
+
+        $this->usuario->save();
+        $team['idUser'] = $this->usuario->idUser;
+        unset($team['usuario']);
+
+
+        $this->project->save();
+        $team['idProject'] = $this->project->idProject;
+        unset($team['project']);
+
+        if (empty($this->idTeam)) {
             $this->insert($team);
-            $this->id_team = self::$conn->lastInsertId();
+            $this->idTeam = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_team, $team);
+            $this->update($this->idTeam, $team);
         }
     }
 
@@ -107,7 +127,17 @@ class Team extends BDs
         $team = $this->getById($id);
         if (!empty($team)) {
             foreach ($this->fields as $field) {
-                $this->$field = $team["$field"];
+                if ($field == "usuario") {
+                    $usuario = new User();
+                    $usuario->load($team['idUser']);
+                    $this->$field = $usuario;
+                } elseif ($field == "project") {
+                    $project = new Project();
+                    $project->load($team['idProject']);
+                    $this->$field = $project;
+                } else {
+                    $this->$field = $team["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");
