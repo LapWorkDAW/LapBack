@@ -12,7 +12,7 @@ class VoteUser extends BDs
     private $userVote; // votante
     private $candidate; // candidato
     private $quantity; // estrellas.
-    private $num_fields = 5;
+    private $num_fields = 4;
 
     public function __construct()
     {
@@ -38,6 +38,14 @@ class VoteUser extends BDs
         } else {
             throw new Exception("Propiedad no encontrada");
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdVoteUser()
+    {
+        return $this->idVoteUser;
     }
 
     /**
@@ -97,9 +105,11 @@ class VoteUser extends BDs
 
         $this->userVote->save();
         $voteU['idUserVote'] = $this->userVote->idUser;
+        unset($voteU['userVote']);
 
         $this->candidate->save();
         $voteU['idCandidate'] = $this->candidate->idUser;
+        unset($voteU['candidate']);
 
         if (empty($this->idVoteUser)) {
             $this->insert($voteU);
@@ -119,7 +129,17 @@ class VoteUser extends BDs
         $voteU = $this->getById($id);
         if (!empty($voteU)) {
             foreach ($this->fields as $field) {
-                $this->$field = $voteU["$field"];
+                if ($field == "userVote") {
+                    $usuario = new User();
+                    $usuario->load($voteU["idUserVote"]);
+                    $this->$field = $usuario;
+                } else if ($field == "candidate") {
+                    $usuario2 = new User();
+                    $usuario2->load($voteU["idCandidate"]);
+                    $this->$field = $usuario2;
+                } else {
+                    $this->$field = $voteU["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");

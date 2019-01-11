@@ -8,15 +8,16 @@
 
 class VProjectFav extends BDs
 {
-    private $id_voteFavourite;
-    private $user;
+    private $idVoteFavourite;
+    private $userVote;
     private $project;
+    private $num_fields = 3;
 
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
-        parent::__construct("voteprojectfavourite", "id_voteFavourite", $fields);
+        parent::__construct("voteprojectfavourite", "idVoteFavourite", $fields);
     }
 
     public function __get($name)
@@ -44,15 +45,15 @@ class VProjectFav extends BDs
      */
     public function getIdVoteFavourite()
     {
-        return $this->id_voteFavourite;
+        return $this->idVoteFavourite;
     }
 
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getuserVote()
     {
-        return $this->user;
+        return $this->userVote;
     }
 
     /**
@@ -66,9 +67,9 @@ class VProjectFav extends BDs
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setuserVote($user): void
     {
-        $this->user = $user;
+        $this->userVote = $user;
     }
 
     /**
@@ -85,12 +86,21 @@ class VProjectFav extends BDs
     public function save()
     {
         $votos = $this->valores();
-        unset($votos['id_votos']);
-        if (empty($this->id_votos)) {
+        unset($votos['idVoteFavourite']);
+
+        $this->userVote->save();
+        $votos["idUser"] = $this->userVote->idUser;
+        unset($votos['userVote']);
+
+        $this->project->save();
+        $votos['idProject'] = $this->project->idProject;
+        unset($votos['project']);
+
+        if (empty($this->idVoteFavourite)) {
             $this->insert($votos);
-            $this->id_votos = self::$conn->lastInsertId();
+            $this->idVoteFavourite = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_votos, $votos);
+            $this->update($this->idVoteFavourite, $votos);
         }
     }
 
@@ -104,7 +114,17 @@ class VProjectFav extends BDs
         $votos = $this->getById($id);
         if (!empty($votos)) {
             foreach ($this->fields as $field) {
-                $this->$field = $votos["$field"];
+                if ($field == "userVote"){
+                    $usuario = new User();
+                    $usuario->load($votos["idUser"]);
+                    $this->$field = $usuario;
+                } else if ($field == "project") {
+                    $project = new Project();
+                    $project->load($votos['idProject']);
+                    $this->$field = $project;
+                } else {
+                    $this->$field = $votos["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");

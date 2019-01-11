@@ -8,18 +8,18 @@
 
 class VProjectStar extends BDs
 {
-    private $id_voteStar;
-    private $user;
+    private $idVoteStar;
+    private $userVote;
     private $project;
     private $quantity; // 5 maximas
 
-    private $num_shields = 4;
+    private $num_fields = 4;
 
     public function __construct()
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
 
-        parent::__construct("voteprojectstar", "id_voteStar", $fields);
+        parent::__construct("voteprojectstar", "idVoteStar", $fields);
     }
 
     public function __get($name)
@@ -43,27 +43,19 @@ class VProjectStar extends BDs
     }
 
     /**
-     * @return int
-     */
-    public function getNumShields(): int
-    {
-        return $this->num_shields;
-    }
-
-    /**
      * @return mixed
      */
     public function getIdVoteStar()
     {
-        return $this->id_voteStar;
+        return $this->idVoteStar;
     }
 
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getuserVote()
     {
-        return $this->user;
+        return $this->userVote;
     }
 
     /**
@@ -85,9 +77,9 @@ class VProjectStar extends BDs
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setuserVote($user): void
     {
-        $this->user = $user;
+        $this->userVote = $user;
     }
 
     /**
@@ -110,12 +102,21 @@ class VProjectStar extends BDs
     public function save()
     {
         $votos = $this->valores();
-        unset($votos['id_votos']);
-        if (empty($this->id_votos)) {
+        unset($votos['idVoteStar']);
+
+        $this->userVote->save();
+        $votos["idUser"] = $this->userVote->idUser;
+        unset($votos['userVote']);
+
+        $this->project->save();
+        $votos['idProject'] = $this->project->idProject;
+        unset($votos['project']);
+
+        if (empty($this->idVoteStar)) {
             $this->insert($votos);
-            $this->id_votos = self::$conn->lastInsertId();
+            $this->idVoteStar = self::$conn->lastInsertId();
         } else {
-            $this->update($this->id_votos, $votos);
+            $this->update($this->idVoteStar, $votos);
         }
     }
 
@@ -129,7 +130,17 @@ class VProjectStar extends BDs
         $votos = $this->getById($id);
         if (!empty($votos)) {
             foreach ($this->fields as $field) {
-                $this->$field = $votos["$field"];
+                if ($field == "userVote"){
+                    $usuario = new User();
+                    $usuario->load($votos["idUser"]);
+                    $this->$field = $usuario;
+                } else if ($field == "project") {
+                    $project = new Project();
+                    $project->load($votos['idProject']);
+                    $this->$field = $project;
+                } else {
+                    $this->$field = $votos["$field"];
+                }
             }
         } else {
             throw new Exception("No existe ese registro");
