@@ -51,7 +51,7 @@ class VProjectFav extends BDs
     /**
      * @return mixed
      */
-    public function getuserVote()
+    public function getUserVote()
     {
         return $this->userVote;
     }
@@ -67,7 +67,7 @@ class VProjectFav extends BDs
     /**
      * @param mixed $user
      */
-    public function setuserVote($user): void
+    public function setUserVote($user): void
     {
         $this->userVote = $user;
     }

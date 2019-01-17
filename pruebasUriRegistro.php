@@ -6,17 +6,17 @@
  * Time: 12:37
  */
 
-require_once 'ClassBD/User.php';
-require_once 'ClassBD/Project.php';
-require_once 'ClassBD/Inscription.php';
-require_once 'ClassBD/Post.php';
-require_once 'ClassBD/Message.php';
-require_once 'ClassBD/MessageProject.php';
-require_once 'ClassBD/Portfolio.php';
-require_once 'ClassBD/Team.php';
-require_once 'ClassBD/VoteUser.php';
-require_once 'ClassBD/VProjectFav.php';
-require_once 'ClassBD/VProjectStar.php';
+require_once 'models/User.php';
+require_once 'models/Project.php';
+require_once 'models/Inscription.php';
+require_once 'models/Post.php';
+require_once 'models/Message.php';
+require_once 'models/MessageProject.php';
+require_once 'models/Portfolio.php';
+require_once 'models/Team.php';
+require_once 'models/VoteUser.php';
+require_once 'models/VProjectFav.php';
+require_once 'models/VProjectStar.php';
 
 
 echo 'Hola Pacman<br> ';

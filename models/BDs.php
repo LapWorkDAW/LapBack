@@ -127,7 +127,7 @@ abstract class  BDs
             $fields = implode(",", $this->showFields);
         }
         $res = self::$conn->query("SELECT $fields FROM $this->table $where");
-        return $res->fetchALll(PDO::FETCH_ASSOC);
+        return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -182,6 +182,13 @@ abstract class  BDs
         }, $this->fields);
         //    print_r($valores);die();
         return array_combine($this->fields, $valores);
+    }
+    function serialize() {
+        return $this->valores();
+    }
+    function loadAll() {
+        $objetos= $this->getAll();
+        return $objetos;
     }
 
     abstract function save();
