@@ -59,7 +59,7 @@ class VoteUser extends BDs
     /**
      * @param mixed $userVote
      */
-    public function setUserVote($userVote): void
+    public function setUserVote($userVote)
     {
         $this->userVote = $userVote;
     }
@@ -75,7 +75,7 @@ class VoteUser extends BDs
     /**
      * @param mixed $candidate
      */
-    public function setCandidate($candidate): void
+    public function setCandidate($candidate)
     {
         $this->candidate = $candidate;
     }
@@ -91,7 +91,7 @@ class VoteUser extends BDs
     /**
      * @param mixed $quantity
      */
-    public function setQuantity($quantity): void
+    public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
     }
@@ -145,4 +145,10 @@ class VoteUser extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

@@ -73,7 +73,7 @@ class Inscription extends BDs
     /**
      * @param mixed $user
      */
-    public function setUserO($user): void
+    public function setUserO($user)
     {
         $this->userO = $user;
     }
@@ -81,7 +81,7 @@ class Inscription extends BDs
     /**
      * @param mixed $project
      */
-    public function setProject($project): void
+    public function setProject($project)
     {
         $this->project = $project;
     }
@@ -89,7 +89,7 @@ class Inscription extends BDs
     /**
      * @param int $estado
      */
-    public function setEstado(int $estado): void
+    public function setEstado($estado)
     {
         $this->estado = $estado;
     }
@@ -97,7 +97,7 @@ class Inscription extends BDs
     /**
      * @return int
      */
-    public function getEstado(): int
+    public function getEstado()
     {
         return $this->estado;
     }
@@ -146,5 +146,10 @@ class Inscription extends BDs
         } else {
             throw new Exception("No existe ese registro");
         }
+    }
+
+    function delete()
+    {
+        return false;
     }
 }

@@ -72,7 +72,7 @@ class MessageProject extends BDs
     /**
      * @param mixed $post
      */
-    public function setPost($post): void
+    public function setPost($post)
     {
         $this->post = $post;
     }
@@ -80,7 +80,7 @@ class MessageProject extends BDs
     /**
      * @param mixed $project
      */
-    public function setProject($project): void
+    public function setProject($project)
     {
         $this->project = $project;
     }
@@ -136,4 +136,10 @@ class MessageProject extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

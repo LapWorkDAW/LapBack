@@ -62,7 +62,7 @@ class Post extends BDs
     /**
      * @param mixed $remitter
      */
-    public function setRemitter($remitter): void
+    public function setRemitter($remitter)
     {
         $this->remitter = $remitter;
     }
@@ -78,7 +78,7 @@ class Post extends BDs
     /**
      * @param mixed $message
      */
-    public function setMessage($message): void
+    public function setMessage($message)
     {
         echo $message;
         $this->message = $message;
@@ -131,4 +131,10 @@ class Post extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

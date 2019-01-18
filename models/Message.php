@@ -44,7 +44,7 @@ class Message extends BDs
     /**
      * @param mixed $post
      */
-    public function setPost($post): void
+    public function setPost($post)
     {
         $this->post = $post;
     }
@@ -52,7 +52,7 @@ class Message extends BDs
     /**
      * @param mixed $receiver
      */
-    public function setReceiver($receiver): void
+    public function setReceiver($receiver)
     {
         $this->receiver = $receiver;
     }
@@ -138,5 +138,9 @@ class Message extends BDs
         }
     }
 
+    function delete()
+    {
+        return false;
+    }
 
 }

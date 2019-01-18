@@ -77,7 +77,7 @@ class VProjectStar extends BDs
     /**
      * @param mixed $user
      */
-    public function setuserVote($user): void
+    public function setuserVote($user)
     {
         $this->userVote = $user;
     }
@@ -85,7 +85,7 @@ class VProjectStar extends BDs
     /**
      * @param mixed $project
      */
-    public function setProject($project): void
+    public function setProject($project)
     {
         $this->project = $project;
     }
@@ -93,7 +93,7 @@ class VProjectStar extends BDs
     /**
      * @param mixed $quantity
      */
-    public function setQuantity($quantity): void
+    public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
     }
@@ -145,5 +145,10 @@ class VProjectStar extends BDs
         } else {
             throw new Exception("No existe ese registro");
         }
+    }
+
+    function delete()
+    {
+        return false;
     }
 }

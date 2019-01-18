@@ -59,7 +59,7 @@ class Portfolio extends BDs
     /**
      * @param mixed $usuario
      */
-    public function setUsuario($usuario): void
+    public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
     }
@@ -75,7 +75,7 @@ class Portfolio extends BDs
     /**
      * @param mixed $archive
      */
-    public function setArchive($archive): void
+    public function setArchive($archive)
     {
         $this->archive = $archive;
     }
@@ -123,4 +123,10 @@ class Portfolio extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

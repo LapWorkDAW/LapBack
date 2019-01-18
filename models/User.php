@@ -98,7 +98,7 @@ class User extends BDs
     /**
      * @param mixed $userName
      */
-    public function setUserName($userName): void
+    public function setUserName($userName)
     {
         $this->userName = $userName;
     }
@@ -106,7 +106,7 @@ class User extends BDs
     /**
      * @param mixed $email
      */
-    public function setEmail($email): void
+    public function setEmail($email)
     {
         $this->email = $email;
     }
@@ -114,7 +114,7 @@ class User extends BDs
     /**
      * @param mixed $pass
      */
-    public function setPass($pass): void
+    public function setPass($pass)
     {
         $this->pass = $pass;
     }
@@ -122,7 +122,7 @@ class User extends BDs
     /**
      * @param mixed $cv
      */
-    public function setCv($cv): void
+    public function setCv($cv)
     {
         $this->cv = $cv;
     }
@@ -267,7 +267,7 @@ class User extends BDs
     /**
      * @param mixed $latitude
      */
-    public function setLatitude($latitude): void
+    public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
     }
@@ -283,7 +283,7 @@ class User extends BDs
     /**
      * @param mixed $longitude
      */
-    public function setLongitude($longitude): void
+    public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
     }
@@ -299,7 +299,7 @@ class User extends BDs
     /**
      * @param mixed $saveName
      */
-    public function setSaveName($saveName): void
+    public function setSaveName($saveName)
     {
         $this->saveName = $saveName;
     }
@@ -315,7 +315,7 @@ class User extends BDs
     /**
      * @param mixed $isActiv
      */
-    public function setIsActiv($isActiv): void
+    public function setIsActiv($isActiv)
     {
         $this->isActiv = $isActiv;
     }
@@ -332,6 +332,7 @@ class User extends BDs
             $this->insert($user);
             $this->idUser = self::$conn->lastInsertId();
         } else {
+            print "hola";
             $this->update($this->idUser, $user);
         }
     }
@@ -353,5 +354,10 @@ class User extends BDs
         }
     }
 
+    public function delete()
+    {
+
+
+    }
 
 }

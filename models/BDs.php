@@ -151,6 +151,19 @@ abstract class  BDs
     }
 
     /**
+     * Elimina el registro que tenga el id que le pasamos
+     * @param int $id
+     */
+    protected function deleteById($id) {
+        try {
+            self::$conn->exec("delete from " . $this->table . " where "
+                . $this->idField . "=" . $id);
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+    /**
      * Modifica el elemento de la base de datos con el id que pasamos.
      * @param int $id id del elemento a modificar.
      * @param array $values Array asociativo con los valores a modificar.
@@ -164,8 +177,9 @@ abstract class  BDs
             }, array_keys($values)));
             $sql = "UPDATE " . $this->table . " SET " . $fields . " WHERE "
                 . $this->idField . " = " . $id;
+            print $sql;
             $st = self::$conn->prepare($sql);
-
+            $st->execute($values);
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
@@ -192,6 +206,7 @@ abstract class  BDs
     }
 
     abstract function save();
-
+    abstract function delete();
     abstract function load($id);
+
 }

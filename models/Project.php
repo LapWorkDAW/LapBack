@@ -87,7 +87,7 @@ class Project extends BDs
     /**
      * @param mixed $idType
      */
-    public function setIdType($idType): void
+    public function setIdType($idType)
     {
         $this->idType = $idType;
     }
@@ -175,7 +175,7 @@ class Project extends BDs
     /**
      * @param mixed $img
      */
-    public function setImg($img): void
+    public function setImg($img)
     {
         $this->img = $img;
     }
@@ -320,4 +320,10 @@ class Project extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

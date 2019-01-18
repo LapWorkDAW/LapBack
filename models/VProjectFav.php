@@ -67,7 +67,7 @@ class VProjectFav extends BDs
     /**
      * @param mixed $user
      */
-    public function setUserVote($user): void
+    public function setUserVote($user)
     {
         $this->userVote = $user;
     }
@@ -75,7 +75,7 @@ class VProjectFav extends BDs
     /**
      * @param mixed $project
      */
-    public function setProject($project): void
+    public function setProject($project)
     {
         $this->project = $project;
     }
@@ -130,4 +130,10 @@ class VProjectFav extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    function delete()
+    {
+        return false;
+    }
+
 }

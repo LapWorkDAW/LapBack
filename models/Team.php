@@ -79,7 +79,7 @@ class Team extends BDs
     /**
      * @param mixed $project
      */
-    public function setProject($project): void
+    public function setProject($project)
     {
         $this->project = $project;
     }
@@ -87,7 +87,7 @@ class Team extends BDs
     /**
      * @param mixed $user
      */
-    public function setUsuario($user): void
+    public function setUsuario($user)
     {
         $this->usuario = $user;
     }
@@ -144,4 +144,8 @@ class Team extends BDs
         }
     }
 
+    function delete()
+    {
+        return false;
+    }
 }

@@ -8,12 +8,10 @@
 
 // require de carpetas utils y models.
 // permite la recarga de todos los archivos dentro de las carpetas
-foreach (glob("utils/*.php") as $filename)
-{
+foreach (glob("utils/*.php") as $filename) {
     require_once $filename;
 }
-foreach (glob("models/*.php") as $filename)
-{
+foreach (glob("models/*.php") as $filename) {
     require_once $filename;
 }
 
@@ -63,8 +61,8 @@ switch ($method) {
         $objeto->save();
         break;
     case 'PUT':
-        if(empty($id)){
-            $http->setHTTPHeaders(400, New Response("Bad Request"));
+        if (empty($id)) {
+            $http->setHTTPHeaders(400, new Response("Bad Request"));
             die();
         }
         $objeto->load($id);
@@ -76,5 +74,11 @@ switch ($method) {
         $objeto->save();
         break;
     case 'DELETE':
+        if (empty($id)) {
+            $http->setHttpHeaders(400, new Response("Bad request"));
+            die();
+        }
+        $objeto->load($id);
+        $objeto->delete();
         break;
 }
