@@ -146,9 +146,17 @@ class VoteUser extends BDs
         }
     }
 
-    function delete()
+    function delete($id)
     {
-        return false;
+        $this->load($id);
+        $this->deleteById($id);
+        if (!empty($this)) {
+            foreach ($this->fields as $field) {
+                $this->$field = null;
+            }
+        } else {
+            throw new Exception("No existe ese registro");
+        }
     }
 
 }

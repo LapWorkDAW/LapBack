@@ -39,46 +39,52 @@ if (empty($controller) || !file_exists("./models/" . $controller . ".php")) {
 $objeto = new $controller;
 
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
-switch ($method) {
-    case 'GET':
-        // si no tiene id nos devuelve todos los registros en la BD
-        if (empty($id)) {
-            $datos = $objeto->loadAll();
-            $http->setHTTPHeaders(200, new Response("Lista $controller", $datos));
-        } else {
-            // en caso que si tenga id solo devolvemos el registro que quiera FrontEnd.
-            $objeto->load($id);
-            $http->setHTTPHeaders(200, new Response("Lista $controller", $objeto->serialize()));
-        }
-        break;
-    case 'POST':
-        $body = file_get_contents('php://input');
-        $json = json_decode($body);
+try {
+    switch ($method) {
+        case 'GET':
+            // si no tiene id nos devuelve todos los registros en la BD
+            if (empty($id)) {
+                $datos = $objeto->loadAll();
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $datos));
+            } else {
+                // en caso que si tenga id solo devolvemos el registro que quiera FrontEnd.
+                $objeto->load($id);
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $objeto->serialize()));
+            }
+            break;
+        case 'POST':
+            $body = file_get_contents('php://input');
+            $json = json_decode($body);
 
-        foreach ($json as $item => $value) {
-            $objeto->$item = $value;
-        }
-        $objeto->save();
-        break;
-    case 'PUT':
-        if (empty($id)) {
-            $http->setHTTPHeaders(400, new Response("Bad Request"));
-            die();
-        }
-        $objeto->load($id);
-        $body = file_get_contents('php://input');
-        $json = json_decode($body);
-        foreach ($json as $item => $value) {
-            $objeto->$item = $value;
-        }
-        $objeto->save();
-        break;
-    case 'DELETE':
-        if (empty($id)) {
-            $http->setHttpHeaders(400, new Response("Bad request"));
-            die();
-        }
-        $objeto->load($id);
-        $objeto->delete();
-        break;
+            foreach ($json as $item => $value) {
+                $objeto->$item = $value;
+            }
+            $objeto->save();
+            break;
+        case 'PUT':
+            if (empty($id)) {
+                $http->setHTTPHeaders(400, new Response("Bad Request"));
+                die();
+            }
+            $objeto->load($id);
+            $body = file_get_contents('php://input');
+            $json = json_decode($body);
+            foreach ($json as $item => $value) {
+                $objeto->$item = $value;
+            }
+            $objeto->save();
+            break;
+        case 'DELETE':
+            // Only have DELETE VProjectFav.
+            if (empty($id)) {
+                $http->setHttpHeaders(400, new Response("Bad request"));
+                die();
+            }
+            $objeto->load($id);
+            $objeto->delete($id);
+            break;
+    }
+}catch (Exception $ex) {
+    echo "Error! " . $ex->getMessage();
+
 }

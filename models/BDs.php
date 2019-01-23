@@ -177,7 +177,6 @@ abstract class  BDs
             }, array_keys($values)));
             $sql = "UPDATE " . $this->table . " SET " . $fields . " WHERE "
                 . $this->idField . " = " . $id;
-            print $sql;
             $st = self::$conn->prepare($sql);
             $st->execute($values);
         } catch (Exception $ex) {
@@ -206,7 +205,7 @@ abstract class  BDs
     }
 
     abstract function save();
-    abstract function delete();
+    abstract function delete($id);
     abstract function load($id);
 
 }

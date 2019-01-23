@@ -332,7 +332,6 @@ class User extends BDs
             $this->insert($user);
             $this->idUser = self::$conn->lastInsertId();
         } else {
-            print "hola";
             $this->update($this->idUser, $user);
         }
     }
@@ -354,10 +353,11 @@ class User extends BDs
         }
     }
 
-    public function delete()
+    public function delete($id)
     {
-
-
+        $this->load($id);
+        $this->setIsActiv(1);
+        $this->save();
     }
 
 }

@@ -137,7 +137,7 @@ class MessageProject extends BDs
         }
     }
 
-    function delete()
+    function delete($id)
     {
         return false;
     }
