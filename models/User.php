@@ -360,4 +360,13 @@ class User extends BDs
         $this->save();
     }
 
+    public function getByMail($id)
+    {
+        $user = $this->getAll(['email' => $id]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 }

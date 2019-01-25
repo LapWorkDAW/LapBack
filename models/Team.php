@@ -148,4 +148,20 @@ class Team extends BDs
     {
         return false;
     }
+
+    function allTeam($idProject) {
+        $users = $this->getAll(['idProject' => $idProject]);
+        $newList = Array();
+
+        if (!empty($users)) {
+            foreach ($users as $user){
+                $object = new User();
+                $object->load($user['idUser']);
+                array_push($newList, $object);
+            }
+            return $users   ;
+        } else {
+            throw new Exception("This Project don't have Team");
+        }
+    }
 }

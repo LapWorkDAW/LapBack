@@ -257,7 +257,7 @@ CREATE TABLE `usuario` (
   `surname` varchar(50) DEFAULT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL UNIQUE,
   `birthdate` date DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `saveName` tinyint(1) DEFAULT NULL,

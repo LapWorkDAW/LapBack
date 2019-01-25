@@ -159,4 +159,17 @@ class VoteUser extends BDs
         }
     }
 
+    function allVotes($idUserVotado)
+    {
+        $values = $this->getAll(['idCandidate' => $idUserVotado]);
+        $average = 0;
+        foreach ($values as $value) {
+            $average += $value['quantity'];
+        }
+        if ($average == 0) {
+            return "This User don't Have votes";
+        } else {
+            return $average / count($values);
+        }
+    }
 }

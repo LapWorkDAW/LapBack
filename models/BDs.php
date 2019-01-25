@@ -107,27 +107,26 @@ abstract class  BDs
 
 
     /**
-     * Nos recupera todos los registros, opcionalmente podemos pasar una condición del tipo fields=valor.
-     * Si no queremos que salgan todos los campos $completed debe estar a falso.
-     * @param string $condition
-     * @param bool $completed
-     * @return mixed
+     * Lo mismo que la anterior pero usando prepare
+     * @param type $condicion
+     * @param type $completo
+     * @return type
      */
-    function getAll($condition = "", $completed = true)
+    function getAll($condicion = [], $completo = true)
     {
         $where = "";
-        $fields = "*";
-        if (!empty($condition)) {
-            $where = " WHERE 1=1 ";
-            foreach ($condition as $key => $value) {
-                $where .= " and " . $key .= " = " . $value . " ";
-            }
+        $campos = " * ";
+        if (!empty($condicion)) {
+            $where = " where " . join(" and ", array_map(function ($v) {
+                    return $v . "=:" . $v;
+                }, array_keys($condicion)));
         }
-        if (!$completed && !empty($this->showFields)) {
-            $fields = implode(",", $this->showFields);
+        if (!$completo && !empty($this->showFields)) {
+            $campos = implode(",", $this->showFields);
         }
-        $res = self::$conn->query("SELECT $fields FROM $this->table $where");
-        return $res->fetchAll(PDO::FETCH_ASSOC);
+        $st = self::$conn->prepare("select $campos from " . $this->table . $where);
+        $st->execute($condicion);
+        return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -154,7 +153,8 @@ abstract class  BDs
      * Elimina el registro que tenga el id que le pasamos
      * @param int $id
      */
-    protected function deleteById($id) {
+    protected function deleteById($id)
+    {
         try {
             self::$conn->exec("delete from " . $this->table . " where "
                 . $this->idField . "=" . $id);
@@ -196,16 +196,22 @@ abstract class  BDs
         //    print_r($valores);die();
         return array_combine($this->fields, $valores);
     }
-    function serialize() {
+
+    function serialize()
+    {
         return $this->valores();
     }
-    function loadAll() {
-        $objetos= $this->getAll();
+
+    function loadAll()
+    {
+        $objetos = $this->getAll();
         return $objetos;
     }
 
     abstract function save();
+
     abstract function delete($id);
+
     abstract function load($id);
 
 }

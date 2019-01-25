@@ -151,4 +151,18 @@ class VProjectStar extends BDs
     {
         return false;
     }
+
+    function allVotes($idUserVotado)
+    {
+        $values = $this->getAll(['idProject' => $idUserVotado]);
+        $average = 0;
+        foreach ($values as $value) {
+            $average += $value['quantity'];
+        }
+        if ($average == 0) {
+            return "This project don't Have votes";
+        } else {
+            return $average / count($values);
+        }
+    }
 }

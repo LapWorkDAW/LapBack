@@ -144,4 +144,17 @@ class VProjectFav extends BDs
         }
     }
 
+    function allVotes($idProject)
+    {
+        $values = $this->getAll(['idProject' => $idProject]);
+        $average = 0;
+        foreach ($values as $value) {
+            $average += $value['idProject'];
+        }
+        if ($average == 0) {
+            return "This Project don't Have votes";
+        } else {
+            return $average;
+        }
+    }
 }
