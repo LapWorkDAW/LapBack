@@ -6,15 +6,6 @@
  * Time: 12:22
  */
 
-// require de carpetas utils y models.
-// permite la recarga de todos los archivos dentro de las carpetas
-foreach (glob("utils/*.php") as $filename) {
-    require_once $filename;
-}
-foreach (glob("models/*.php") as $filename) {
-    require_once $filename;
-}
-
 try {
     if ($method == 'GET') {
         switch (strtolower($function)) {

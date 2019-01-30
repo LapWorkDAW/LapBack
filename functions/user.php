@@ -6,15 +6,6 @@
  * Time: 11:50
  */
 
-// require de carpetas utils y models.
-// permite la recarga de todos los archivos dentro de las carpetas
-foreach (glob("utils/*.php") as $filename) {
-    require_once $filename;
-}
-foreach (glob("models/*.php") as $filename) {
-    require_once $filename;
-}
-
 try {
     if ($method == 'GET') {
         switch (strtolower($function)) {
@@ -22,7 +13,7 @@ try {
                 $datos = $objeto->getByMail($id);
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
-            case "getallactiv":
+            case "getactiv":
                 $datos = $objeto->getByActiv();
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;

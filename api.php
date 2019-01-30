@@ -28,6 +28,7 @@ $controller = filter_input(INPUT_GET, "controller");
 $id = filter_input(INPUT_GET, "id");
 $function = filter_input(INPUT_GET, "function");
 
+
 $method = $_SERVER['REQUEST_METHOD'];
 $http = new HTTP();
 
@@ -38,7 +39,7 @@ if (empty($controller) || !file_exists("./models/" . $controller . ".php")) {
     die();
 }
 // Creamos un objeto de tipo de la clase que nos da el frontEnd.
-$objeto = new $controller;                                                                           
+$objeto = new $controller;
 
 /* Tenemos el function por si tenemos que coger del GET algo especial lo enviamos a nuestro php de funciones
 donde de ahi tenemos las funciones que usaremos para X cosas la manera de acceder a estas funciones es
@@ -48,7 +49,7 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
                                             id = el id del usuario o proyecto que queramos acceder.
 
 */
-if(empty($function)) {
+if (empty($function)) {
 
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
     try {

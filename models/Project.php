@@ -289,7 +289,6 @@ class Project extends BDs
         $project['idUser'] = $this->userO->idUser;
         unset($project['userO']);
 
-
         if (empty($this->idProject)) {
             $this->insert($project);
             $this->idProject = self::$conn->lastInsertId();
