@@ -17,10 +17,21 @@ foreach (glob("models/*.php") as $filename) {
 
 try {
     if ($method == 'GET') {
-        if ($function = "getByMail") {
-            $datos = $objeto->getByMail($id);
-            $http->setHTTPHeaders(200, new Response("Datos", $datos));
+        switch (strtolower($function)) {
+            case "getbymail":
+                $datos = $objeto->getByMail($id);
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
+            case "getallactiv":
+                $datos = $objeto->getByActiv();
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
+            default:
+                $http = new HTTP();
+                $http->setHTTPHeaders(201, new Response("Not a function"));
+                die();
         }
+
     } else {
         $http = new HTTP();
         $http->setHTTPHeaders(400, new Response("Bad Request"));

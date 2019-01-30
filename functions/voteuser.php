@@ -17,10 +17,17 @@ foreach (glob("models/*.php") as $filename) {
 
 try {
     if ($method == 'GET') {
-        if ($function = "allVotes") {
-            $datos = $objeto->allVotes($id);
-            $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+        switch ($function) {
+            case "allvotes":
+                $datos = $objeto->allVotes($id);
+                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+                break;
+            default:
+                $http = new HTTP();
+                $http->setHTTPHeaders(201, new Response("Not a Function"));
+                die();
         }
+
     } else {
         $http = new HTTP();
         $http->setHTTPHeaders(400, new Response("Bad Request"));

@@ -208,6 +208,15 @@ abstract class  BDs
         return $objetos;
     }
 
+    function toArray()
+    {
+        foreach ($this->fields as $field) {
+            $datos{$field} = $this->$field;
+
+        }
+        return $datos;
+    }
+
     abstract function save();
 
     abstract function delete($id);

@@ -326,4 +326,21 @@ class Project extends BDs
         return false;
     }
 
+    public function getNoFinish() {
+        $project = $this->getAll(['projectStatus' => 0]);
+        if (!empty($project)) {
+            return $project;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+
+    public function getFinish() {
+        $project = $this->getAll(['projectStatus' => 1]);
+        if (!empty($project)) {
+            return $project;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 }

@@ -157,9 +157,9 @@ class Team extends BDs
             foreach ($users as $user){
                 $object = new User();
                 $object->load($user['idUser']);
-                array_push($newList, $object);
+                array_push($newList, $object->toArray());
             }
-            return $users   ;
+            return $newList;
         } else {
             throw new Exception("This Project don't have Team");
         }

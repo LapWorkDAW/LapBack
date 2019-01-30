@@ -17,9 +17,15 @@ foreach (glob("models/*.php") as $filename) {
 
 try {
     if ($method == 'GET') {
-        if ($function = "allTeam") {
+        switch(strtolower($function)){
+            case "allteam":
             $datos = $objeto->allTeam($id);
             $http->setHTTPHeaders(200, new Response("Lista Users en Proyect", $datos));
+            break;
+            default:
+                $http = new HTTP();
+                $http->setHTTPHeaders(201, new Response("Not a function"));
+                die();
         }
     } else {
         $http = new HTTP();

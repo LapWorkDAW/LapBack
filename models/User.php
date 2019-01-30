@@ -369,4 +369,13 @@ class User extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    public function getByActiv(){
+        $user = $this->getAll(['isActiv' => 0]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 }
