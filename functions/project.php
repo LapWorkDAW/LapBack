@@ -21,7 +21,7 @@ try {
                 break;
             default:
                 $http = new HTTP();
-                $http->setHTTPHeaders(201, new Response("Not a function"));
+                $http->setHTTPHeaders(201, new Response("Not a function from project: " . $function));
                 die();
         }
 

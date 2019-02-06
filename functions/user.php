@@ -19,10 +19,9 @@ try {
                 break;
             default:
                 $http = new HTTP();
-                $http->setHTTPHeaders(201, new Response("Not a function"));
+                $http->setHTTPHeaders(201, new Response("Not a function from User: " . $function));
                 die();
         }
-
     } else {
         $http = new HTTP();
         $http->setHTTPHeaders(400, new Response("Bad Request"));
