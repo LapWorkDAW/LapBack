@@ -17,6 +17,14 @@ try {
                 $datos = $objeto->getByActiv();
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
+            case "login":
+                $body = file_get_contents('php://input');
+                $json = json_decode($body);
+                $username = $json->username;
+                $pass = $json->pass;
+                $datos = $objeto->login($username, $pass);
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
             default:
                 $http = new HTTP();
                 $http->setHTTPHeaders(201, new Response("Not a function from User: " . $function));

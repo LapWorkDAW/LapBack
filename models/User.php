@@ -370,12 +370,23 @@ class User extends BDs
         }
     }
 
-    public function getByActiv(){
+    public function getByActiv()
+    {
         $user = $this->getAll(['isActiv' => 0]);
         if (!empty($user)) {
             return $user;
         } else {
             throw new Exception("No existe ese registro");
+        }
+    }
+
+    public function login($username, $pass)
+    {
+        $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("Error Login Datos incorrectos");
         }
     }
 }
