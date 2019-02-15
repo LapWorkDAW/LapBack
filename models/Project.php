@@ -6,6 +6,7 @@
  * Time: 19:58
  */
 require_once 'BDs.php';
+require_once "User.php";
 
 class Project extends BDs
 {
@@ -138,6 +139,18 @@ class Project extends BDs
     public function setUserO($user)
     {
         $this->userO = $user;
+    }
+
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->userO = $user;
+    }
+
+    public function setNameCreatorByUser()
+    {
+        $this->nameCreator = $this->userO->getFirstName() . " " . $this->userO->getSurname();
     }
 
     /**
@@ -325,7 +338,8 @@ class Project extends BDs
         return false;
     }
 
-    public function getNoFinish() {
+    public function getNoFinish()
+    {
         $project = $this->getAll(['projectStatus' => 0]);
         if (!empty($project)) {
             return $project;
@@ -334,7 +348,8 @@ class Project extends BDs
         }
     }
 
-    public function getFinish() {
+    public function getFinish()
+    {
         $project = $this->getAll(['projectStatus' => 1]);
         if (!empty($project)) {
             return $project;

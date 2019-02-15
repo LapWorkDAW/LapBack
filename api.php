@@ -50,7 +50,6 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 */
 if (empty($function)) {
-
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
     try {
         switch ($method) {
@@ -68,9 +67,12 @@ if (empty($function)) {
             case 'POST':
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-
-                foreach ($json as $item => $value) {
-                    $objeto->$item = $value;
+                if ($controller == 'Project') {
+                    $objeto = saveProject($json);
+                } else {
+                    foreach ($json as $item => $value) {
+                        $objeto->$item = $value;
+                    }
                 }
                 $objeto->save();
                 break;

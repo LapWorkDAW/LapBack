@@ -24,7 +24,6 @@ try {
                 $http->setHTTPHeaders(201, new Response("Not a function from project: " . $function));
                 die();
         }
-
     } else {
         $http = new HTTP();
         $http->setHTTPHeaders(400, new Response("Bad Request"));
@@ -33,3 +32,4 @@ try {
 } catch (Exception $ex) {
     echo "Error! " . $ex->getMessage();
 }
+
