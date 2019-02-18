@@ -102,6 +102,20 @@ class Inscription extends BDs
         return $this->estado;
     }
 
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->userO = $user;
+    }
+
+    public function setProjectId($id)
+    {
+        $project = new Project();
+        $project->load($id);
+        $this->project = $project;
+    }
+
     /**
      * funcion para generar Usuarios en la Tabla.
      */

@@ -20,7 +20,21 @@ function saveProject($json)
             $objeto->setNameCreatorByUser();
             $objeto->$item = $value;
         }
+    }
+    return $objeto;
+}
 
+function saveInscription($json)
+{
+    $objeto = new Inscription();
+    foreach ($json as $item => $value) {
+        if ($item == 'idUser') {
+            $objeto->setUserId($value);
+        } else if ( $item == 'idProject') {
+            $objeto->setProjectId($value);
+        } else {
+            $objeto->$item = $value;
+        }
     }
     return $objeto;
 }

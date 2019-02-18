@@ -69,6 +69,8 @@ if (empty($function)) {
                 $json = json_decode($body);
                 if ($controller == 'Project') {
                     $objeto = saveProject($json);
+                } else if ($controller == 'Inscription') {
+                    $objeto = saveInscription($json);
                 } else {
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
