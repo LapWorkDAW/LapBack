@@ -33,7 +33,7 @@ class User extends BDs
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("usuario", "idUser", $fields);
         $this->isActiv = 0;
-
+        $this->saveName = 0;
     }
 
     function __get($name)
@@ -64,7 +64,8 @@ class User extends BDs
         return $this->idUser;
     }
 
-    public function getToken() {
+    public function getToken()
+    {
         return $this->token;
     }
 
@@ -398,6 +399,11 @@ class User extends BDs
     {
         $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
         if (!empty($user)) {
+            $us = new User();
+            $us->load($user[0]["idUser"]);
+            $us->setToken("qw123");
+            print_r($us);
+            $us->save();
             return $user;
         } else {
             throw new Exception("Error Login Datos incorrectos");
