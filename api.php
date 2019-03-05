@@ -27,6 +27,7 @@ header('P3P: CP="IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA"');
 $controller = filter_input(INPUT_GET, "controller");
 $id = filter_input(INPUT_GET, "id");
 $function = filter_input(INPUT_GET, "function");
+$token = filter_input(INPUT_GET, "token");
 
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -47,8 +48,10 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
     cuando ponemos la ruta index ponemos el controller = tabla de la bd que queremos acceder.
                                             function = funcion especial que queremos realizar
                                             id = el id del usuario o proyecto que queramos acceder.
-
 */
+// instalar composer:
+// https://developers.google.com/identity/sign-in/web/backend-auth
+
 if (empty($function)) {
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
     try {
