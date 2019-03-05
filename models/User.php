@@ -26,7 +26,7 @@ class User extends BDs
     private $isActiv; // int -> Para saber si el usuario esta activo o No!. 0-activ, 1-noactiv
     private $saveName; // bool -> Para saber si quieren guardar su nombre o no.
     private $token; // String -> token de session on.
-    private $num_fields = 15;
+    private $num_fields = 16;
 
     public function __construct()
     {
@@ -397,16 +397,23 @@ class User extends BDs
 
     public function login($username, $pass)
     {
-        $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
-        if (!empty($user)) {
+        if(!empty($pass)) {
+            $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
+            if (!empty($user)) {
+                $us = new User();
+                $us->load($user[0]["idUser"]);
+                $us->setToken(bin2hex(random_bytes(45)));
+                $us->save();
+                $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
+                return $user;
+            } else {
+                throw new Exception("Error Login Datos incorrectos");
+            }
+        } else {
+            $user = $this->getAll(['email' => $username]);
             $us = new User();
             $us->load($user[0]["idUser"]);
-            $us->setToken("qw123");
-            print_r($us);
-            $us->save();
             return $user;
-        } else {
-            throw new Exception("Error Login Datos incorrectos");
         }
     }
 }

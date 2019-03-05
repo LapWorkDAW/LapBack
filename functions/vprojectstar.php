@@ -15,7 +15,7 @@ try {
                 break;
             default:
                 $http = new HTTP();
-                $http->setHTTPHeaders(201, new Response("Error Function"));
+                $http->setHTTPHeaders(201, new Response("Error Function", ""));
                 die();
         }
     } else {

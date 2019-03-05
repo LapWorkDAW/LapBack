@@ -6,8 +6,10 @@
  * Time: 11:50
  */
 
+
+
 try {
-    if ($method == 'GET') {
+    if ($method == 'GET' || $method == 'POST') {
         switch (strtolower($function)) {
             case "getbymail":
                 $datos = $objeto->getByMail($id);
@@ -27,7 +29,7 @@ try {
                 break;
             default:
                 $http = new HTTP();
-                $http->setHTTPHeaders(201, new Response("Not a function from User: " . $function));
+                $http->setHTTPHeaders(201, new Response("Not a function from User: " . $function, ""));
                 die();
         }
     } else {
