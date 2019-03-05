@@ -92,6 +92,13 @@ class Post extends BDs
         return $this->dataDay;
     }
 
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->remitter = $user;
+    }
+
     /**
      * funcion para generar Usuarios en la Tabla.
      */

@@ -30,11 +30,25 @@ function saveInscription($json)
     foreach ($json as $item => $value) {
         if ($item == 'idUser') {
             $objeto->setUserId($value);
-        } else if ( $item == 'idProject') {
+        } else if ($item == 'idProject') {
             $objeto->setProjectId($value);
         } else {
             $objeto->$item = $value;
         }
     }
     return $objeto;
+}
+
+function savePost($json)
+{
+    $object = new Post();
+    foreach ($json as $item => $value) {
+        if ($item == 'remitter') {
+            $object->setUserId($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
+
 }
