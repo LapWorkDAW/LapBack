@@ -24,8 +24,14 @@ try {
                 $json = json_decode($body);
                 $username = $json->username;
                 $pass = $json->pass;
-                $datos = $objeto->login($username, $pass);
+                $token = $json->token;
+                $datos = $objeto->login($username, $pass, $token);
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
+            case "logout":
+                $body = file_get_contents('php://input');
+                $json = json_decode($body);
+                $objeto->logout($json->id);
                 break;
             default:
                 $http = new HTTP();

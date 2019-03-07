@@ -335,7 +335,6 @@ class User extends BDs
         $this->isActiv = $isActiv;
     }
 
-
     /**
      * funcion para generar Usuarios en la Tabla.
      */
@@ -395,9 +394,9 @@ class User extends BDs
         }
     }
 
-    public function login($username, $pass)
+    public function login($username, $pass, $token)
     {
-        if(!empty($pass)) {
+        if ($pass != null) {
             $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
             if (!empty($user)) {
                 $us = new User();
@@ -413,7 +412,20 @@ class User extends BDs
             $user = $this->getAll(['email' => $username]);
             $us = new User();
             $us->load($user[0]["idUser"]);
+            $us->setToken(bin2hex($token));
+            $us->save();
+            $user = $this->getAll(['email' => $username]);
             return $user;
+        }
+    }
+
+    public function logout($id)
+    {
+        if (!empty($id)) {
+            $user = new User();
+            $user->load($id);
+            $user->setToken("");
+            $user->save();
         }
     }
 }

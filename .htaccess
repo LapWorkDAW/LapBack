@@ -1,0 +1,7 @@
+
+RewriteBase /LapBack/
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(.*)/(.*)$ api.php?controller=$1&id=$2 [QSA]
+
+</IfModule>

@@ -29,14 +29,13 @@ $id = filter_input(INPUT_GET, "id");
 $function = filter_input(INPUT_GET, "function");
 $token = filter_input(INPUT_GET, "token");
 
-
 $method = $_SERVER['REQUEST_METHOD'];
 $http = new HTTP();
 
 /* Si el controlador esta vacio, o no existem devolvemos un badrequest. */
 if (empty($controller) || !file_exists("./models/" . $controller . ".php")) {
     $http = new HTTP();
-    $http->setHTTPHeaders(400, new Response("Bad Request"));
+    $http->setHTTPHeaders(400, new Response("Bad Request".$controller));
     die();
 }
 // Creamos un objeto de tipo de la clase que nos da el frontEnd.
