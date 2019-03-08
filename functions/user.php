@@ -31,7 +31,8 @@ try {
             case "logout":
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-                $objeto->logout($json->id);
+                $datos = $objeto->logout($json->id);
+                $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
             default:
                 $http = new HTTP();
