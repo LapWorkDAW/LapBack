@@ -265,7 +265,7 @@ CREATE TABLE `usuario` (
   `description` text,
   `knowledge` varchar(250) DEFAULT NULL,
   `isActiv` tinyint(1) DEFAULT NULL,
-  `token` varchar(75) DEFAULT NULL
+  `token` varchar(75) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
