@@ -394,7 +394,7 @@ class User extends BDs
         }
     }
 
-    public function login($username, $pass, $token)
+    public function login($username, $pass, $token = "")
     {
         if ($pass != null) {
             $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
@@ -427,6 +427,7 @@ class User extends BDs
                 $user->load($id);
                 $user->setToken("");
                 $user->save();
+
                 return $id;
             } else {
                 return 0;

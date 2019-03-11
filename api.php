@@ -80,8 +80,6 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                $dates = json_encode($objeto);
-                $http->setHTTPHeaders(200, new Response("Ok", $dates));
                 break;
             case 'PUT':
                 if (empty($id)) {
