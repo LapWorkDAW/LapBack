@@ -50,7 +50,6 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 */
 // instalar composer:
 // https://developers.google.com/identity/sign-in/web/backend-auth
-
 if (empty($function)) {
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
     try {
@@ -81,8 +80,8 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                $http->setHTTPHeaders(200, new Response("Ok", $objeto));
-
+                $dates = json_encode($objeto);
+                $http->setHTTPHeaders(200, new Response("Ok", $dates));
                 break;
             case 'PUT':
                 if (empty($id)) {
