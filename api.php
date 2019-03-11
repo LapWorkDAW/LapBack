@@ -81,6 +81,8 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
+                $http->setHTTPHeaders(200, new Response("Ok", $objeto));
+
                 break;
             case 'PUT':
                 if (empty($id)) {
