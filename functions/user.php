@@ -29,8 +29,7 @@ try {
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
             case "logout":
-                $object = new User();
-                $datos = $object->logout($token);
+                $datos = $objeto->logout($token);
                 $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
             default:

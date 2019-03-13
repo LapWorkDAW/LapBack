@@ -385,6 +385,7 @@ class User extends BDs
     
     public function getByToken($token){
         $user = $this->getAll(['token' => $token]);
+
         if (!empty($user)) {
             return $user;
         } else {
@@ -431,7 +432,8 @@ class User extends BDs
     {
         try {
             $us = new User();
-            $us->getByToken($token);
+            $users = $this->getByToken($token);
+            $us->load($users[0]["idUser"]);
             $us->setToken("");
             $us->save();
             return $us;
