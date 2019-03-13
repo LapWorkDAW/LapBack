@@ -367,9 +367,8 @@ class User extends BDs
         }
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $this->load($id);
         $this->setIsActiv(1);
         $this->save();
     }
@@ -377,6 +376,15 @@ class User extends BDs
     public function getByMail($id)
     {
         $user = $this->getAll(['email' => $id]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+    
+    public function getByToken($token){
+        $user = $this->getAll(['token' => $token]);
         if (!empty($user)) {
             return $user;
         } else {
@@ -419,19 +427,12 @@ class User extends BDs
         }
     }
 
-    public function logout($id)
+    public function logout()
     {
         try {
-            if (!empty($id)) {
-                $user = new User();
-                $user->load($id);
-                $user->setToken("");
-                $user->save();
-
-                return $id;
-            } else {
-                return 0;
-            }
+            $this->setToken("");
+            $this->save();
+            return $this;
         } catch (Exception $ex) {
             return -1;
         }

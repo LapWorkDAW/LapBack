@@ -138,7 +138,7 @@ class Message extends BDs
         }
     }
 
-    function delete($id)
+    function delete()
     {
         return false;
     }

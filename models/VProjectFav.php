@@ -131,10 +131,9 @@ class VProjectFav extends BDs
         }
     }
 
-    function delete($id)
+    function delete()
     {
-        $this->load($id);
-        $this->deleteById($id);
+        $this->deleteById($this->getIdVoteFavourite);
         if (!empty($this)) {
             foreach ($this->fields as $field) {
                 $this->$field = null;

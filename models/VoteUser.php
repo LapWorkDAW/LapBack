@@ -146,10 +146,9 @@ class VoteUser extends BDs
         }
     }
 
-    function delete($id)
+    function delete()
     {
-        $this->load($id);
-        $this->deleteById($id);
+        $this->deleteById($this->getIdVoteUser);
         if (!empty($this)) {
             foreach ($this->fields as $field) {
                 $this->$field = null;

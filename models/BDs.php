@@ -170,6 +170,7 @@ abstract class  BDs
      */
     protected function update($id, $values)
     {
+       // print_r($values);die();
         try {
             //Creamos el cuerpo del select con la funcion array_map
             $fields = join(",", array_map(function ($v) {
@@ -219,7 +220,7 @@ abstract class  BDs
 
     abstract function save();
 
-    abstract function delete($id);
+    abstract function delete();
 
     abstract function load($id);
 

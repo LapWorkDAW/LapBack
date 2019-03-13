@@ -124,7 +124,7 @@ class Portfolio extends BDs
         }
     }
 
-    function delete($id)
+    function delete()
     {
         return false;
     }

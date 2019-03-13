@@ -2,6 +2,6 @@
 RewriteBase /LapBack/
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule ^(.*)/(.*)$ api.php?controller=$1&token=$2 [QSA]
+RewriteRule ^([A-za-z]*)/(.*)$ api.php?controller=$1&token=$2 [QSA]
 
 </IfModule>

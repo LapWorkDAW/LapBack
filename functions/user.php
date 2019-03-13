@@ -29,9 +29,9 @@ try {
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
             case "logout":
-                $body = file_get_contents('php://input');
-                $json = json_decode($body);
-                $datos = $objeto->logout($json->id);
+                $object = new User();
+                $object->getByToken($token);
+                $datos = $object->logout();
                 $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
             default:
