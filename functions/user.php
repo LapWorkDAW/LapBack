@@ -30,8 +30,7 @@ try {
                 break;
             case "logout":
                 $object = new User();
-                $object->getByToken($token);
-                $datos = $object->logout();
+                $datos = $object->logout($token);
                 $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
             default:

@@ -427,12 +427,14 @@ class User extends BDs
         }
     }
 
-    public function logout()
+    public function logout($token)
     {
         try {
-            $this->setToken("");
-            $this->save();
-            return $this;
+            $us = new User();
+            $us->getByToken($token);
+            $us->setToken("");
+            $us->save();
+            return $us;
         } catch (Exception $ex) {
             return -1;
         }
