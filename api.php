@@ -50,14 +50,14 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 */
 
 
-
 /* Aqui revisamos si la funcion no es Login que revise el Token para validar.*/
+/*
 if($function != "login") {
     if (empty($token)) {
         $http->setHttpHeaders(400, new Response("Bad request Error Token"));
         die();
     }else {
-        /*Miramos si el Token esta bien del usuario logeado*/
+        /*Miramos si el Token esta bien del usuario logeado
         try {
             $userLogged = new User();
             $userLogged->getByToken($token);
@@ -67,6 +67,7 @@ if($function != "login") {
         }
     }
 } 
+*/
 
 // instalar composer:
 // https://developers.google.com/identity/sign-in/web/backend-auth
@@ -141,5 +142,5 @@ if (empty($function)) {
         echo "Error! " . $ex->getMessage();
     }
 } else {   
-    require_once "functions/" . mb_strtolower($controller) . ".php";
+    require_once "functions/" . strtolower($controller) . ".php";
 }
