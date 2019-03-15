@@ -35,7 +35,7 @@ $http = new HTTP();
 /* Si el controlador esta vacio, o no existem devolvemos un badrequest. */
 if (empty($controller) || !file_exists("./models/" . $controller . ".php")) {
     $http = new HTTP();
-    $http->setHTTPHeaders(400, new Response("Bad Request Controller: ".$controller));
+    $http->setHTTPHeaders(400, new Response("Bad Request Controller: " . $controller));
     die();
 }
 // Creamos un objeto de tipo de la clase que nos da el frontEnd.
@@ -51,23 +51,25 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 
 /* Aqui revisamos si la funcion no es Login que revise el Token para validar.*/
-/*
-if($function != "login") {
+
+if ($function != "login" && $function != "getbymail") {
     if (empty($token)) {
-        $http->setHttpHeaders(400, new Response("Bad request Error Token"));
-        die();
-    }else {
-        /*Miramos si el Token esta bien del usuario logeado
+        if ($controller != "User" or $method != "POST") {
+            $http->setHttpHeaders(400, new Response("Bad request Error Token"));
+            die();
+        }
+    } else {
+        //Miramos si el Token esta bien del usuario logeado
         try {
             $userLogged = new User();
             $userLogged->getByToken($token);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $http->setHttpHeaders(400, new Response("Bad request Error No User With This Token"));
             die();
         }
     }
-} 
-*/
+}
+
 
 // instalar composer:
 // https://developers.google.com/identity/sign-in/web/backend-auth
@@ -103,13 +105,13 @@ if (empty($function)) {
                 $objeto->save();
                 break;
             case 'PUT':
-                if($controller == "User"){
+                if ($controller == "User") {
                     $objeto->getByToken($token);
                     $body = file_get_contents('php://input');
                     $json = json_decode($body);
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
-                    } 
+                    }
                 } else {
                     if (empty($id)) {
                         $http->setHTTPHeaders(400, new Response("Bad Request No ID"));
@@ -141,6 +143,6 @@ if (empty($function)) {
     } catch (Exception $ex) {
         echo "Error! " . $ex->getMessage();
     }
-} else {   
+} else {
     require_once "functions/" . strtolower($controller) . ".php";
 }
