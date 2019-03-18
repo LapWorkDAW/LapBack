@@ -43,8 +43,8 @@ $objeto = new $controller;
 
 /* Tenemos el function por si tenemos que coger del GET algo especial lo enviamos a nuestro php de funciones
 donde de ahi tenemos las funciones que usaremos para X cosas la manera de acceder a estas funciones es
-   // http://localhost/LapBack/index.php?controller=VoteUser&function=allVotes&id=2
-    cuando ponemos la ruta index ponemos el controller = tabla de la bd que queremos acceder.
+   // http://localhost/LapBack/api.php?controller=VoteUser&function=allVotes&id=2
+    cuando ponemos la ruta api ponemos el controller = tabla de la bd que queremos acceder.
                                             function = funcion especial que queremos realizar
                                             id = el id del usuario o proyecto que queramos acceder.
 */
@@ -97,6 +97,15 @@ if (empty($function)) {
                     $objeto = saveInscription($json);
                 } else if ($controller == 'Post') {
                     $objeto = savePost($json);
+                } else if ($controller == 'User') {
+                    foreach ($json as $item => $value) {
+                        if ($item == "pass") {
+                            $pass = password_hash($value, PASSWORD_DEFAULT);
+                            $objeto->$item = $pass;
+                        } else {
+                            $objeto->$item = $value;
+                        }
+                    }
                 } else {
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;

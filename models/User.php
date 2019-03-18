@@ -382,8 +382,9 @@ class User extends BDs
             throw new Exception("No existe ese registro");
         }
     }
-    
-    public function getByToken($token){
+
+    public function getByToken($token)
+    {
         $user = $this->getAll(['token' => $token]);
 
         if (!empty($user)) {
@@ -406,17 +407,18 @@ class User extends BDs
     public function login($username, $pass, $token = "")
     {
         if ($pass != null) {
-            $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
+            $user = $this->getAll(['userName' => $username]);
             if (!empty($user)) {
                 $us = new User();
                 $us->load($user[0]["idUser"]);
-                $us->setToken(bin2hex(random_bytes(45)));
-                $us->save();
-                $user = $this->getAll(['userName' => $username, 'pass' => $pass]);
-                return $user;
-            } else {
-                throw new Exception("Error Login Datos incorrectos");
+                if (password_verify($pass, $us->pass)) {
+                    $us->setToken(bin2hex(random_bytes(45)));
+                    $us->save();
+                    $user = $this->getAll(['userName' => $username]);
+                    return $user;
+                }
             }
+            throw new Exception("Error Login Datos incorrectos");
         } else {
             $user = $this->getAll(['email' => $username]);
             $us = new User();
