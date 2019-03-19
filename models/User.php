@@ -32,8 +32,8 @@ class User extends BDs
     {
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("usuario", "idUser", $fields);
-        $this->isActiv = 0;
-        $this->saveName = 0;
+        $this->isActiv = 1;
+        $this->saveName = 1;
     }
 
     function __get($name)
@@ -369,7 +369,7 @@ class User extends BDs
 
     public function delete()
     {
-        $this->setIsActiv(1);
+        $this->setIsActiv(0);
         $this->save();
     }
 
@@ -396,7 +396,7 @@ class User extends BDs
 
     public function getByActiv()
     {
-        $user = $this->getAll(['isActiv' => 0]);
+        $user = $this->getAll(['isActiv' => 1]);
         if (!empty($user)) {
             return $user;
         } else {
