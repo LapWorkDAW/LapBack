@@ -171,4 +171,11 @@ class VoteUser extends BDs
             return $average / count($values);
         }
     }
+
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->usuario = $user;
+    }
 }

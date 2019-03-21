@@ -156,4 +156,18 @@ class VProjectFav extends BDs
             return $average;
         }
     }
+
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->usuario = $user;
+    }
+
+    public function setProjectId($id)
+    {
+        $project = new Project();
+        $project->load($id);
+        $this->project = $project;
+    }
 }

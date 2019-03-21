@@ -8,8 +8,7 @@
 
 abstract class  BDs
 {
-
-    static $server = "172.16.2.51";
+    static $server = "localhost";
     static $user = "oriol";
     static $password = "";
     static $database = "lapwork";

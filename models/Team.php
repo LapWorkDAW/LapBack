@@ -164,4 +164,18 @@ class Team extends BDs
             throw new Exception("This Project don't have Team");
         }
     }
+
+    public function setUserId($id)
+    {
+        $user = new User();
+        $user->load($id);
+        $this->usuario = $user;
+    }
+
+    public function setProjectId($id)
+    {
+        $project = new Project();
+        $project->load($id);
+        $this->project = $project;
+    }
 }

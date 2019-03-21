@@ -50,5 +50,62 @@ function savePost($json)
         }
     }
     return $object;
+}
 
+function saveTeam($json)
+{
+    $object = new Team();
+    foreach ($json as $item => $value) {
+        if ($item == 'idUser') {
+            $object->setUserId($value);
+        } else if ($item == 'idProject') {
+            $object->setProjectId($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
+}
+
+function saveVoteUser($json)
+{
+    $object = new VoteUser();
+    foreach ($json as $item => $value) {
+        if ($item == 'idUserVote') {
+            $object->setUserId($value);
+        } else if ($item == 'idCandidate') {
+            $object->setUserId($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
+}
+
+function saveProjectFav($json){
+    $object = new VProjectFav();
+    foreach ($json as $item => $value) {
+        if ($item == 'idUser') {
+            $object->setUserId($value);
+        } else if ($item == 'idProject') {
+            $object->setProjectId($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
+}
+
+function saveProjectStar($json){
+    $object = new VProjectStar();
+    foreach ($json as $item => $value) {
+        if ($item == 'idUser') {
+            $object->setUserId($value);
+        } else if ($item == 'idProject') {
+            $object->setProjectId($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
 }
