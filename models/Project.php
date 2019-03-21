@@ -28,7 +28,7 @@ class Project extends BDs
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("project", "idProject", $fields);
         $this->dateStart = date("Y/m/d");
-        $this->projectStatus = 0;
+        $this->projectStatus = 1;
     }
 
     function __get($name)

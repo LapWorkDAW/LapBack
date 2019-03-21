@@ -14,7 +14,7 @@ foreach (glob("utils/*.php") as $filename) {
 foreach (glob("models/*.php") as $filename) {
     require_once $filename;
 }
-
+// TODO: necesitamos implementas el insertar tipos de proyectos y poder devolverlos todos.
 //headers obligate.
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
