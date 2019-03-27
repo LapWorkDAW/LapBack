@@ -422,7 +422,7 @@ class User extends BDs
             $user = $this->getAll(['email' => $username]);
             $us = new User();
             $us->load($user[0]["idUser"]);
-            $us->setToken(bin2hex($token));
+            $us->setToken($token);
             $us->save();
             $user = $this->getAll(['email' => $username]);
             return $user;
