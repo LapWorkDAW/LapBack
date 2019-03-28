@@ -13,8 +13,7 @@ class User extends BDs
     private $idUser; // int -> el id del usuario.
     private $firstname; // // String -> Nombre del Usuario.
     private $surname; // String -> Apellido del usuario.
-    private $latitude; // Double -> Cordenadas
-    private $longitude; // Double -> Cordenadas
+    private $location;
     private $userName; // String -> Nombre de Usuario para iniciar sesion tambien se puede usar correo.
     private $email; // String -> Correo electronico del usuario.
     private $pass; // String -> Sera cifrada + la contraseña del usuario
@@ -115,6 +114,22 @@ class User extends BDs
     public function setUserName($userName)
     {
         $this->userName = $userName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
     }
 
     /**
@@ -268,38 +283,6 @@ class User extends BDs
     public function setCurriculum($curriculum)
     {
         $this->cv = $curriculum;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @param mixed $latitude
-     */
-    public function setLatitude($latitude)
-    {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * @param mixed $longitude
-     */
-    public function setLongitude($longitude)
-    {
-        $this->longitude = $longitude;
     }
 
     /**

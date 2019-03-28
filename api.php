@@ -90,9 +90,7 @@ if (empty($function)) {
             case 'POST':
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-                if ($controller == 'Project') {
-                    $objeto = saveProject($json);
-                } else if ($controller == 'Inscription') {
+                if ($controller == 'Inscription') {
                     $objeto = saveInscription($json);
                 } else if ($controller == 'Post') {
                     $objeto = savePost($json);
@@ -121,7 +119,10 @@ if (empty($function)) {
                         $objeto->$item = $value;
                     }
                 }
+
                 $objeto->save();
+
+                $http->setHTTPHeaders(202, new Response("Registro Insertado"));
                 break;
             case 'PUT':
                 if ($controller == "User") {
