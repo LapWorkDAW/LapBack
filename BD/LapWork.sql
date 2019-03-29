@@ -1,15 +1,15 @@
-CREATE DATABASE  IF NOT EXISTS `lapwork` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `lapwork` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `lapwork`;
--- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.38-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: lapwork
+-- Host: 172.16.2.51    Database: lapwork
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.35-MariaDB
+-- Server version	5.7.25-0ubuntu0.18.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -18,12 +18,12 @@ USE `lapwork`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- BDs structure for table `inscription`
+-- Table structure for table `inscription`
 --
 
 DROP TABLE IF EXISTS `inscription`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `inscription` (
   `idInscription` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
@@ -47,12 +47,12 @@ LOCK TABLES `inscription` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `message`
+-- Table structure for table `message`
 --
 
 DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `message` (
   `idMessage` int(11) NOT NULL AUTO_INCREMENT,
   `idPost` int(11) NOT NULL,
@@ -75,12 +75,12 @@ LOCK TABLES `message` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `messageproject`
+-- Table structure for table `messageproject`
 --
 
 DROP TABLE IF EXISTS `messageproject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messageproject` (
   `idMessageProject` int(11) NOT NULL AUTO_INCREMENT,
   `idPost` int(11) NOT NULL,
@@ -103,12 +103,12 @@ LOCK TABLES `messageproject` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `portfolio`
+-- Table structure for table `portfolio`
 --
 
 DROP TABLE IF EXISTS `portfolio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `portfolio` (
   `idPortfolio` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
@@ -129,12 +129,12 @@ LOCK TABLES `portfolio` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `post`
+-- Table structure for table `post`
 --
 
 DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `post` (
   `idPost` int(11) NOT NULL AUTO_INCREMENT,
   `remitter` int(11) NOT NULL,
@@ -156,12 +156,12 @@ LOCK TABLES `post` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `project`
+-- Table structure for table `project`
 --
 
 DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project` (
   `idProject` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE `project` (
   KEY `FK_Project_TypeProject` (`idType`),
   CONSTRAINT `FK_Project_TypeProject` FOREIGN KEY (`idType`) REFERENCES `typeproject` (`idType`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Project_User` FOREIGN KEY (`idUser`) REFERENCES `usuario` (`idUser`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,16 +187,17 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,1,'admin','Lapwork',5,'Uri cucuri','2019-03-29','2019-05-22',NULL,1);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `team`
+-- Table structure for table `team`
 --
 
 DROP TABLE IF EXISTS `team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `team` (
   `idTeam` int(11) NOT NULL AUTO_INCREMENT,
   `idProject` int(11) NOT NULL,
@@ -219,12 +220,12 @@ LOCK TABLES `team` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `typeproject`
+-- Table structure for table `typeproject`
 --
 
 DROP TABLE IF EXISTS `typeproject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `typeproject` (
   `idType` int(11) NOT NULL AUTO_INCREMENT,
   `nameType` varchar(50) NOT NULL,
@@ -243,31 +244,32 @@ INSERT INTO `typeproject` VALUES (1,'Art'),(2,'Engineering'),(3,'IT'),(4,'Litera
 UNLOCK TABLES;
 
 --
--- BDs structure for table `usuario`
+-- Table structure for table `usuario`
 --
 
 DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `idUser` int(11) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(20) DEFAULT NULL UNIQUE,
-  `pass` varchar(255) DEFAULT NULL,
-  `firstname` varchar(20) DEFAULT NULL,
-  `surname` varchar(50) DEFAULT NULL,
-  `latitude` double DEFAULT NULL,
-  `longitude` double DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL UNIQUE,
+  `userName` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `pass` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `firstname` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `surname` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  `email` varchar(150) CHARACTER SET latin1 DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
-  `photo` varchar(100) DEFAULT NULL,
+  `photo` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
   `saveName` tinyint(1) DEFAULT NULL,
-  `cv` varchar(100) DEFAULT NULL,
-  `description` text,
-  `knowledge` varchar(250) DEFAULT NULL,
+  `cv` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `description` text CHARACTER SET latin1,
+  `knowledge` varchar(250) CHARACTER SET latin1 DEFAULT NULL,
   `isActiv` tinyint(1) DEFAULT NULL,
-  `token` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `token` longtext CHARACTER SET latin1,
+  PRIMARY KEY (`idUser`),
+  UNIQUE KEY `userName` (`userName`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,16 +278,17 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'admin','$2y$10$Xy7Mt6M9eeWNGwdvEfZRWeWBjrhP0qoFltHtxXP2g87n/O/y2ABFm','admin','admin','Administration Dr, DentРоссияon, TX, USA','admin@admin.com','2019-03-28',NULL,1,NULL,NULL,NULL,1,'7620a8f5e07df3a9cff34f5382e62d2fc0ea5deef499b9d0989b225dc981c0cd8ab49839bb69ed429c44d943ea'),(4,'mireia',NULL,'Mireia','Colomer',NULL,'mireiacolomerr@gmail.com','1999-06-14','https://lh3.googleusercontent.com/-6ePU6NxNBXE/AAAAAAAAAAI/AAAAAAAAA2k/0vuY5gkqvnM/s96-c/photo.jpg',NULL,'www.linkedin.com/MireiaColomer','Web Designer','Angular, Photoshop & Bootstrap',1,'ya29.GmPbBlsTOqZL09zRURF_2kzS4cg_OxpFfnVuiwUlxGpK6Yucfq9H8eXd-iXcLQ1J1Doeth1ltz-adyu37B6yrnfTc3j26S6qttGTwfZ_RftKPL5YqKzvdjf6H9r3pZfqwDajpH0'),(5,NULL,NULL,'Yuliya','Kobruseva',NULL,'juliakobruseva@gmail.com',NULL,'https://lh3.googleusercontent.com/-u5IVoiHmSoM/AAAAAAAAAAI/AAAAAAAAB0g/8FvZ1z-mHsI/s96-c/photo.jpg',NULL,NULL,NULL,NULL,1,'');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `voteprojectfavourite`
+-- Table structure for table `voteprojectfavourite`
 --
 
 DROP TABLE IF EXISTS `voteprojectfavourite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `voteprojectfavourite` (
   `idVoteFavourite` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
@@ -308,12 +311,12 @@ LOCK TABLES `voteprojectfavourite` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `voteprojectstar`
+-- Table structure for table `voteprojectstar`
 --
 
 DROP TABLE IF EXISTS `voteprojectstar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `voteprojectstar` (
   `idVoteStar` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
@@ -337,12 +340,12 @@ LOCK TABLES `voteprojectstar` WRITE;
 UNLOCK TABLES;
 
 --
--- BDs structure for table `voteuser`
+-- Table structure for table `voteuser`
 --
 
 DROP TABLE IF EXISTS `voteuser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `voteuser` (
   `idVoteUser` int(11) NOT NULL AUTO_INCREMENT,
   `idUserVote` int(11) NOT NULL,
@@ -374,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-21 12:28:54
+-- Dump completed on 2019-03-29 13:03:12

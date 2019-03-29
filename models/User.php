@@ -25,7 +25,7 @@ class User extends BDs
     private $isActiv; // int -> Para saber si el usuario esta activo o No!. 0-activ, 1-noactiv
     private $saveName; // bool -> Para saber si quieren guardar su nombre o no.
     private $token; // String -> token de session on.
-    private $num_fields = 16;
+    private $num_fields = 15;
 
     public function __construct()
     {
