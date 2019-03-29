@@ -90,19 +90,7 @@ if (empty($function)) {
             case 'POST':
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-                if ($controller == 'Inscription') {
-                    $objeto = saveInscription($json);
-                } else if ($controller == 'Post') {
-                    $objeto = savePost($json);
-                } else if ($controller == 'Team') {
-                    $objeto = saveTeam($json);
-                } else if ($controller == 'VoteUser') {
-                    $objeto = saveVoteUser($json);
-                } else if ($controller == 'VProjectFav') {
-                    $objeto = saveProjectFav($json);
-                } else if ($controller == 'VProjectStar') {
-                    $objeto = saveProjectStar($json);
-                } else if ($controller == 'User') {
+                if ($controller == 'User') {
                     foreach ($json as $item => $value) {
                         if ($item == "pass") {
                             $pass = password_hash($value, PASSWORD_DEFAULT);
