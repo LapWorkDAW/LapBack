@@ -152,9 +152,9 @@ class VProjectStar extends BDs
         return false;
     }
 
-    function allVotes($idUserVotado)
+    function allVotes($idProjectVotado)
     {
-        $values = $this->getAll(['idProject' => $idUserVotado]);
+        $values = $this->getAll(['idProject' => $idProjectVotado]);
         $average = 0;
         foreach ($values as $value) {
             $average += $value['quantity'];

@@ -323,6 +323,10 @@ class Project extends BDs
                     $usuario = new User();
                     $usuario->load($project['idUser']);
                     $this->$field = $usuario;
+                } else if ($field == "idType") {
+                    $tipoP = new TypeProject();
+                    $tipoP->load($project['idType']);
+                    $this->$field = $tipoP;
                 } else {
                     $this->$field = $project["$field"];
                 }

@@ -109,7 +109,6 @@ if (empty($function)) {
                 }
 
                 $objeto->save();
-
                 $http->setHTTPHeaders(202, new Response("Registro Insertado"));
                 break;
             case 'PUT':
@@ -133,6 +132,7 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
+                $http->setHTTPHeaders(202, new Response("Actualizado Correctamente"));
                 break;
             case 'DELETE':
                 if ($controller == "User") {

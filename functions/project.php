@@ -19,6 +19,21 @@ try {
                 $datos = $objeto->getFinish();
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
+            case "photo":
+                if (empty($id)) {
+                    $http->setHTTPHeaders(400, new Response("Bad Request No ID"));
+                    die();
+                }
+                $objeto->load($id);
+                $body = file_get_contents('php://input');
+                $json = json_decode($body);
+                foreach ($json->project as $item => $value) {
+                    $objeto->$item = $value;
+                }
+                print_r($json->photo);
+                $objeto->save();
+                $http->setHTTPHeaders(202, new Response("Actualizado Correctamente"));
+                break;
             default:
                 $http = new HTTP();
                 $http->setHTTPHeaders(201, new Response("Not a function from project: " . $function, ""));
