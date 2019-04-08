@@ -30,7 +30,8 @@ try {
                 $user = new User();
                 $user->getByToken($token);
                 $idUser = $user->getIdUser();
-                $datos = $objeto->allLikes();
+                $datos = $objeto->allLikes($idUser);
+                $http->setHTTPHeaders(200, new Response("Todos los Project que ha Votado User ", $datos));
                 break;
             default:
                 $http = new HTTP();

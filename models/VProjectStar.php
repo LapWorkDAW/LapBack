@@ -175,6 +175,12 @@ class VProjectStar extends BDs
         }
     }
 
+    public function allStars($idUser)
+    {
+        $users = $this->getAll(['idUser' => $idUser]);
+        return $users;
+    }
+
     public function setUserId($id)
     {
         $user = new User();

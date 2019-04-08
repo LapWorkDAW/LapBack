@@ -179,12 +179,9 @@ class VProjectFav extends BDs
         $users = $this->getAll(['idUser' => $idUser]);
         for ($i = 0; $i < count($users); $i++) {
             $user = $users[$i];
-            $usuario = new User();
-            $usuario->load($user['idUser']);
-            $users[$i]['userO'] = $usuario->serialize();
             $project = new Project();
-            $project->load($user['idType']);
-            $users[$i]['type'] = $project->serialize();
+            $project->load($user['idProject']);
+            $users[$i]['project'] = $project->serialize();
         }
         return $users;
     }

@@ -20,7 +20,13 @@ try {
                 $datos = $objeto->votebyUser($idUser, $id);
                 $http->setHTTPHeaders(200, new Response("Usuario Ha Votado?", $datos));
                 break;
-
+            case "allstars":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->allStars($idUser);
+                $http->setHTTPHeaders(200, new Response("Todos los Project que ha Votado User ", $datos));
+                break;
             default:
                 $http = new HTTP();
                 $http->setHTTPHeaders(422, new Response("Error Function", ""));

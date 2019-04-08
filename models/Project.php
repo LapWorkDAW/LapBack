@@ -395,7 +395,7 @@ class Project extends BDs
 
     public function getUFinish($idUser)
     {
-        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 1]);
+        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 0]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
@@ -414,7 +414,7 @@ class Project extends BDs
 
     public function getUNoFinish($idUser)
     {
-        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 0]);
+        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 1]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
