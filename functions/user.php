@@ -8,7 +8,7 @@
 
 
 try {
-    if ($method == 'GET' || $method == 'POST') {
+    if ($method == 'GET' || $method == 'POST' || $method == 'PUT') {
         switch (strtolower($function)) {
             case "getbymail":
                 $datos = $objeto->getByMail($id);
@@ -29,7 +29,7 @@ try {
                 break;
             case "logout":
                 $datos = $objeto->logout($token);
-                $http->setHTTPHeaders(200, new Response("This: ", $datos));
+                $http->setHTTPHeaders(200, new Response("This: ", $objeto));
                 break;
             case "photo":
                 $body = file_get_contents('php://input');

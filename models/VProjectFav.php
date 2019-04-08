@@ -114,7 +114,7 @@ class VProjectFav extends BDs
         $votos = $this->getById($id);
         if (!empty($votos)) {
             foreach ($this->fields as $field) {
-                if ($field == "userVote"){
+                if ($field == "userVote") {
                     $usuario = new User();
                     $usuario->load($votos["idUser"]);
                     $this->$field = $usuario;
@@ -151,20 +151,55 @@ class VProjectFav extends BDs
             $average += $value['idProject'];
         }
         if ($average == 0) {
-            return "This Project don't Have votes";
+            return 0;
         } else {
             return $average;
         }
     }
 
-    public function setUserId($id)
+    function votebyUser($idUser, $idProject)
+    {
+        $dates = $this->getAll(['idUser' => $idUser, 'idProject' => $idProject]);
+        if (count($dates) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    public function unLike($idUser, $idProject)
+    {
+        $this->getAll(['idUser' => $idUser, 'idProject' => $idProject]);
+        print_r($this);
+        die();
+    }
+
+    public function allLikes($idUser)
+    {
+        $users = $this->getAll(['idUser' => $idUser]);
+        for ($i = 0; $i < count($users); $i++) {
+            $user = $users[$i];
+            $usuario = new User();
+            $usuario->load($user['idUser']);
+            $users[$i]['userO'] = $usuario->serialize();
+            $project = new Project();
+            $project->load($user['idType']);
+            $users[$i]['type'] = $project->serialize();
+        }
+        return $users;
+    }
+
+
+    public
+    function setUserId($id)
     {
         $user = new User();
         $user->load($id);
         $this->usuario = $user;
     }
 
-    public function setProjectId($id)
+    public
+    function setProjectId($id)
     {
         $project = new Project();
         $project->load($id);

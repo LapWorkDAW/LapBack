@@ -7,11 +7,30 @@
  */
 
 try {
-    if ($method == 'GET') {
+    if ($method == 'GET' || $method == 'DELETE') {
         switch (strtolower($function)) {
-            case "allVotes":
+            case "allvotes":
                 $datos = $objeto->allVotes($id);
                 $http->setHTTPHeaders(200, new Response("Lista Votos al proyecto", $datos));
+                break;
+            case "userproject":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->votebyUser($idUser, $id);
+                $http->setHTTPHeaders(200, new Response("Usuario Ha Votado?", $datos));
+                break;
+            case "unlike":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->unLike($idUser, $id);
+                break;
+            case "alllikes":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->allLikes();
                 break;
             default:
                 $http = new HTTP();
@@ -20,7 +39,7 @@ try {
         }
     } else {
         $http = new HTTP();
-        $http->setHTTPHeaders(400, new Response("Bad Request"));
+        $http->setHTTPHeaders(422, new Response("Bad Request"));
         die();
     }
 } catch (Exception $ex) {

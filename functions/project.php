@@ -9,7 +9,7 @@
 // permite la recarga de todos los archivos dentro de las carpetas
 
 try {
-    if ($method == 'GET') {
+    if ($method == 'GET' || $method == 'POST') {
         switch (strtolower($function)) {
             case "getnofinish":
                 $datos = $objeto->getNoFinish();
@@ -19,20 +19,27 @@ try {
                 $datos = $objeto->getFinish();
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
-            case "photo":
+            case "byuserfinish":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->getUFinish($idUser);
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
+            case "byusernofinish":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->getUNoFinish($idUser);
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
+            case "projectid":
                 if (empty($id)) {
                     $http->setHTTPHeaders(400, new Response("Bad Request No ID"));
                     die();
                 }
                 $objeto->load($id);
-                $body = file_get_contents('php://input');
-                $json = json_decode($body);
-                foreach ($json->project as $item => $value) {
-                    $objeto->$item = $value;
-                }
-                print_r($json->photo);
-                $objeto->save();
-                $http->setHTTPHeaders(202, new Response("Actualizado Correctamente"));
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $objeto->serialize()));
                 break;
             default:
                 $http = new HTTP();
@@ -41,7 +48,7 @@ try {
         }
     } else {
         $http = new HTTP();
-        $http->setHTTPHeaders(400, new Response("Bad Request", ""));
+        $http->setHTTPHeaders(422, new Response("Bad Request", ""));
         die();
     }
 } catch (Exception $ex) {

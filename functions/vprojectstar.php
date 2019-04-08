@@ -9,13 +9,21 @@
 try {
     if ($method == 'GET') {
         switch (strtolower($function)) {
-            case "allvotesid":
-                $datos = $objeto->allVotes($id);
+            case "allvotes":
+                $datos = $objeto->allvotes($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
                 break;
+            case "userproject":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->votebyUser($idUser, $id);
+                $http->setHTTPHeaders(200, new Response("Usuario Ha Votado?", $datos));
+                break;
+
             default:
                 $http = new HTTP();
-                $http->setHTTPHeaders(201, new Response("Error Function", ""));
+                $http->setHTTPHeaders(422, new Response("Error Function", ""));
                 die();
         }
     } else {

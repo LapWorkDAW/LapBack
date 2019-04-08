@@ -51,10 +51,11 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 /* Aqui revisamos si la funcion no es Login que revise el Token para validar.*/
 
-if ($function != "login" && $function != "getbymail") {
+if ($function != "login" && $function != "getbymail" && $function != "getfinish" &&
+    $function != "getnofinish" && $function != "allvotes" && $function != "projectid") {
     if (empty($token)) {
         if ($controller != "User" or $method != "POST") {
-            $http->setHttpHeaders(400, new Response("Bad request Error Token"));
+            $http->setHttpHeaders(405, new Response("Bad request Error Token"));
             die();
         }
     } else {
@@ -63,7 +64,7 @@ if ($function != "login" && $function != "getbymail") {
             $userLogged = new User();
             $userLogged->getByToken($token);
         } catch (Exception $e) {
-            $http->setHttpHeaders(400, new Response("Bad request Error No User With This Token"));
+            $http->setHttpHeaders(405, new Response("Bad request Error No User With This Token"));
             die();
         }
     }
@@ -90,6 +91,7 @@ if (empty($function)) {
             case 'POST':
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
+                $files = $_FILES;
                 if ($controller == 'User') {
                     foreach ($json as $item => $value) {
                         if ($item == "pass") {
@@ -102,14 +104,26 @@ if (empty($function)) {
                             $objeto->$item = 0;
                         }
                     }
+                } else if ($controller == 'Project') {
+                    $body = filter_input(INPUT_POST, 'project');
+                    $json = json_decode($body);
+                    foreach ($json as $item => $value) {
+                        $objeto->$item = $value;
+                    }
                 } else {
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
                     }
                 }
-
                 $objeto->save();
-                $http->setHTTPHeaders(202, new Response("Registro Insertado"));
+                if ($files["photo"] != "undefined") {
+                    $ido="id$controller";
+                    print_r($files);
+
+                    echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller"."s/". $objeto->$ido.".jpg");
+                    die();
+                }
+                $http->setHTTPHeaders(201, new Response("Registro Insertado"));
                 break;
             case 'PUT':
                 if ($controller == "User") {
@@ -121,7 +135,7 @@ if (empty($function)) {
                     }
                 } else {
                     if (empty($id)) {
-                        $http->setHTTPHeaders(400, new Response("Bad Request No ID"));
+                        $http->setHTTPHeaders(304, new Response("Bad Request No ID"));
                         die();
                     }
                     $objeto->load($id);
@@ -132,7 +146,7 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                $http->setHTTPHeaders(202, new Response("Actualizado Correctamente"));
+                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente"));
                 break;
             case 'DELETE':
                 if ($controller == "User") {

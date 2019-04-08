@@ -322,11 +322,11 @@ class Project extends BDs
                 if ($field == "userO") {
                     $usuario = new User();
                     $usuario->load($project['idUser']);
-                    $this->$field = $usuario;
+                    $this->$field = $usuario->serialize();
                 } else if ($field == "idType") {
                     $tipoP = new TypeProject();
                     $tipoP->load($project['idType']);
-                    $this->$field = $tipoP;
+                    $this->$field = $tipoP->serialize();
                 } else {
                     $this->$field = $project["$field"];
                 }
@@ -336,6 +336,21 @@ class Project extends BDs
         }
     }
 
+    function loadAll()
+    {
+        $projects = parent::loadAll();
+        for ($i = 0; $i < count($projects); $i++) {
+            $project = $projects[$i];
+            $usuario = new User();
+            $usuario->load($project['idUser']);
+            $projects[$i]['userO'] = $usuario->serialize();
+            $tipoP = new TypeProject();
+            $tipoP->load($project['idType']);
+            $projects[$i]['type'] = $tipoP->serialize();
+        }
+        return $projects;
+    }
+
     function delete()
     {
         return false;
@@ -343,9 +358,18 @@ class Project extends BDs
 
     public function getNoFinish()
     {
-        $project = $this->getAll(['projectStatus' => 0]);
-        if (!empty($project)) {
-            return $project;
+        $projects = $this->getAll(['projectStatus' => 0]);
+        if (!empty($projects)) {
+            for ($i = 0; $i < count($projects); $i++) {
+                $project = $projects[$i];
+                $usuario = new User();
+                $usuario->load($project['idUser']);
+                $projects[$i]['userO'] = $usuario->serialize();
+                $tipoP = new TypeProject();
+                $tipoP->load($project['idType']);
+                $projects[$i]['type'] = $tipoP->serialize();
+            }
+            return $projects;
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -353,9 +377,56 @@ class Project extends BDs
 
     public function getFinish()
     {
-        $project = $this->getAll(['projectStatus' => 1]);
-        if (!empty($project)) {
-            return $project;
+        $projects = $this->getAll(['projectStatus' => 1]);
+        if (!empty($projects)) {
+            for ($i = 0; $i < count($projects); $i++) {
+                $project = $projects[$i];
+                $usuario = new User();
+                $usuario->load($project['idUser']);
+                $projects[$i]['userO'] = $usuario->serialize();
+                $tipoP = new TypeProject();
+                $tipoP->load($project['idType']);
+                $projects[$i]['type'] = $tipoP->serialize();
+            }
+            return $projects;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+
+    public function getUFinish($idUser)
+    {
+        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 1]);
+        if (!empty($projects)) {
+            for ($i = 0; $i < count($projects); $i++) {
+                $project = $projects[$i];
+                $usuario = new User();
+                $usuario->load($project['idUser']);
+                $projects[$i]['userO'] = $usuario->serialize();
+                $tipoP = new TypeProject();
+                $tipoP->load($project['idType']);
+                $projects[$i]['type'] = $tipoP->serialize();
+            }
+            return $projects;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+
+    public function getUNoFinish($idUser)
+    {
+        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 0]);
+        if (!empty($projects)) {
+            for ($i = 0; $i < count($projects); $i++) {
+                $project = $projects[$i];
+                $usuario = new User();
+                $usuario->load($project['idUser']);
+                $projects[$i]['userO'] = $usuario->serialize();
+                $tipoP = new TypeProject();
+                $tipoP->load($project['idType']);
+                $projects[$i]['type'] = $tipoP->serialize();
+            }
+            return $projects;
         } else {
             throw new Exception("No existe ese registro");
         }

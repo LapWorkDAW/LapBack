@@ -160,9 +160,18 @@ class VProjectStar extends BDs
             $average += $value['quantity'];
         }
         if ($average == 0) {
-            return "This project don't Have votes";
+            return 0;
         } else {
-            return $average / count($values);
+            return round($average / count($values), 1);
+        }
+    }
+
+    function votebyUser($idUser, $idProject) {
+        $dates = $this->getAll(['idUser' => $idUser, 'idProject' => $idProject]);
+        if(count($dates) == 0) {
+            return 0;
+        } else {
+            return 1;
         }
     }
 

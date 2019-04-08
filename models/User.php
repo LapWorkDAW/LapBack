@@ -359,7 +359,7 @@ class User extends BDs
     {
         $user = $this->getAll(['email' => $id]);
         if (!empty($user)) {
-            return $user;
+            $this->load($user[0]['idUser']);
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -368,9 +368,8 @@ class User extends BDs
     public function getByToken($token)
     {
         $user = $this->getAll(['token' => $token]);
-
         if (!empty($user)) {
-            return $user;
+            $this->load($user[0]['idUser']);
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -415,12 +414,10 @@ class User extends BDs
     public function logout($token)
     {
         try {
-            $us = new User();
-            $users = $this->getByToken($token);
-            $us->load($users[0]["idUser"]);
-            $us->setToken("");
-            $us->save();
-            return $us;
+            $this->getByToken($token);
+            $this->setToken("");
+            $this->save();
+            return $this;
         } catch (Exception $ex) {
             return -1;
         }
