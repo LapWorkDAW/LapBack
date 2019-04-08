@@ -19,8 +19,7 @@ class Project extends BDs
     private $dateStart; //date  -> Fecha inicio Proyecto
     private $dateFinish; //date -> Fecha final del Proyecto si esta acabado.
     private $img; // ? -> fotos del proyecto.
-    private $projectStatus;  // int. -> estado del Proyecto si acabado o no. // Si es 0 proyecto no acabado.
-    // 0 -> Sin acabar 1 -> Acabado
+    private $projectStatus;  // int. -> estado del Proyecto si acabado o no. // Si es 1 proyecto no acabado.
     private $num_fields = 10;
 
     public function __construct()
@@ -358,7 +357,7 @@ class Project extends BDs
 
     public function getNoFinish()
     {
-        $projects = $this->getAll(['projectStatus' => 0]);
+        $projects = $this->getAll(['projectStatus' => 1]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
@@ -377,7 +376,7 @@ class Project extends BDs
 
     public function getFinish()
     {
-        $projects = $this->getAll(['projectStatus' => 1]);
+        $projects = $this->getAll(['projectStatus' => 0]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];

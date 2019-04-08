@@ -118,10 +118,7 @@ if (empty($function)) {
                 $objeto->save();
                 if ($files["photo"] != "undefined") {
                     $ido="id$controller";
-                    print_r($files);
-
                     echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller"."s/". $objeto->$ido.".jpg");
-                    die();
                 }
                 $http->setHTTPHeaders(201, new Response("Registro Insertado"));
                 break;
