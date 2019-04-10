@@ -129,6 +129,8 @@ if (empty($function)) {
                 if ($controller == "User") {
                     $objeto->getByToken($token);
                     $body = filter_input(INPUT_POST, 'user');
+                    print_r($body);
+                    die();
                     $json = json_decode($body);
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;

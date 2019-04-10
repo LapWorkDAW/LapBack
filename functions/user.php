@@ -8,7 +8,7 @@
 
 
 try {
-    if ($method == 'GET' || $method == 'POST' || $method == 'PUT') {
+    if ($method == 'GET' || $method == 'POST') {
         switch (strtolower($function)) {
             case "getbymail":
                 $datos = $objeto->getByMail($id);
@@ -43,6 +43,23 @@ try {
                 $newPassword = $json->newPass;
 
                 $datos = $objeto->changePass($oldPassword, $newPassword, $idUser);
+                break;
+            case "photo":
+                $files = $_FILES;
+                $objeto->getByToken($token);
+                $body = filter_input(INPUT_POST, 'user');
+                $json = json_decode($body);
+                foreach ($json as $item => $value) {
+                    $objeto->$item = $value;
+                }
+                $objeto->save();
+                if (isset($files["photo"])) {
+                    if ($files["photo"] != "undefined") {
+                        $ido = "id$controller";
+                        echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
+                    }
+                }
+                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
                 break;
             default:
                 $http = new HTTP();
