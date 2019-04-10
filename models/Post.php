@@ -105,7 +105,8 @@ class Post extends BDs
     public function save()
     {
         $post = $this->valores();
-        $this->remitter->save();
+        unset($post["idPost"]);
+
         $post['remitter'] = $this->remitter->idUser;
 
         if (empty($this->idPost)) {

@@ -102,12 +102,11 @@ class VoteUser extends BDs
     public function save()
     {
         $voteU = $this->valores();
+        unset($voteU["idVoteUser"]);
 
-        $this->userVote->save();
         $voteU['idUserVote'] = $this->userVote->idUser;
         unset($voteU['userVote']);
 
-        $this->candidate->save();
         $voteU['idCandidate'] = $this->candidate->idUser;
         unset($voteU['candidate']);
 

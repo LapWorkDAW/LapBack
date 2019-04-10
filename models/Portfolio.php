@@ -89,7 +89,6 @@ class Portfolio extends BDs
         $portF = $this->valores();
         unset($portF['idPortfolio']);
 
-        $this->usuario->save();
         $portF['idUser'] = $this->usuario->idUser;
         unset($portF['usuario']);
 

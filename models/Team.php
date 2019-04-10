@@ -100,12 +100,9 @@ class Team extends BDs
         $team = $this->valores();
         unset($team['idTeam']);
 
-        $this->usuario->save();
         $team['idUser'] = $this->usuario->idUser;
         unset($team['usuario']);
 
-
-        $this->project->save();
         $team['idProject'] = $this->project->idProject;
         unset($team['project']);
 
@@ -149,12 +146,13 @@ class Team extends BDs
         return false;
     }
 
-    function allTeam($idProject) {
+    function allTeam($idProject)
+    {
         $users = $this->getAll(['idProject' => $idProject]);
         $newList = Array();
 
         if (!empty($users)) {
-            foreach ($users as $user){
+            foreach ($users as $user) {
                 $object = new User();
                 $object->load($user['idUser']);
                 array_push($newList, $object->toArray());

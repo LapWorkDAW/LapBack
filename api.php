@@ -146,9 +146,11 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                if ($files["photo"] != "undefined") {
-                    $ido = "id$controller";
-                    echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
+                if (isset($files["photo"])) {
+                    if ($files["photo"] != "undefined") {
+                        $ido = "id$controller";
+                        echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
+                    }
                 }
                 $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
                 break;

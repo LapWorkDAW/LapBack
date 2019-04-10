@@ -422,4 +422,16 @@ class User extends BDs
             return -1;
         }
     }
+
+    public function changePass($old, $new, $idUser)
+    {
+        $user = $this->getAll(['idUser' => $idUser]);
+        if (!empty($user)) {
+            $us = new User();
+            $us->load($user[0]["idUser"]);
+            if (password_verify($old, $us->pass)) {
+
+            }
+        }
+    }
 }

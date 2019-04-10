@@ -34,10 +34,15 @@ try {
             case "password":
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
+
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+
                 $oldPassword = $json->oldPass;
                 $newPassword = $json->newPass;
 
-
+                $datos = $objeto->changePass($oldPassword, $newPassword, $idUser);
                 break;
             default:
                 $http = new HTTP();

@@ -93,11 +93,9 @@ class MessageProject extends BDs
         $msnP = $this->valores();
         unset($msnP['idMessageProject']);
 
-        $this->project->save();
         $msnP['idProject'] = $this->project->idProject;
         unset($msnP['project']);
 
-        $this->post->save();
         $msnP['idPost'] = $this->post->idPost;
         unset($msnP['post']);
 

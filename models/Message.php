@@ -95,11 +95,10 @@ class Message extends BDs
     public function save()
     {
         $msn = $this->valores();
+        unset($msn["idMessage"]);
 
-        $this->receiver->save();
         $msn['receiver'] = $this->receiver->idUser;
 
-        $this->post->save();
         $msn['idPost'] = $this->post->idPost;
         unset($msn['post']);
 

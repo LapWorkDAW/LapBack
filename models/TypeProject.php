@@ -76,7 +76,6 @@ class TypeProject extends BDs
     public function save()
     {
         $type = $this->valores();
-        //var_dump($project);
         unset($type['idType']);
 
         if (empty($this->idType)) {
