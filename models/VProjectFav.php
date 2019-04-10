@@ -146,7 +146,7 @@ class VProjectFav extends BDs
         $values = $this->getAll(['idProject' => $idProject]);
         $average = 0;
         foreach ($values as $value) {
-            $average += $value['idProject'];
+            $average += 1;
         }
         if ($average == 0) {
             return 0;

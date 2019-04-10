@@ -121,9 +121,14 @@ class Inscription extends BDs
      */
     public function save()
     {
+        $ins = $this->valores();
+        unset($ins["idInscription"]);
+
         $ins['idUser'] = $this->userO->idUser;
+        unset($ins["userO"]);
 
         $ins['idProject'] = $this->project->idProject;
+        unset($ins["project"]);
 
         if (empty($this->idInscription)) {
             $this->insert($ins);

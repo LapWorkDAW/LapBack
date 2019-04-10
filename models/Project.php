@@ -294,7 +294,6 @@ class Project extends BDs
     public function save()
     {
         $project = $this->valores();
-        //var_dump($project);
         unset($project['idProject']);
 
         $project['idUser'] = $this->userO->idUser;
