@@ -429,4 +429,9 @@ class Project extends BDs
             throw new Exception("No existe ese registro");
         }
     }
+
+    public function updateProject()
+    {
+
+    }
 }

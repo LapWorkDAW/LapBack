@@ -69,8 +69,8 @@ if ($function != "login" && $function != "getbymail" && $function != "getfinish"
         }
     }
 }
-
-
+$project = new Project();
+$project->updateProject();
 // instalar composer:
 // https://developers.google.com/identity/sign-in/web/backend-auth
 if (empty($function)) {

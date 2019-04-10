@@ -388,7 +388,7 @@ class User extends BDs
     public function login($username, $pass, $token = "")
     {
         if ($pass != null) {
-            $user = $this->getAll(['userName' => $username]);
+            $user = $this->getAll(['userName' => $username, 'isActiv' => 1]);
             if (!empty($user)) {
                 $us = new User();
                 $us->load($user[0]["idUser"]);
@@ -401,7 +401,7 @@ class User extends BDs
             }
             throw new Exception("Error Login Datos incorrectos");
         } else {
-            $user = $this->getAll(['email' => $username]);
+            $user = $this->getAll(['email' => $username, 'isActiv' => 1]);
             $us = new User();
             $us->load($user[0]["idUser"]);
             $us->setToken($token);
@@ -430,8 +430,11 @@ class User extends BDs
             $us = new User();
             $us->load($user[0]["idUser"]);
             if (password_verify($old, $us->pass)) {
-
+                $pass = password_hash($new, PASSWORD_DEFAULT);
+                $us->setPass($pass);
+                print($pass);
             }
         }
+        die();
     }
 }
