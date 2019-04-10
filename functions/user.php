@@ -43,6 +43,8 @@ try {
                 $newPassword = $json->newPass;
 
                 $datos = $objeto->changePass($oldPassword, $newPassword, $idUser);
+                $http->setHTTPHeaders(200, new Response("This: ", $objeto->serialize()));
+
                 break;
             case "photo":
                 $files = $_FILES;

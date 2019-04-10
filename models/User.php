@@ -444,8 +444,8 @@ class User extends BDs
                 $pass = password_hash($new, PASSWORD_DEFAULT);
                 $us->setPass($pass);
                 $us->save();
+                return $us;
             }
         }
-        die();
     }
 }
