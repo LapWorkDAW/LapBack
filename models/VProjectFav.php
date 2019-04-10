@@ -88,11 +88,9 @@ class VProjectFav extends BDs
         $votos = $this->valores();
         unset($votos['idVoteFavourite']);
 
-        $this->userVote->save();
         $votos["idUser"] = $this->userVote->idUser;
         unset($votos['userVote']);
 
-        $this->project->save();
         $votos['idProject'] = $this->project->idProject;
         unset($votos['project']);
 

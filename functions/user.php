@@ -31,24 +31,13 @@ try {
                 $datos = $objeto->logout($token);
                 $http->setHTTPHeaders(200, new Response("This: ", $objeto));
                 break;
-            case "photo":
+            case "password":
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-                foreach ($json->user as $item => $value) {
-                    if ($item == "pass") {
-                        $pass = password_hash($value, PASSWORD_DEFAULT);
-                        $objeto->$item = $pass;
-                    } else {
-                        $objeto->$item = $value;
-                    }
-                    if (($item == "saveName") && empty($value)) {
-                        $objeto->$item = 0;
-                    }
-                }
-                print_r($json->photo);
+                $oldPassword = $json->oldPass;
+                $newPassword = $json->newPass;
 
-                $objeto->save();
-                $http->setHTTPHeaders(202, new Response("Actualizado Correctamente"));
+
                 break;
             default:
                 $http = new HTTP();
