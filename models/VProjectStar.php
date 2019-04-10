@@ -104,11 +104,9 @@ class VProjectStar extends BDs
         $votos = $this->valores();
         unset($votos['idVoteStar']);
 
-        $this->userVote->save();
         $votos["idUser"] = $this->userVote->idUser;
         unset($votos['userVote']);
 
-        $this->project->save();
         $votos['idProject'] = $this->project->idProject;
         unset($votos['project']);
 
