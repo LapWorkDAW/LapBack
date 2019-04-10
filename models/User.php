@@ -402,11 +402,22 @@ class User extends BDs
             throw new Exception("Error Login Datos incorrectos");
         } else {
             $user = $this->getAll(['email' => $username, 'isActiv' => 1]);
-            $us = new User();
-            $us->load($user[0]["idUser"]);
-            $us->setToken($token);
-            $us->save();
-            $user = $this->getAll(['email' => $username]);
+            if (empty($user)) {
+                $user = $this->getAll(['email' => $username, 'isActiv' => 0]);
+                if (!empty($user)) {
+                    $us = new User();
+                    $us->load($user[0]["idUser"]);
+                    $us->setIsActiv(1);
+                    $us->save();
+                    $user = $this->getAll(['email' => $username]);
+                }
+            } else {
+                $us = new User();
+                $us->load($user[0]["idUser"]);
+                $us->setToken($token);
+                $us->save();
+                $user = $this->getAll(['email' => $username]);
+            }
             return $user;
         }
     }
@@ -432,7 +443,7 @@ class User extends BDs
             if (password_verify($old, $us->pass)) {
                 $pass = password_hash($new, PASSWORD_DEFAULT);
                 $us->setPass($pass);
-                print($pass);
+                $us->save();
             }
         }
         die();

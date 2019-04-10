@@ -29,7 +29,7 @@ try {
                 break;
             case "logout":
                 $datos = $objeto->logout($token);
-                $http->setHTTPHeaders(200, new Response("This: ", $objeto));
+                $http->setHTTPHeaders(200, new Response("This: ", $objeto->serialize()));
                 break;
             case "password":
                 $body = file_get_contents('php://input');
