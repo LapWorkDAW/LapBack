@@ -117,15 +117,16 @@ if (empty($function)) {
                 }
                 $objeto->save();
                 if ($files["photo"] != "undefined") {
-                    $ido="id$controller";
-                    echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller"."s/". $objeto->$ido.".jpg");
+                    $ido = "id$controller";
+                    echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
                 }
-                $http->setHTTPHeaders(201, new Response("Registro Insertado"));
+                $http->setHTTPHeaders(201, new Response("Registro Insertado"), $objeto->serialize());
                 break;
             case 'PUT':
+                $files = $_FILES;
                 if ($controller == "User") {
                     $objeto->getByToken($token);
-                    $body = file_get_contents('php://input');
+                    $body = filter_input(INPUT_POST, 'user');
                     $json = json_decode($body);
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
@@ -143,7 +144,11 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente"));
+                if ($files["photo"] != "undefined") {
+                    $ido = "id$controller";
+                    echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
+                }
+                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
                 break;
             case 'DELETE':
                 if ($controller == "User") {
