@@ -35,9 +35,8 @@ try {
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
 
-                $user = new User();
-                $user->getByToken($token);
-                $idUser = $user->getIdUser();
+                $objeto->getByToken($token);
+                $idUser = $objeto->getIdUser();
 
                 $oldPassword = $json->oldPass;
                 $newPassword = $json->newPass;

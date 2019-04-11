@@ -176,6 +176,12 @@ class VProjectStar extends BDs
     public function allStars($idUser)
     {
         $users = $this->getAll(['idUser' => $idUser]);
+        for ($i = 0; $i < count($users); $i++) {
+            $user = $users[$i];
+            $project = new Project();
+            $project->load($user['idProject']);
+            $users[$i]['project'] = $project->serialize();
+        }
         return $users;
     }
 
