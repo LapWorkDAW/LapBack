@@ -57,8 +57,11 @@ try {
                 if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
                         $ido = "id$controller";
-                        echo move_uploaded_file($files["photo"]["tmp_name"], "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg");
+                        $ruta = "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
+                        echo move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                     }
+                    $objeto->photo = $ruta;
+                    $objeto->save();
                 }
                 $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
                 break;

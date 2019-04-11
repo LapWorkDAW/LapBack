@@ -128,7 +128,7 @@ class VProjectStar extends BDs
         $votos = $this->getById($id);
         if (!empty($votos)) {
             foreach ($this->fields as $field) {
-                if ($field == "userVote"){
+                if ($field == "userVote") {
                     $usuario = new User();
                     $usuario->load($votos["idUser"]);
                     $this->$field = $usuario;
@@ -143,6 +143,21 @@ class VProjectStar extends BDs
         } else {
             throw new Exception("No existe ese registro");
         }
+    }
+
+    function loadAll()
+    {
+        $vprojects = parent::loadAll();
+        for ($i = 0; $i < count($vprojects); $i++) {
+            $vproject = $vprojects[$i];
+            $user = new User();
+            $user->load($vproject["idUser"]);
+            $vprojects[$i]['user'] = $user->serialize();
+            $project = new Project();
+            $project->load($vproject['idProject']);
+            $vprojects[$i]['project'] = $project->serialize();
+        }
+        return $vprojects;
     }
 
     function delete()
@@ -164,9 +179,10 @@ class VProjectStar extends BDs
         }
     }
 
-    function votebyUser($idUser, $idProject) {
+    function votebyUser($idUser, $idProject)
+    {
         $dates = $this->getAll(['idUser' => $idUser, 'idProject' => $idProject]);
-        if(count($dates) == 0) {
+        if (count($dates) == 0) {
             return 0;
         } else {
             return 1;

@@ -108,6 +108,7 @@ abstract class  BDs
 
     /**
      * Lo mismo que la anterior pero usando prepare
+     * @param type $not
      * @param type $condicion
      * @param type $completo
      * @return type
@@ -118,6 +119,24 @@ abstract class  BDs
         $campos = " * ";
         if (!empty($condicion)) {
             $where = " where " . join(" and ", array_map(function ($v) {
+                    return $v . "=:" . $v;
+                }, array_keys($condicion)));
+
+        }
+        if (!$completo && !empty($this->showFields)) {
+            $campos = implode(",", $this->showFields);
+        }
+        $st = self::$conn->prepare("select $campos from " . $this->table . $where);
+        $st->execute($condicion);
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAllWhereNot($condicion = [], $completo = true)
+    {
+        $where = "";
+        $campos = " * ";
+        if (!empty($condicion)) {
+            $where = " where not " . join(" and ", array_map(function ($v) {
                     return $v . "=:" . $v;
                 }, array_keys($condicion)));
         }
@@ -170,7 +189,7 @@ abstract class  BDs
      */
     protected function update($id, $values)
     {
-       // print_r($values);die();
+        // print_r($values);die();
         try {
             //Creamos el cuerpo del select con la funcion array_map
             $fields = join(",", array_map(function ($v) {

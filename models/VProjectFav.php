@@ -129,6 +129,21 @@ class VProjectFav extends BDs
         }
     }
 
+    function loadAll()
+    {
+        $vprojects = parent::loadAll();
+        for ($i = 0; $i < count($vprojects); $i++) {
+            $vproject = $vprojects[$i];
+            $user = new User();
+            $user->load($vproject["idUser"]);
+            $vprojects[$i]['user'] = $user->serialize();
+            $project = new Project();
+            $project->load($vproject['idProject']);
+            $vprojects[$i]['project'] = $project->serialize();
+        }
+        return $vprojects;
+    }
+
     function delete()
     {
         $this->deleteById($this->getIdVoteFavourite());

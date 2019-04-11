@@ -41,6 +41,17 @@ try {
                 $objeto->load($id);
                 $http->setHTTPHeaders(200, new Response("Lista $controller", $objeto->serialize()));
                 break;
+            case "typeprojects":
+                $body = file_get_contents('php://input');
+                $json = json_decode($body);
+
+                $type = $json->type;
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->tpProject($idUser, $type);
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $datos));
+                break;
             default:
                 $http = new HTTP();
                 $http->setHTTPHeaders(201, new Response("Not a function from project: " . $function, ""));
