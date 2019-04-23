@@ -397,6 +397,8 @@ class User extends BDs
                     $us->save();
                     $user = $this->getAll(['userName' => $username]);
                     return $user;
+                } else {
+                    throw new Exception("Error Login Datos incorrectos");
                 }
             }
             throw new Exception("Error Login Datos incorrectos");
