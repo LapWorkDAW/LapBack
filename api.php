@@ -71,8 +71,7 @@ if ($function != "login" && $function != "getbymail" && $function != "getfinish"
 }
 $project = new Project();
 $project->updateProject();
-// instalar composer:
-// https://developers.google.com/identity/sign-in/web/backend-auth
+
 if (empty($function)) {
 // depende que metodo nos den hacemos lo correspondiente dentro el case.
     try {
@@ -116,29 +115,29 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
+                $err = "";
                 if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
                         $ido = "id$controller";
                         $ruta = "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
 
-                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
-                        if ($controller == "Project") {
-                            $objeto->img = $ruta;
+                        $moved = move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                        if ($moved) {
+                            $err = "Successfully uploaded";
                         } else {
-                            $objeto->photo = $ruta;
+                            $err = "Not uploaded because of error #" . $_FILES["photo"]["error"];
                         }
+                        $rutaNew = "serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
+                        $objeto->img = $rutaNew;
+
                         $objeto->save();
                     }
                 }
-                $http->setHTTPHeaders(201, new Response("Registro Insertado", $objeto->serialize()));
+                $http->setHTTPHeaders(201, new Response("Registro Insertado" . $err, $objeto->serialize()));
                 break;
             case 'PUT':
-                $files = $_FILES;
                 if ($controller == "User") {
                     $objeto->getByToken($token);
-                    $body = filter_input(INPUT_POST, 'user');
-                    print_r($files);
-                    die();
                     $json = json_decode($body);
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
@@ -156,19 +155,6 @@ if (empty($function)) {
                     }
                 }
                 $objeto->save();
-                if (isset($files["photo"])) {
-                    if ($files["photo"] != "undefined") {
-                        $ido = "id$controller";
-                        $ruta = "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
-                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
-                        if ($controller == "Project") {
-                            $objeto->img = $ruta;
-                        } else {
-                            $objeto->photo = $ruta;
-                        }
-                        $objeto->save();
-                    }
-                }
                 $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
                 break;
             case 'DELETE':
@@ -186,7 +172,7 @@ if (empty($function)) {
                 break;
         }
     } catch (Exception $ex) {
-        echo "Error! " . $ex->getMessage();
+        echo "Error!" . $ex->getMessage();
     }
 } else {
     require_once "functions/" . strtolower($controller) . ".php";

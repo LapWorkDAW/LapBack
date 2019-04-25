@@ -433,6 +433,7 @@ class Project extends BDs
     public function tpProject($idUser, $idType)
     {
         $projects = $this->getAllWhereNot(["idUser" => $idUser, "idType" => $idType]);
+
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
@@ -445,6 +446,24 @@ class Project extends BDs
             }
             return $projects;
         }
+    }
+
+    public function getByType($types)
+    {
+        // echo "select * from " . $this->table . " where idUser = 5 and idType in (".implode(",", $types).")";die();
+        $st = self::$conn->prepare("select * from " . $this->table . " where idType in (" . implode(",", $types) . ")");
+        $st->execute();
+        $projects = $st->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($projects); $i++) {
+            $project = $projects[$i];
+            $usuario = new User();
+            $usuario->load($project['idUser']);
+            $projects[$i]['userO'] = $usuario->serialize();
+            $tipoP = new TypeProject();
+            $tipoP->load($project['idType']);
+            $projects[$i]['type'] = $tipoP->serialize();
+        }
+        return $projects;
     }
 
     public

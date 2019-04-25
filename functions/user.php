@@ -50,6 +50,9 @@ try {
                 $objeto->getByToken($token);
                 $body = filter_input(INPUT_POST, 'user');
                 $json = json_decode($body);
+                print_r($files); die();
+
+                //todo: NO VA INSERTAR FOTO USER!!
                 foreach ($json as $item => $value) {
                     $objeto->$item = $value;
                 }
@@ -60,7 +63,8 @@ try {
                         $ruta = "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
                         echo move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                     }
-                    $objeto->photo = $ruta;
+                    $rutaNew = "serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
+                    $objeto->img = $rutaNew;
                     $objeto->save();
                 }
                 $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
