@@ -50,9 +50,6 @@ try {
                 $objeto->getByToken($token);
                 $body = filter_input(INPUT_POST, 'user');
                 $json = json_decode($body);
-                print_r($files); die();
-
-                //todo: NO VA INSERTAR FOTO USER!!
                 foreach ($json as $item => $value) {
                     $objeto->$item = $value;
                 }
@@ -61,13 +58,18 @@ try {
                     if ($files["photo"] != "undefined") {
                         $ido = "id$controller";
                         $ruta = "./Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
-                        echo move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                        $moved = move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                        if ($moved) {
+                            $err = "Successfully uploaded";
+                        } else {
+                            $err = "Not uploaded because of error #" . $_FILES["photo"]["error"];
+                        }
                     }
                     $rutaNew = "serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
                     $objeto->img = $rutaNew;
                     $objeto->save();
                 }
-                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente", $objeto->serialize()));
+                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente ". $err, $objeto->serialize()));
                 break;
             default:
                 $http = new HTTP();

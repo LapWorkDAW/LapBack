@@ -51,6 +51,9 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 /* Aqui revisamos si la funcion no es Login que revise el Token para validar.*/
 
+//todo: TODOS LOS COMENTARIOS DE UN PROYECTO. TENDRE IDPROYECTO, de aqui sacamos los posts con ese idProyecto...
+//todo: con el idPost de esos mensajes sacamos los datos de POST.
+
 if ($function != "login" && $function != "getbymail" && $function != "getfinish" &&
     $function != "getnofinish" && $function != "allvotes" && $function != "projectid") {
     if (empty($token)) {
@@ -109,6 +112,17 @@ if (empty($function)) {
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
                     }
+                } else if ($controller == 'Post') {
+                    $post = $json->post;
+                    $project = $json->project;
+                    foreach ($post as $item => $value) {
+                        $objeto->$item = $value;
+                    }
+                    $objeto->save();
+                    $messagePro = new MessageProject();
+                    $messagePro->setPost($objeto);
+                    $messagePro->setProject($project);
+                    $messagePro->save();
                 } else {
                     foreach ($json as $item => $value) {
                         $objeto->$item = $value;
@@ -133,7 +147,7 @@ if (empty($function)) {
                         $objeto->save();
                     }
                 }
-                $http->setHTTPHeaders(201, new Response("Registro Insertado" . $err, $objeto->serialize()));
+                $http->setHTTPHeaders(201, new Response("Registro Insertado " . $err, $objeto->serialize()));
                 break;
             case 'PUT':
                 if ($controller == "User") {
