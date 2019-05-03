@@ -411,9 +411,9 @@ class Project extends BDs
         }
     }
 
-    public function getUNoFinish($idUser)
+    public function getByUser($idUser)
     {
-        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 1]);
+        $projects = $this->getAll(['idUser' => $idUser]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
@@ -430,10 +430,9 @@ class Project extends BDs
         }
     }
 
-    public function tpProject($idUser, $idType)
+    public function getUNoFinish($idUser)
     {
-        $projects = $this->getAllWhereNot(["idUser" => $idUser, "idType" => $idType]);
-
+        $projects = $this->getAll(['idUser' => $idUser, 'projectStatus' => 1]);
         if (!empty($projects)) {
             for ($i = 0; $i < count($projects); $i++) {
                 $project = $projects[$i];
@@ -445,6 +444,8 @@ class Project extends BDs
                 $projects[$i]['type'] = $tipoP->serialize();
             }
             return $projects;
+        } else {
+            throw new Exception("No existe ese registro");
         }
     }
 

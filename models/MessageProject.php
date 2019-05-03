@@ -26,7 +26,7 @@ class MessageProject extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada: " . $metodo);
         }
     }
 
@@ -36,7 +36,7 @@ class MessageProject extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada: " . $metodo);
         }
     }
 

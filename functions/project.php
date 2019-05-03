@@ -33,6 +33,13 @@ try {
                 $datos = $objeto->getUNoFinish($idUser);
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
+            case "byuser":
+                $user = new User();
+                $user->getByToken($token);
+                $idUser = $user->getIdUser();
+                $datos = $objeto->getByUser($idUser);
+                $http->setHTTPHeaders(200, new Response("Datos", $datos));
+                break;
             case "projectid":
                 if (empty($id)) {
                     $http->setHTTPHeaders(400, new Response("Bad Request No ID"));

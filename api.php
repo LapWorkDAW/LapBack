@@ -55,7 +55,8 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 //todo: con el idPost de esos mensajes sacamos los datos de POST.
 
 if ($function != "login" && $function != "getbymail" && $function != "getfinish" &&
-    $function != "getnofinish" && $function != "allvotes" && $function != "projectid") {
+    $function != "getnofinish" && $function != "allvotes" && $function != "projectid" &&
+    $function != "getuser") {
     if (empty($token)) {
         if ($controller != "User" or $method != "POST") {
             $http->setHttpHeaders(405, new Response("Bad request Error Token"));
@@ -141,7 +142,7 @@ if (empty($function)) {
                         } else {
                             $err = "Not uploaded because of error #" . $_FILES["photo"]["error"];
                         }
-                        $rutaNew = "serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
+                        $rutaNew = "http://serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
                         $objeto->img = $rutaNew;
 
                         $objeto->save();

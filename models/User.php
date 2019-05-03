@@ -442,6 +442,7 @@ class User extends BDs
         if (!empty($user)) {
             $us = new User();
             $us->load($user[0]["idUser"]);
+
             if (password_verify($old, $us->pass)) {
                 $pass = password_hash($new, PASSWORD_DEFAULT);
                 $us->setPass($pass);

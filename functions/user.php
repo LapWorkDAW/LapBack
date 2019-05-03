@@ -38,12 +38,16 @@ try {
                 $objeto->getByToken($token);
                 $idUser = $objeto->getIdUser();
 
-                $oldPassword = $json->oldPass;
-                $newPassword = $json->newPass;
+                $oldPassword = $json->oldPassword;
+                $newPassword = $json->newPassword;
 
                 $datos = $objeto->changePass($oldPassword, $newPassword, $idUser);
                 $http->setHTTPHeaders(200, new Response("This: ", $objeto->serialize()));
 
+                break;
+            case "getuser":
+                $objeto->load($id);
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $objeto->serialize()));
                 break;
             case "photo":
                 $files = $_FILES;
@@ -65,11 +69,11 @@ try {
                             $err = "Not uploaded because of error #" . $_FILES["photo"]["error"];
                         }
                     }
-                    $rutaNew = "serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
-                    $objeto->img = $rutaNew;
+                    $rutaNew = "http://serverstucom.tk:8106/LapBack/Assets/$controller" . "s/" . $objeto->$ido . ".jpg";
+                    $objeto->photo = $rutaNew;
                     $objeto->save();
                 }
-                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente ". $err, $objeto->serialize()));
+                $http->setHTTPHeaders(201, new Response("Actualizado Correctamente " . $err, $objeto->serialize()));
                 break;
             default:
                 $http = new HTTP();

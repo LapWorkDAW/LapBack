@@ -28,7 +28,7 @@ class Post extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo();
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada: " . $metodo);
         }
     }
 
@@ -38,7 +38,7 @@ class Post extends BDs
         if (method_exists($this, $metodo)) {
             return $this->$metodo($value);
         } else {
-            throw new Exception("Propiedad no encontrada");
+            throw new Exception("Propiedad no encontrada: " . $metodo);
         }
     }
 
@@ -49,7 +49,6 @@ class Post extends BDs
     {
         return $this->idPost;
     }
-
 
     /**
      * @return mixed
@@ -143,6 +142,29 @@ class Post extends BDs
     function delete()
     {
         return false;
+    }
+
+    function getByProject($idProject)
+    {
+        $messageprojects = new MessageProject();
+        $all = $messageprojects->getAll(["idProject" => $idProject]);
+        $idPosts = [];
+        for ($i = 0; $i < count($all); $i++) {
+            $idPost = $all[$i]['idPost'][0];
+            $idPosts[] = $idPost;
+        }
+
+        $st = self::$conn->prepare("select * from " . $this->table . " where idPost in (" . implode(",", $idPosts) . ")");
+        $st->execute();
+        $posts = $st->fetchAll(PDO::FETCH_ASSOC);
+
+        for ($i = 0; $i < count($posts); $i++) {
+            $post = $posts[$i];
+            $usuario = new User();
+            $usuario->load($post['remitter']);
+            $posts[$i]['remitter'] = $usuario->serialize();
+        }
+        return $posts;
     }
 
 }

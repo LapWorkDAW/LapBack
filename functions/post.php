@@ -3,7 +3,13 @@
 try {
     if ($method == 'GET' || $method == 'POST') {
         switch (strtolower($function)) {
-            case "getbyproject":
+            case "byproject":
+                if (empty($id)) {
+                    $http->setHTTPHeaders(400, new Response("Bad Request No ID"));
+                    die();
+                }
+                $datos = $objeto->getByProject($id);
+                $http->setHTTPHeaders(200, new Response("Lista $controller", $datos));
                 break;
             default:
                 $http = new HTTP();
