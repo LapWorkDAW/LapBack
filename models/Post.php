@@ -150,11 +150,10 @@ class Post extends BDs
         $all = $messageprojects->getAll(["idProject" => $idProject]);
         $idPosts = [];
         for ($i = 0; $i < count($all); $i++) {
-            $idPost = $all[$i]['idPost'][0];
+            $idPost = $all[$i]['idPost'];
             $idPosts[] = $idPost;
         }
-
-        $st = self::$conn->prepare("select * from " . $this->table . " where idPost in (" . implode(",", $idPosts) . ")");
+        $st = self::$conn->prepare("select * from " . $this->table . " where idPost in (" . implode(",", $idPosts) . ") order by dataDay desc");
         $st->execute();
         $posts = $st->fetchAll(PDO::FETCH_ASSOC);
 

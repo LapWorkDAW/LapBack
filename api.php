@@ -56,7 +56,7 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 if ($function != "login" && $function != "getbymail" && $function != "getfinish" &&
     $function != "getnofinish" && $function != "allvotes" && $function != "projectid" &&
-    $function != "getuser") {
+    $function != "getuser" && $function != "byproject") {
     if (empty($token)) {
         if ($controller != "User" or $method != "POST") {
             $http->setHttpHeaders(405, new Response("Bad request Error Token"));
