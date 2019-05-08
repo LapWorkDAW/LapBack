@@ -34,10 +34,7 @@ try {
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
             case "byuser":
-                $user = new User();
-                $user->getByToken($token);
-                $idUser = $user->getIdUser();
-                $datos = $objeto->getByUser($idUser);
+                $datos = $objeto->getByUser($id);
                 $http->setHTTPHeaders(200, new Response("Datos", $datos));
                 break;
             case "projectid":

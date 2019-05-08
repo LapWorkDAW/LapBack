@@ -50,13 +50,9 @@ donde de ahi tenemos las funciones que usaremos para X cosas la manera de accede
 
 
 /* Aqui revisamos si la funcion no es Login que revise el Token para validar.*/
-
-//todo: TODOS LOS COMENTARIOS DE UN PROYECTO. TENDRE IDPROYECTO, de aqui sacamos los posts con ese idProyecto...
-//todo: con el idPost de esos mensajes sacamos los datos de POST.
-
 if ($function != "login" && $function != "getbymail" && $function != "getfinish" &&
     $function != "getnofinish" && $function != "allvotes" && $function != "projectid" &&
-    $function != "getuser" && $function != "byproject") {
+    $function != "getuser" && $function != "byproject" && $function != "byuser") {
     if (empty($token)) {
         if ($controller != "User" or $method != "POST") {
             $http->setHttpHeaders(405, new Response("Bad request Error Token"));
